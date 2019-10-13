@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+<link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<form action="UserManager" method="GET">
+
+			<div class="form-group">
+				<div class="col-xs-2">
+					<button class="btn" name="Register" value="Register">Register</button>
+				</div>
+			</div>
+		</form>
+		<form action="DeleteUser" method="GET">
+			<div class="form-group">
+				<div class="col-xs-2">
+					<button class="btn" name="Delete" value="Delete">Delete</button>
+				</div>
+			</div>
+		</form>
+		<form action="Daily-Tasks" method="GET">
+			<div class="form-group">
+				<div class="col-xs-2">
+					<button class="btn" name="Daily-Tasks" value="Daily-Tasks">Daily
+						Tasks</button>
+				</div>
+			</div>
+		</form>
+	</nav>
+
+
+	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

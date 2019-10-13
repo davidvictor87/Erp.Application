@@ -1,0 +1,51 @@
+package erp.application.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.ResponseEntity;
+import erp.application.employee.Employee;
+import erp.application.service.CreateEmployeeFiles;
+import erp.application.service.FileTransferService;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+
+
+@Controller
+public class DailyTasks {
+	
+	private FileTransferService fileTransfer;
+		
+	@Autowired
+	public DailyTasks(FileTransferService fts) {
+		this.fileTransfer = fts;
+	}
+	
+	@GetMapping(value="/d-Task")
+	public String showName(Model model, HttpServletRequest request) {
+		String n = "Welcome  " + request.getUserPrincipal().getName();
+		model.addAttribute("name", n);
+		try {
+			fileTransfer.startWatch();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "logged.html";
+	}
+	
+	@RequestMapping(value="/getEmployees", method = RequestMethod.GET)
+	public ResponseEntity<Employee> employeeJsonResponse(){
+		Employee employee = CreateEmployeeFiles.getEmployee();
+		try {
+			return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+	}
+
+}

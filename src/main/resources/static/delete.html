@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+
+<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{js/main.js}"></script>
+
+<link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	<div class="container">
+
+		<button type="button" class="btn btn-primary btn-lg" id="eButton"
+			data-toggle="modal" data-target="#exampleModal"></button>
+
+
+		<div class="card">
+			<div class="card-block">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>User ID</th>
+							<th>Status</th>
+							<th>Email</th>
+							<th>Name</th>
+							<th>Username</th>
+							<th>Password</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="Users :${data}">
+							<td th:text="${Users.id}"></td>
+							<td th:text="${Users.active}"></td>
+							<td th:text="${Users.email}"></td>
+							<td th:text="${Users.name}"></td>
+							<td th:text="${Users.lastName}"></td>
+							<td th:text="${Users.password}"></td>
+							<!-- <td><a th:href="@{updateUser/(id=${Users.id})}"class="btn btn-primary eBtn" id="Button" data-target="#eButton">Edit</a></td> -->
+							<td><form th:action=@{/updateUser} method="POST">
+									<input type="hidden" name = "id" th:value="${Users.id}" />
+									<button type="submit" value="Submit"
+										class="btn btn-primary eBtn" data-toggle="modal"
+										data-target="#exampleModal">Update</button>
+								</form></td>
+							<td>
+								<!-- <form th:action="@{/deleteUser}" method="post">
+									<input type="hidden" th:value="${Users.id}" />
+									<button type="submit" value="Submit" class="btn btn-danger">Delete</button>
+								</form> -->
+								<td>
+						<form th:action="@{/deleteUser}" method="post">
+							<input type="hidden" name="id" th:value="${Users.id}" /> <input
+								type="submit" value="Delete" class="btn btn-danger" />
+						</form>
+					</td>
+								
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+
+
+			</div>
+
+
+		</div>
+		<form th:action="@{/updateUser}" method="post">
+			<div class="myForm">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Update or
+									Create</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label for="text" class="form-control-label">Email</label> <input
+									type="text" class="form-control" id="id" name="id"
+									readonly="readonly" value="" />
+							</div>
+							<div class="form-group">
+								<label for="text" class="form-control-label">Email</label> <input
+									type="text" class="form-control" id="email" name="email"
+									value="" />
+							</div>
+							<div class="form-group">
+								<label for="password" class="form-control-label">Password</label>
+								<input type="password" class="form-control" id="password"
+									name="password" value="" />
+							</div>
+							<div class="form-group">
+								<label for="fName" class="form-control-label">First Name</label>
+								<input type="text" class="form-control" id="fName" name="fName"
+									value="" />
+							</div>
+							<div class="form-group">
+								<label for="sName" class="form-control-label">Second
+									Name</label> <input type="text" class="form-control" id="sName"
+									name="sName" value="" />
+							</div>
+							<div class="form-group">
+								<label for="status" class="form-control-label">Status</label> <input
+									type="text" class="form-control" id="status" name="status"
+									value="" />
+							</div>
+
+
+						</div>
+
+						<div class="modal-footer">
+
+							<button type="submit" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+
+							<input type="submit" class="btn btn-primary" value="save" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+
+
+
+
+</body>
+</html>

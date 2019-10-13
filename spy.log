@@ -1,0 +1,3 @@
+1570441627694|27|statement|connection 2|select model0_.tabelid as tabelid1_0_0_, model0_.nume as nume2_0_0_ from tabel model0_ where model0_.tabelid=?|select model0_.tabelid as tabelid1_0_0_, model0_.nume as nume2_0_0_ from tabel model0_ where model0_.tabelid=203
+1570441627715|1|statement|connection 2|insert into tabel (nume, tabelid) values (?, ?)|insert into tabel (nume, tabelid) values ('Himmler', 203)
+1570441627718|1|commit|connection 2||
