@@ -1,7 +1,7 @@
 package erp.application.service;
 
 import org.springframework.stereotype.Service;
-import erp.application.employee.Employee;
+import erp.application.products.Products;
 import erp.application.entities.LOG;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -16,10 +16,10 @@ import java.util.Scanner;
 @Service
 public class CreateEmployeeFiles {
 
-	private static Employee emp = new Employee();
+	private static Products emp = new Products();
 
 	@SuppressWarnings("unused")
-	public void writeEmployeeFile(Map<String, Employee> mapWithEmployees) {
+	public void writeEmployeeFile(Map<String, Products> mapWithEmployees) {
 
 		File eFile = new File("D:/SmartId/METI/import/empFile.txt");
 		FileOutputStream fos = null;
@@ -86,7 +86,7 @@ public class CreateEmployeeFiles {
 				LOG.appLogger().info("List of Employees: " + Arrays.toString(employees));
 				for (String empIter : employees) {
 					index++;
-					Employee employee = new Employee(Integer.parseInt(employees[index]), employees[index + 1],
+					Products employee = new Products(Integer.parseInt(employees[index]), employees[index + 1],
 							employees[index + 2], employees[index + 3], employees[index + 4], employees[index + 5]);
 					emp = employee;
 					System.out.println(employee);
@@ -100,7 +100,7 @@ public class CreateEmployeeFiles {
 		}
 	}
 
-	public static Employee getEmployee() {
+	public static Products getEmployee() {
 		if (emp == null) {
 			System.err.println("Major Error, Employee not found");
 			return null;

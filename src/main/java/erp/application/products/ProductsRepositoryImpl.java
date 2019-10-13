@@ -1,4 +1,4 @@
-package erp.application.employee;
+package erp.application.products;
 
 import java.util.Map;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,35 +8,35 @@ import org.springframework.data.redis.core.HashOperations;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 @Repository
-public class EmployeeRepositoryImpl implements EmployeeRepository{
+public class ProductsRepositoryImpl implements ProductsRepository{
 	
-	private RedisTemplate<String, Employee> redisTemplate;
+	private RedisTemplate<String, Products> redisTemplate;
 	
 	private HashOperations hashOperations;
 	
 	@Autowired
-	public EmployeeRepositoryImpl(RedisTemplate<String, Employee> rTemp) {
+	public ProductsRepositoryImpl(RedisTemplate<String, Products> rTemp) {
 		this.redisTemplate = rTemp;
 		this.hashOperations = redisTemplate.opsForHash();
 	}
 
 	@Override
-	public void save(Employee employee) {
+	public void save(Products employee) {
 		hashOperations.put("EMPLOYEE", employee.getId(), employee);
 	}
 
 	@Override
-	public Map<String, Employee> findAll() {
+	public Map<String, Products> findAll() {
 		return hashOperations.entries("EMPLOYEE");
 	}
 
 	@Override
-	public Employee findById(Integer id) {
-		return (Employee)hashOperations.get("EMPLOYEE", id);
+	public Products findById(Integer id) {
+		return (Products)hashOperations.get("EMPLOYEE", id);
 	}
 
 	@Override
-	public void update(Employee employee) {
+	public void update(Products employee) {
 		save(employee);		
 	}
 

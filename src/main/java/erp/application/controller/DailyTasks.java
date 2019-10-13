@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.ResponseEntity;
-import erp.application.employee.Employee;
+import erp.application.products.Products;
 import erp.application.service.CreateEmployeeFiles;
 import erp.application.service.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +38,14 @@ public class DailyTasks {
 	}
 	
 	@RequestMapping(value="/getEmployees", method = RequestMethod.GET)
-	public ResponseEntity<Employee> employeeJsonResponse(){
-		Employee employee = CreateEmployeeFiles.getEmployee();
+	public ResponseEntity<Products> employeeJsonResponse(){
+		Products employee = CreateEmployeeFiles.getEmployee();
 		try {
-			return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+			return new ResponseEntity<Products>(employee, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Products>(HttpStatus.NOT_FOUND);
 	}
 
 }

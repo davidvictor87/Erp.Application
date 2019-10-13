@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import erp.application.employee.EmployeeRepository;
+import erp.application.products.ProductsRepository;
 import erp.application.entities.LOG;
 import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
@@ -20,10 +20,10 @@ public class ConnectionController {
 	
 	private ConnectionService service;
 	
-	private EmployeeRepository employeeRepository;
+	private ProductsRepository employeeRepository;
 	
 	@Autowired
-	public ConnectionController(ConnectionService serv, EmployeeRepository eRepo) {
+	public ConnectionController(ConnectionService serv, ProductsRepository eRepo) {
 		this.service = serv;
 		this.employeeRepository = eRepo;
 	}

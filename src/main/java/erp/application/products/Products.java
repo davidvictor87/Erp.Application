@@ -1,10 +1,10 @@
-package erp.application.employee;
+package erp.application.products;
 
 import java.io.Serializable;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash(value = "EMPLOYEE")
-public class Employee implements Serializable{
+public class Products implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -15,11 +15,11 @@ public class Employee implements Serializable{
 	private String employee_salary;
 	private String bank_account;
 	
-	public Employee() {
+	public Products() {
 		
 	}
 
-	public Employee(int id, String cnp, String work_contract, String employee_name, String employee_salary,
+	public Products(int id, String cnp, String work_contract, String employee_name, String employee_salary,
 			String bank_account) {
 		super();
 		this.id = id;
@@ -105,7 +105,7 @@ public class Employee implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Employee other = (Employee) obj;
+		Products other = (Products) obj;
 		if (bank_account == null) {
 			if (other.bank_account != null)
 				return false;

@@ -7,7 +7,6 @@ import erp.application.login.repository.LevelRepository;
 import erp.application.login.repository.UserRepository;
 import erp.application.login.repository.UserRoleRepository;
 
-
 @Service
 @Transactional
 public class TriggerService {
