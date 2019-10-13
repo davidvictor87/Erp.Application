@@ -14,6 +14,7 @@ import erp.application.products.ProductsRepository;
 import erp.application.entities.LOG;
 import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
+import erp.application.service.EmployeeService;
 
 @Controller
 public class ConnectionController {
@@ -22,10 +23,13 @@ public class ConnectionController {
 	
 	private ProductsRepository employeeRepository;
 	
+	private EmployeeService employeeService;
+	
 	@Autowired
-	public ConnectionController(ConnectionService serv, ProductsRepository eRepo) {
+	public ConnectionController(ConnectionService serv, ProductsRepository eRepo, EmployeeService eService) {
 		this.service = serv;
 		this.employeeRepository = eRepo;
+		this.employeeService = eService;
 	}
 	
 	@PostMapping(value = "/return/{id}")
