@@ -28,8 +28,6 @@ public class FileTransferService {
 	private CopyAndUpdateFile cauf = new CopyAndUpdateFile();
 	private final Object lock = new Object();
 	
-	//updated directories3
-	
 	public void startWatch() throws IOException {
 		final String path = "D:/SourceDirectory/";
 		String fileName = "";
