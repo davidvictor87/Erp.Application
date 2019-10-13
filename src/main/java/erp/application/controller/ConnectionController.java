@@ -40,13 +40,19 @@ public class ConnectionController {
 					.findAny().orElse(null));
 			LOG.appLogger().info("JSON structure: " + jsonInfo);
 			JsonNode idReceiver = mpr.readTree(jsonInfo);
-			JsonNode nameReceiver = mpr.readTree(jsonInfo);
+			JsonNode firstNameReceiver = mpr.readTree(jsonInfo);
+			JsonNode lastNameReceiver = mpr.readTree(jsonInfo);
 			JsonNode professionReceiver = mpr.readTree(jsonInfo);
+			JsonNode isExceptedReceiver = mpr.readTree(jsonInfo);
 			JsonNode addressReceiver = mpr.readTree(jsonInfo);
-			JsonNode isEnabled = mpr.readTree(jsonInfo);
+			JsonNode salaryReceiver = mpr.readTree(jsonInfo);
+			JsonNode cnpReceiver = mpr.readTree(jsonInfo);
+			JsonNode genderReceiver = mpr.readTree(jsonInfo);
+			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
+			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
-			CreateFiles.createFiles(idReceiver.get("id").asInt(), nameReceiver.get("name").asText(), professionReceiver.get("profession").asText(), 
-					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());
+			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
+					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
 			employeeRepository.findById(idValue);
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {

@@ -12,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import erp.application.enteties.models.Employee_Model;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
+import erp.application.model.employee.Employee;
 
 @Service
 public class ConnectionService {
@@ -54,11 +54,11 @@ public class ConnectionService {
 		return new RestTemplate();
 	}
 
-	public List<Employee_Model> getModel() {
+	public List<Employee> getModel() {
 		ObjectMapper mapper = new ObjectMapper();
-		List<Employee_Model> model = null;
+		List<Employee> model = null;
 		try {
-			model = Arrays.asList(mapper.readValue(returnModel(), Employee_Model[].class));
+			model = Arrays.asList(mapper.readValue(returnModel(), Employee[].class));
 		} catch (IOException e) {
 			LOG.appLogger().error("Failure with root cause", e);
 			e.printStackTrace();
