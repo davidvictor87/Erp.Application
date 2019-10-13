@@ -29,7 +29,7 @@ public class FileTransferService {
 	private final Object lock = new Object();
 
 	public void startWatch() throws IOException {
-		final String path = "D:/SmartId/METI/import";
+		final String path = "D:/SourceDirectory/";
 		String fileName = "";
 		File file = new File(path);
 		File[] listOfFiles = file.listFiles();
@@ -39,7 +39,7 @@ public class FileTransferService {
 			System.out.println(listOfFiles[i].getName());
 		}
 		LOG.appLogger().info("Import process started for file : "
-				+ new File("D:/SmartId/METI/import/" + fileName).getCanonicalPath());
+				+ new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
 		if (Files.exists(Paths.get(path))) {
 			ExecutorService exec = Executors.newSingleThreadExecutor();
 
@@ -53,7 +53,7 @@ public class FileTransferService {
 
 	private void watchMethod() {
 		String value = "";
-		final String watchedDirectory = "D:/SmartId/METI/import";
+		final String watchedDirectory = "D:/SourceDirectory/";
 		try (WatchService service = FileSystems.getDefault().newWatchService()) {
 			Map<WatchKey, Path> keyMap = new HashMap<>();
 			Path path = Paths.get(watchedDirectory).toAbsolutePath();
@@ -65,7 +65,7 @@ public class FileTransferService {
 					WatchEvent.Kind<?> kind = event.kind();
 					Path eventPath = (Path) event.context();
 					if (kind == StandardWatchEventKinds.ENTRY_CREATE
-							|| (new File("D:/SmartId/METI/import").list().length > 0)) {
+							|| (new File("D:/SourceDirectory/").list().length > 0)) {
 						value = path.toAbsolutePath().toString() + "/" + eventPath.toString();
 						System.out.println(value);
 						Thread.sleep(1000);
@@ -84,7 +84,7 @@ public class FileTransferService {
 
 		if (!value.equals(null)) {
 			synchronized (lock) {
-				final String fileDestination = "D:/SmartId/METI/export/vtesf/Document.txt";
+				final String fileDestination = "D:/DestinationFolder/Document.txt";
 				File f = new File(value);
 				FileInputStream fis = null;
 				FileOutputStream fos = null;
