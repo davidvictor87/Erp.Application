@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,10 +42,10 @@ public class ConnectionController {
 		this.employeeService = eService;
 	}
 	
-	@PostMapping(value = "/return/{id}")
+	@GetMapping(value = "/return/{id}")
 	@ResponseBody
 	public String connectionMethod(@PathVariable(value="id") final int idValue) {
-		System.out.println("Service info: " + service.getModel());
+		System.out.println("Service info: " + service.getModel() + " : " + idValue);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("return.html");
 		ObjectMapper mpr = new ObjectMapper();
@@ -65,10 +66,10 @@ public class ConnectionController {
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
-					.get("first_name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-					isExceptedReceiver.get("isExcepted").asBoolean(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
+					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
+					isExceptedReceiver.get("isExcept").asBoolean(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asBoolean(), 
-					aditionalInfoReceiver.get("aditionalInfo").asText()));
+					aditionalInfoReceiver.get("aditionInfo").asText()));
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
 					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
 			employeeRepository.findById(idValue);

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -12,8 +13,9 @@ import javax.persistence.Table;
 public class EmployeeInitialSavedData {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", nullable = false, unique = true)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE1")
+	//@SequenceGenerator(name="SEQUENCE1", sequenceName="SEQUENCE1", allocationSize=1)
+	@Column(name="employee_id", nullable = false, unique = true)
 	private int id;
 	@Column(name="first_name")
 	private String first_name;

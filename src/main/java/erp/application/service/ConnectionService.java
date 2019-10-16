@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,16 +19,17 @@ import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class ConnectionService {
 
-	@Value("{import.endpoint.user}")
+	@Value("${import.endpoint.user}")
 	private String user;
-	@Value("{import.endpoind.password}")
+	@Value("${import.endpoind.password}")
 	private String password;
 
 	private String returnModel() {
 		try {
-			ResponseEntity<String> responseObject = getRestTemplate().exchange(ApplicationStaticInfo.IMPORT_JSON_DATA + "/" + user + "/" + password, 
+			ResponseEntity<String> responseObject = getRestTemplate().exchange(ApplicationStaticInfo.IMPORT_JSON_DATA + "/" + "user10" + "/" + "KYV54V", 
 					HttpMethod.GET, getHttpEntity(), String.class);
 			return responseObject.getBody();
 		} catch (Exception e) {
@@ -39,7 +41,7 @@ public class ConnectionService {
 
 	private HttpEntity<String> getHttpEntity() {
 		try {
-			HttpEntity<String> response = getRestTemplate().exchange(ApplicationStaticInfo.IMPORT_JSON_DATA,
+			HttpEntity<String> response = getRestTemplate().exchange(ApplicationStaticInfo.IMPORT_JSON_DATA + "/" + "user10" + "/" + "KYV54V", 
 					HttpMethod.GET, null, String.class);
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Authorization", "Bearer " + response.getHeaders().getFirst("JWTToken"));

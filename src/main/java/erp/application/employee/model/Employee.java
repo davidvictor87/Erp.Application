@@ -3,53 +3,64 @@ package erp.application.employee.model;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-@JsonTypeName(value="Employee")
+//@JsonTypeName(value="Employee")
 public class Employee implements Serializable{
 	
 	private static final long serialVersionUID = -8381282550023414155L;
-	@JsonProperty(value="id")
+	@SerializedName(value="id")
+	@Expose
 	private int id;
-	@JsonProperty(value="name")
-	private String first_name;
-	@JsonProperty(value="second_name")
-	private String last_name;
-	@JsonProperty(value="profession")
+	@SerializedName(value="name")
+	@Expose
+	private String name;
+	@SerializedName(value="second_name")
+	@Expose
+	private String second_name;
+    @SerializedName(value="profession")
+	@Expose
 	private String profession;
-	@JsonProperty(value="isExcepted")
-	private boolean isExcepted;
-	@JsonProperty(value="address")
-	private String address;
-	@JsonProperty(value="salary")
+	@SerializedName(value="isExcept")
+	@Expose
+	private boolean isExcept;
+	@SerializedName(value="address")
+	@Expose
+	private String address;	
+	@SerializedName(value="salary")
+	@Expose
 	private double salary;
-	@JsonProperty(value="cnp")
+	@SerializedName(value="cnp")
+	@Expose
 	private String cnp;
-	@JsonProperty(value="gender")
+	@SerializedName(value="gender")
+	@Expose
 	private String gender;
-	@JsonProperty(value="fulltime")
-	private boolean fulltime_employee;
-	@JsonProperty(value="aditionalInfo")
-	private String aditionalInfo;
+	@SerializedName(value="fulltime")
+	@Expose
+	private boolean fulltime;
+	@SerializedName(value="aditionInfo")
+	@Expose
+	private String aditionInfo;
 	
 	public Employee() {}
-	
-	public Employee(int id, String first_name, String last_name, String profession, boolean isExcepted, String address,
-			double salary, String cnp, String gender, boolean fulltime_employee, String aditionlInfo) {
+
+	public Employee(int id, String name, String second_name, String profession, boolean isExcept, String address,
+			double salary, String cnp, String gender, boolean fulltime, String aditionInfo) {
 		super();
 		this.id = id;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.name = name;
+		this.second_name = second_name;
 		this.profession = profession;
-		this.isExcepted = isExcepted;
+		this.isExcept = isExcept;
 		this.address = address;
 		this.salary = salary;
 		this.cnp = cnp;
 		this.gender = gender;
-		this.fulltime_employee = fulltime_employee;
-		this.aditionalInfo = aditionlInfo;
+		this.fulltime = fulltime;
+		this.aditionInfo = aditionInfo;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -59,20 +70,20 @@ public class Employee implements Serializable{
 		this.id = id;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getSecond_name() {
+		return second_name;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setSecond_name(String second_name) {
+		this.second_name = second_name;
 	}
 
 	public String getProfession() {
@@ -83,12 +94,12 @@ public class Employee implements Serializable{
 		this.profession = profession;
 	}
 
-	public boolean isExcepted() {
-		return isExcepted;
+	public boolean getisExcept() {
+		return isExcept;
 	}
 
-	public void setExcepted(boolean isExcepted) {
-		this.isExcepted = isExcepted;
+	public void setExcept(boolean isExcept) {
+		this.isExcept = isExcept;
 	}
 
 	public String getAddress() {
@@ -123,21 +134,31 @@ public class Employee implements Serializable{
 		this.gender = gender;
 	}
 
-	public boolean isFulltime_employee() {
-		return fulltime_employee;
+	public boolean isFulltime() {
+		return fulltime;
 	}
 
-	public void setFulltime_employee(boolean fulltime_employee) {
-		this.fulltime_employee = fulltime_employee;
+	public void setFulltime(boolean fulltime) {
+		this.fulltime = fulltime;
 	}
 
-	public String getAditionalInfo() {
-		return aditionalInfo;
+	public String getAditionInfo() {
+		return aditionInfo;
 	}
 
-	public void setAditionalInfo(String aditionalInfo) {
-		this.aditionalInfo = aditionalInfo;
+	public void setAditionInfo(String aditionInfo) {
+		this.aditionInfo = aditionInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", second_name=" + second_name + ", profession=" + profession
+				+ ", isExcept=" + isExcept + ", address=" + address + ", salary=" + salary + ", cnp=" + cnp
+				+ ", gender=" + gender + ", fulltime=" + fulltime + ", aditionInfo=" + aditionInfo + "]";
+	}
+	
+	
+	
 	
 	
 
