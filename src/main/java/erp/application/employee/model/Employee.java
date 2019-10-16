@@ -1,4 +1,4 @@
-package erp.application.model.employee;
+package erp.application.employee.model;
 
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package erp.application.model.employee;
+package erp.application.employee.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

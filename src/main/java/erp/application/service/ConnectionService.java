@@ -12,9 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import erp.application.employee.model.Employee;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
-import erp.application.model.employee.Employee;
 
 @Service
 public class ConnectionService {
