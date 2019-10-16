@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Employee_Processed_Data")
+@Table(name= "employee_processed_data")
 public class EmployeeProcessedData {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", nullable = false, unique = true)
+	@Column(name="employee_id", nullable = false, unique = true)
 	private int id;
 	@Column(name="first_name")
 	private String first_name;
@@ -38,9 +38,10 @@ public class EmployeeProcessedData {
 	
 	public EmployeeProcessedData() {}
 
-	public EmployeeProcessedData(String first_name, String last_name, String profession, boolean isExcepted,
+	public EmployeeProcessedData(int id, String first_name, String last_name, String profession, boolean isExcepted,
 			String address, double salary, String cnp, String gender, boolean fulltime_employee, String aditionalInfo) {
 		super();
+		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.profession = profession;

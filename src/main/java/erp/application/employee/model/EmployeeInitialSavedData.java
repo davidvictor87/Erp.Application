@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Employee_Initial_Saved_Data")
+@Table(name = "employee_initial_saved_data")
 public class EmployeeInitialSavedData {
 	
 	@Id
@@ -39,9 +39,10 @@ public class EmployeeInitialSavedData {
 	public EmployeeInitialSavedData() {
 	}
 
-	public EmployeeInitialSavedData(String first_name, String last_name, String profession, boolean isExcepted,
+	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, boolean isExcepted,
 			String address, double salary, String cnp, String gender, boolean fulltime_employee, String aditionalInfo) {
 		super();
+		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.profession = profession;

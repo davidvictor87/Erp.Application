@@ -37,7 +37,7 @@ public class OracleDbConnection {
 	public LocalContainerEntityManagerFactoryBean oracleEntityManager() {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setDataSource(oracleDataSource());
-		entityManager.setPackagesToScan(new String[] {"erp.application.orcl.db.model", "erp.application.orcl.db.repository"});
+		entityManager.setPackagesToScan(new String[] {"erp.application.employee.repository", "erp.application.employee.model"});
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		entityManager.setJpaVendorAdapter(vendorAdapter);
 		Map<String, Object> properties = new HashMap<>();
