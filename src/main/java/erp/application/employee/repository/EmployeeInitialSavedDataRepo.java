@@ -2,8 +2,9 @@ package erp.application.employee.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import erp.application.employee.model.EmployeeInitialSavedData;;
 
 @Repository
-public interface EmployeeProcessedData extends JpaRepository<EmployeeProcessedData, Integer>{
+public interface EmployeeInitialSavedDataRepo extends JpaRepository<EmployeeInitialSavedData, Integer>{
 
 }
