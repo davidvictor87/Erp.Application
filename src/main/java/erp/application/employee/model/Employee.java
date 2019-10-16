@@ -10,7 +10,7 @@ public class Employee implements Serializable{
 	private static final long serialVersionUID = -8381282550023414155L;
 	@JsonProperty(value="id")
 	private int id;
-	@JsonProperty(value="first_name")
+	@JsonProperty(value="name")
 	private String first_name;
 	@JsonProperty(value="second_name")
 	private String last_name;

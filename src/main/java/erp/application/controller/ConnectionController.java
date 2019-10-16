@@ -1,7 +1,14 @@
 package erp.application.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +19,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import erp.application.products.ProductsRepository;
 import erp.application.entities.LOG;
+import erp.application.employee.model.EmployeeInitialSavedData;
+import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
 import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
 import erp.application.service.EmployeeService;
@@ -55,6 +64,11 @@ public class ConnectionController {
 			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
+			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
+					.get("first_name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
+					isExceptedReceiver.get("isExcepted").asBoolean(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
+					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asBoolean(), 
+					aditionalInfoReceiver.get("aditionalInfo").asText()));
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
 					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
 			employeeRepository.findById(idValue);
