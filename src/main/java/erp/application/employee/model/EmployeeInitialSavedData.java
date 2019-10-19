@@ -17,7 +17,7 @@ public class EmployeeInitialSavedData {
 	//@SequenceGenerator(name="SEQUENCE1", sequenceName="SEQUENCE1", allocationSize=1)
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="employee_id", nullable = false)
-	private int id;
+	private String id;
 	@Column(name="first_name")
 	private String first_name;
 	@Column(name="last_name")
@@ -29,7 +29,7 @@ public class EmployeeInitialSavedData {
 	@Column(name="address")
 	private String address;
 	@Column(name="salary")
-	private double salary;
+	private String salary;
 	@Column(name="cnp")
 	private String cnp;
 	@Column(name = "gender")
@@ -42,8 +42,8 @@ public class EmployeeInitialSavedData {
 	public EmployeeInitialSavedData() {
 	}
 
-	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, String isExcepted,
-			String address, double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
+	public EmployeeInitialSavedData(String id, String first_name, String last_name, String profession, String isExcepted,
+			String address, String salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
 		super();
 		this.id = id;
 		this.first_name = first_name;
@@ -58,11 +58,11 @@ public class EmployeeInitialSavedData {
 		this.aditionalInfo = aditionalInfo;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -106,11 +106,11 @@ public class EmployeeInitialSavedData {
 		this.address = address;
 	}
 
-	public double getSalary() {
+	public String getSalary() {
 		return salary;
 	}
 
-	public void setSalary(double salary) {
+	public void setSalary(String salary) {
 		this.salary = salary;
 	}
 

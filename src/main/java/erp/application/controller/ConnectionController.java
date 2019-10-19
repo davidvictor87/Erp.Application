@@ -31,14 +31,11 @@ public class ConnectionController {
 	
 	private ConnectionService service;
 	
-	private ProductsRepository employeeRepository;
-	
 	private EmployeeService employeeService;
 	
 	@Autowired
-	public ConnectionController(ConnectionService serv, ProductsRepository eRepo, EmployeeService eService) {
+	public ConnectionController(ConnectionService serv, EmployeeService eService) {
 		this.service = serv;
-		this.employeeRepository = eRepo;
 		this.employeeService = eService;
 	}
 	
@@ -65,9 +62,9 @@ public class ConnectionController {
 			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
-			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
+			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asText(), firstNameReceiver
 					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
+					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asText(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
 					aditionalInfoReceiver.get("aditionInfo").asText()));
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
@@ -83,6 +80,11 @@ public class ConnectionController {
 			LOG.appLogger().error("MAJOR SYSTEM FAILURE WITH ROOT CAUSE: ", e.getLocalizedMessage());
 			return "FAIL";
 		}
+	}
+	
+	@GetMapping("/findall")
+	public void findAll() {
+		employeeService.find();
 	}
 
 }

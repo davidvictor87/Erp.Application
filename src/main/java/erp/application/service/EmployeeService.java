@@ -18,5 +18,9 @@ public class EmployeeService {
 	public void saveInitiaInfos(EmployeeInitialSavedData employee) {
 		initRepo.saveAndFlush(employee);
 	}
+	
+	public void find() {
+		System.out.println(initRepo.findAll());
+	}
 
 }
