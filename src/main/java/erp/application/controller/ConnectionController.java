@@ -72,7 +72,7 @@ public class ConnectionController {
 					aditionalInfoReceiver.get("aditionInfo").asText()));
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
 					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
-			employeeRepository.findById(idValue);
+			//employeeRepository.findById(idValue);
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();
