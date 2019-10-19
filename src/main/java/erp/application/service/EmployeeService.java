@@ -16,7 +16,7 @@ public class EmployeeService {
 	private EmployeeProcessedDataRepo processedRepo;
 	
 	public void saveInitiaInfos(EmployeeInitialSavedData employee) {
-		initRepo.save(employee);
+		initRepo.saveAndFlush(employee);
 	}
 
 }

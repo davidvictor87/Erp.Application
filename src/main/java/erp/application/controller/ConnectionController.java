@@ -67,8 +67,8 @@ public class ConnectionController {
 			LOG.appLogger().warn("Writing data to file begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
 					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-					isExceptedReceiver.get("isExcept").asBoolean(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
-					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asBoolean(), 
+					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
+					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
 					aditionalInfoReceiver.get("aditionInfo").asText()));
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
 					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/

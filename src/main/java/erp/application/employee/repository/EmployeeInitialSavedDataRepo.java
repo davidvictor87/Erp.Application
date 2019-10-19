@@ -7,6 +7,7 @@ import erp.application.employee.model.EmployeeInitialSavedData;;
 @Repository
 public interface EmployeeInitialSavedDataRepo extends JpaRepository<EmployeeInitialSavedData, Integer>{
 
-	public void save(EmployeeInitialSavedDataRepo employee);
+	
+
 
 }

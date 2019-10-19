@@ -15,7 +15,8 @@ public class EmployeeInitialSavedData {
 	@Id
 	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE1")
 	//@SequenceGenerator(name="SEQUENCE1", sequenceName="SEQUENCE1", allocationSize=1)
-	@Column(name="employee_id", nullable = false, unique = true)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="employee_id", nullable = false)
 	private int id;
 	@Column(name="first_name")
 	private String first_name;
@@ -24,7 +25,7 @@ public class EmployeeInitialSavedData {
 	@Column(name="profession")
 	private String profession;
 	@Column(name="isExcepted")
-	private boolean isExcepted;
+	private String isExcepted;
 	@Column(name="address")
 	private String address;
 	@Column(name="salary")
@@ -34,15 +35,15 @@ public class EmployeeInitialSavedData {
 	@Column(name = "gender")
 	private String gender;
 	@Column(name = "fulltime_employee")
-	private boolean fulltime_employee;
-	@Column(name = "aditionalInfo")
+	private String fulltime_employee;
+	@Column(name = "aditionalinfo")
 	private String aditionalInfo;
 	
 	public EmployeeInitialSavedData() {
 	}
 
-	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, boolean isExcepted,
-			String address, double salary, String cnp, String gender, boolean fulltime_employee, String aditionalInfo) {
+	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, String isExcepted,
+			String address, double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
 		super();
 		this.id = id;
 		this.first_name = first_name;
@@ -89,11 +90,11 @@ public class EmployeeInitialSavedData {
 		this.profession = profession;
 	}
 
-	public boolean isExcepted() {
+	public String isExcepted() {
 		return isExcepted;
 	}
 
-	public void setExcepted(boolean isExcepted) {
+	public void setExcepted(String isExcepted) {
 		this.isExcepted = isExcepted;
 	}
 
@@ -129,11 +130,11 @@ public class EmployeeInitialSavedData {
 		this.gender = gender;
 	}
 
-	public boolean isFulltime_employee() {
+	public String isFulltime_employee() {
 		return fulltime_employee;
 	}
 
-	public void setFulltime_employee(boolean fulltime_employee) {
+	public void setFulltime_employee(String fulltime_employee) {
 		this.fulltime_employee = fulltime_employee;
 	}
 

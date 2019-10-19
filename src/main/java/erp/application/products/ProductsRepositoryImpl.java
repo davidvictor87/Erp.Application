@@ -22,17 +22,17 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 
 	@Override
 	public void save(Products employee) {
-		hashOperations.put("EMPLOYEE", employee.getId(), employee);
+		hashOperations.put("PRODUCTS", employee.getId(), employee);
 	}
 
 	@Override
 	public Map<String, Products> findAll() {
-		return hashOperations.entries("EMPLOYEE");
+		return hashOperations.entries("PRODUCTS");
 	}
 
 	@Override
 	public Products findById(Integer id) {
-		return (Products)hashOperations.get("EMPLOYEE", id);
+		return (Products)hashOperations.get("PRODUCTS", id);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 
 	@Override
 	public void delete(Integer id) {
-		hashOperations.delete("EMPLOYEE", id);
+		hashOperations.delete("PRODUCTS", id);
 	}
 
 }

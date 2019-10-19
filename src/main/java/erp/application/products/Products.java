@@ -3,7 +3,7 @@ package erp.application.products;
 import java.io.Serializable;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value = "EMPLOYEE")
+@RedisHash(value = "PRODUCTS")
 public class Products implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
