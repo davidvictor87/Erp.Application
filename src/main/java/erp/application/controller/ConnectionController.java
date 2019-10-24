@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import erp.application.products.ProductsRepository;
 import erp.application.entities.LOG;
+import erp.application.employee.model.Employee;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
 import erp.application.entities.CreateFiles;
@@ -62,11 +63,14 @@ public class ConnectionController {
 			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
-			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asText(), firstNameReceiver
+			/*employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asText(), firstNameReceiver
 					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
 					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asText(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
-					aditionalInfoReceiver.get("aditionInfo").asText()));
+					aditionalInfoReceiver.get("aditionInfo").asText()));*/
+			/*employeeService.saveInitiaInfos(new EmployeeInitialSavedData(101, firstNameReceiver
+					.get("name").asText(), "second_name", "profession","false", "address", 100.21,"cnp", "gender", "fulltime", 
+					"aditionInfo"));*/
 			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
 					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
 			//employeeRepository.findById(idValue);
@@ -80,6 +84,13 @@ public class ConnectionController {
 			LOG.appLogger().error("MAJOR SYSTEM FAILURE WITH ROOT CAUSE: ", e.getLocalizedMessage());
 			return "FAIL";
 		}
+	}
+	
+	@GetMapping("/save")
+	public void save() {
+		employeeService.saveInitiaInfos(new EmployeeInitialSavedData("101","name", "second_name", 
+				"profession","false", "address", "100.21","cnp", "gender", "fulltime", 
+				"aditionInfo"));
 	}
 	
 	@GetMapping("/findall")
