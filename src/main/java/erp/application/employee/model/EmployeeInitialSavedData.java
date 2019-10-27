@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "employee_initial_saved_data")
@@ -17,7 +18,8 @@ public class EmployeeInitialSavedData {
 	//@SequenceGenerator(name="SEQUENCE1", sequenceName="SEQUENCE1", allocationSize=1)
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="employee_id", nullable = false)
-	private String id;
+	@NotNull
+	private int id;
 	@Column(name="first_name")
 	private String first_name;
 	@Column(name="last_name")
@@ -29,7 +31,7 @@ public class EmployeeInitialSavedData {
 	@Column(name="address")
 	private String address;
 	@Column(name="salary")
-	private String salary;
+	private double salary;
 	@Column(name="cnp")
 	private String cnp;
 	@Column(name = "gender")
@@ -42,8 +44,8 @@ public class EmployeeInitialSavedData {
 	public EmployeeInitialSavedData() {
 	}
 
-	public EmployeeInitialSavedData(String id, String first_name, String last_name, String profession, String isExcepted,
-			String address, String salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
+	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, String isExcepted,
+			String address, double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
 		super();
 		this.id = id;
 		this.first_name = first_name;
@@ -58,11 +60,11 @@ public class EmployeeInitialSavedData {
 		this.aditionalInfo = aditionalInfo;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -106,11 +108,11 @@ public class EmployeeInitialSavedData {
 		this.address = address;
 	}
 
-	public String getSalary() {
+	public double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(String salary) {
+	public void setSalary(int salary) {
 		this.salary = salary;
 	}
 

@@ -63,17 +63,13 @@ public class ConnectionController {
 			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
-			/*employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asText(), firstNameReceiver
+			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
 					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asText(),
+					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
-					aditionalInfoReceiver.get("aditionInfo").asText()));*/
-			/*employeeService.saveInitiaInfos(new EmployeeInitialSavedData(101, firstNameReceiver
-					.get("name").asText(), "second_name", "profession","false", "address", 100.21,"cnp", "gender", "fulltime", 
-					"aditionInfo"));*/
-			/*CreateFiles.createFiles(idReceiver.get("id").asInt(), firstName.get("first_name").asText(), profession.get("profession").asText(), 
-					addressReceiver.get("address").asText(), isEnabled.get("isEnabled").asBoolean());*/
+					aditionalInfoReceiver.get("aditionInfo").asText()));
 			//employeeRepository.findById(idValue);
+			employeeService.calculateTaxes();
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -87,13 +83,15 @@ public class ConnectionController {
 	}
 	
 	@GetMapping("/save")
+	@ResponseBody
 	public void save() {
-		employeeService.saveInitiaInfos(new EmployeeInitialSavedData("101","name", "second_name", 
-				"profession","false", "address", "100.21","cnp", "gender", "fulltime", 
+		employeeService.saveInitiaInfos(new EmployeeInitialSavedData(19101,"name", "second_name", 
+				"profession","false", "address", 100.21,"1781222460322", "gender", "fulltime", 
 				"aditionInfo"));
 	}
 	
 	@GetMapping("/findall")
+	@ResponseBody
 	public void findAll() {
 		employeeService.find();
 	}
