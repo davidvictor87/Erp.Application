@@ -2,8 +2,11 @@ package erp.application.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -21,6 +24,7 @@ public class EmployeeService {
 	private Lock lock1 = new ReentrantLock();
 	private Lock lock2 = new ReentrantLock();
 	private Lock lock3 = new ReentrantLock();
+	public static double totaxTax = 0.0;
 	@Autowired
 	private EmployeeInitialSavedDataRepo initRepo;
 	@Autowired
@@ -30,57 +34,61 @@ public class EmployeeService {
 		initRepo.saveAndFlush(employee);
 	}
 
-	public void calculateTaxes() {
+	public List<Double> calculateTaxes() {
 		final int numberOfThreads = 3;
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+		List<Double> totalTaxes = new ArrayList<>();
 		try {
-			Runnable runnable = () -> {
-				calculateCasTax();
-				calculateCassTax();
-				calculeteIncomeTax();
+			Callable<List<Double>> callable = () -> {
+				for (int i = 0; i < calculateCasTax().size(); i++) {
+					totalTaxes.add(calculateCasTax().get(i) + calculateCassTax().get(i) + calculeteIncomeTax().get(i));
+				}
+				return totalTaxes;
 			};
-			executor.submit(runnable);
+			Future<List<Double>> future = executor.submit(callable);
+			future.get();
 			executor.shutdown();
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
+		return totalTaxes;
 	}
 
-	private void preventDeadLock(Lock firstLock, Lock secondLock, Lock thirdlock) throws InterruptedException{
-            while(true) {
-            	boolean deadlock1 = false;
-            	boolean deadlock2 = false;
-            	boolean deadlock3 = false;
-            	try {
-                    deadlock1 = firstLock.tryLock();
-                    if(deadlock1 && deadlock2 && deadlock3) {
-                    	return;
-                    }
-                    if(deadlock1) {
-                       firstLock.unlock();
-                    }
-                    if(deadlock2) {
-                    	secondLock.unlock();
-                    }
-                    if(deadlock3) {
-                    	thirdlock.unlock();
-                    }
-            	}finally {
-            		Thread.sleep(1);
-            	}
-            }
+	public void preventDeadLock(Lock firstLock, Lock secondLock, Lock thirdlock) throws InterruptedException {
+		while (true) {
+			boolean deadlock1 = false;
+			boolean deadlock2 = false;
+			boolean deadlock3 = false;
+			try {
+				deadlock1 = firstLock.tryLock();
+				if (deadlock1 && deadlock2 && deadlock3) {
+					return;
+				}
+				if (deadlock1) {
+					firstLock.unlock();
+				}
+				if (deadlock2) {
+					secondLock.unlock();
+				}
+				if (deadlock3) {
+					thirdlock.unlock();
+				}
+			} finally {
+				Thread.sleep(1);
+			}
+		}
 	}
 
 	public List<Double> calculateCasTax() {
 		List<Double> casTaxList = null;
+		lock1.lock();
 		try {
-			preventDeadLock(lock1, lock2, lock3);
 			casTaxList = initRepo.findAll().stream().map(employeeCAS -> employeeCAS.getSalary() * 25 / 100)
 					.collect(Collectors.toList());
-		}catch (InterruptedException e) {
+		} catch (Exception e) {
 			throw new IllegalStateException(e);
-		}finally {
+		} finally {
 			lock1.unlock();
 		}
 		System.out.println(casTaxList);
@@ -89,11 +97,11 @@ public class EmployeeService {
 
 	public List<Double> calculateCassTax() {
 		List<Double> cassTaxList = null;
+		lock2.lock();
 		try {
-			preventDeadLock(lock1, lock2, lock3);
 			cassTaxList = initRepo.findAll().stream().map(employeeCASS -> employeeCASS.getSalary() * 10 / 100)
 					.collect(Collectors.toList());
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
 			lock2.unlock();
@@ -104,8 +112,8 @@ public class EmployeeService {
 
 	public List<Double> calculeteIncomeTax() {
 		List<Double> incomeTaxList = null;
+		lock3.lock();
 		try {
-			preventDeadLock(lock1, lock2, lock3);
 			incomeTaxList = initRepo.findAll().stream().map(employeeIncome -> employeeIncome.getSalary() * 10 / 100)
 					.collect(Collectors.toList());
 		} catch (Exception e) {
@@ -119,6 +127,14 @@ public class EmployeeService {
 
 	public void find() {
 		System.out.println(initRepo.findAll());
+	}
+
+	public double totalTaxes(double... taxes) {
+		double sum = 0.0;
+		for (double total : taxes) {
+			sum += total;
+		}
+		return sum;
 	}
 
 }

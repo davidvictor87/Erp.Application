@@ -3,6 +3,7 @@ package erp.application.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -68,8 +69,7 @@ public class ConnectionController {
 					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
 					aditionalInfoReceiver.get("aditionInfo").asText()));
-			//employeeRepository.findById(idValue);
-			employeeService.calculateTaxes();
+				System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();
