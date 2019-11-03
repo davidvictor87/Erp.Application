@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import erp.application.entities.LOG;
 import erp.application.employee.model.EmployeeInitialSavedData;
+import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
 import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
@@ -60,6 +61,14 @@ public class ConnectionController {
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
 					aditionalInfoReceiver.get("aditionInfo").asText()));
 				System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
+				for(int i = 0; i < employeeService.findAll().size(); i++) {
+					employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(), firstNameReceiver
+							.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
+							isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), 
+							(employeeService.findAll().get(i).getSalary() - employeeService.calculateTaxes().get(i)),
+							cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
+							aditionalInfoReceiver.get("aditionInfo").asText()));
+				}
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -78,12 +87,6 @@ public class ConnectionController {
 		employeeService.saveInitiaInfos(new EmployeeInitialSavedData(19101,"name", "second_name", 
 				"profession","false", "address", 100.21,"1781222460322", "gender", "fulltime", 
 				"aditionInfo"));
-	}
-	
-	@GetMapping("/findall")
-	@ResponseBody
-	public void findAll() {
-		employeeService.find();
 	}
 
 }

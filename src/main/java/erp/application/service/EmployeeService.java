@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import erp.application.employee.model.EmployeeInitialSavedData;
+import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
 import erp.application.employee.repository.EmployeeProcessedDataRepo;
 import erp.application.entities.LOG;
@@ -32,6 +33,10 @@ public class EmployeeService {
 
 	public void saveInitiaInfos(EmployeeInitialSavedData employee) {
 		initRepo.saveAndFlush(employee);
+	}
+	
+	public void saveProcessedInfos(EmployeeProcessedData employee) {
+		processedRepo.save(employee);
 	}
 
 	public List<Double> calculateTaxes() {
@@ -125,8 +130,8 @@ public class EmployeeService {
 		return incomeTaxList;
 	}
 
-	public void find() {
-		System.out.println(initRepo.findAll());
+	public List<EmployeeInitialSavedData> findAll() {
+		return initRepo.findAll();
 	}
 
 	public double totalTaxes(double... taxes) {
