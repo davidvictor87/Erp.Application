@@ -69,6 +69,7 @@ public class ConnectionController {
 							cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
 							aditionalInfoReceiver.get("aditionInfo").asText()));
 				}
+				employeeService.printTaxes();
 			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();

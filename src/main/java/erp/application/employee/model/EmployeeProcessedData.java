@@ -5,14 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name= "employee_processed_data")
 public class EmployeeProcessedData {
 	
 	@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="employee_processed_id")
+	@NotNull
+	private int employee_processed_id;
 	@Column(name="employee_id", nullable = false, unique = true)
 	private int id;
 	@Column(name="first_name")
@@ -54,6 +61,33 @@ public class EmployeeProcessedData {
 		this.fulltime_employee = fulltime_employee;
 		this.aditionalInfo = aditionalInfo;
 	}
+	
+	
+
+	public int getEmployee_processed_id() {
+		return employee_processed_id;
+	}
+
+
+	public void setEmployee_processed_id(int employee_processed_id) {
+		this.employee_processed_id = employee_processed_id;
+	}
+
+
+	public String getIsExcepted() {
+		return isExcepted;
+	}
+
+
+	public void setIsExcepted(String isExcepted) {
+		this.isExcepted = isExcepted;
+	}
+
+
+	public String getFulltime_employee() {
+		return fulltime_employee;
+	}
+
 
 	public int getId() {
 		return id;

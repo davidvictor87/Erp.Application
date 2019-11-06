@@ -17,6 +17,7 @@ import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
 import erp.application.employee.repository.EmployeeProcessedDataRepo;
+import erp.application.employee.repository.TaxesRepository;
 import erp.application.entities.LOG;
 
 @Service
@@ -30,6 +31,8 @@ public class EmployeeService {
 	private EmployeeInitialSavedDataRepo initRepo;
 	@Autowired
 	private EmployeeProcessedDataRepo processedRepo;
+	@Autowired
+	private TaxesRepository tRepository;
 
 	public void saveInitiaInfos(EmployeeInitialSavedData employee) {
 		initRepo.saveAndFlush(employee);
@@ -132,6 +135,10 @@ public class EmployeeService {
 
 	public List<EmployeeInitialSavedData> findAll() {
 		return initRepo.findAll();
+	}
+	
+	public void printTaxes() {
+		System.out.println(tRepository.findAll());
 	}
 
 	public double totalTaxes(double... taxes) {

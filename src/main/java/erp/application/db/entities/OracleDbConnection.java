@@ -43,6 +43,7 @@ public class OracleDbConnection {
 		Map<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.naming.physical-strategy", environment.getProperty("spring.oracle.jpa.hibernate.naming.physical-strategy"));
 		properties.put("hibernate.dialect", environment.getProperty("spring.oracle.jpa.hibernate.dialect"));
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		entityManager.setJpaPropertyMap(properties);
 		return entityManager;
 	}
