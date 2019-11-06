@@ -99,7 +99,7 @@ public class EmployeeService {
 		} finally {
 			lock1.unlock();
 		}
-		System.out.println(casTaxList);
+		System.out.println("Cas tax list: " + casTaxList);
 		return casTaxList;
 	}
 
@@ -114,7 +114,7 @@ public class EmployeeService {
 		} finally {
 			lock2.unlock();
 		}
-		System.out.println(cassTaxList);
+		System.out.println("Cas Tax list: " + cassTaxList);
 		return cassTaxList;
 	}
 
@@ -129,7 +129,7 @@ public class EmployeeService {
 		} finally {
 			lock3.unlock();
 		}
-		System.out.println(incomeTaxList);
+		System.out.println("Income tax list: " + incomeTaxList);
 		return incomeTaxList;
 	}
 

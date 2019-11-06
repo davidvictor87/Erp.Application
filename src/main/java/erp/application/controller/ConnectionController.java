@@ -21,27 +21,27 @@ import erp.application.service.EmployeeService;
 
 @Controller
 public class ConnectionController {
-	
+
 	private ConnectionService service;
-	
+
 	private EmployeeService employeeService;
-	
+
 	@Autowired
 	public ConnectionController(ConnectionService serv, EmployeeService eService) {
 		this.service = serv;
 		this.employeeService = eService;
 	}
-	
+
 	@GetMapping(value = "/return/{id}")
 	@ResponseBody
-	public String connectionMethod(@PathVariable(value="id") final int idValue) {
+	public String connectionMethod(@PathVariable(value = "id") final int idValue) {
 		System.out.println("Service info: " + service.getModel() + " : " + idValue);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("return.html");
 		ObjectMapper mpr = new ObjectMapper();
 		try {
-			String jsonInfo = mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue)
-					.findAny().orElse(null));
+			String jsonInfo = mpr.writeValueAsString(
+					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
 			LOG.appLogger().info("JSON structure: " + jsonInfo);
 			JsonNode idReceiver = mpr.readTree(jsonInfo);
 			JsonNode firstNameReceiver = mpr.readTree(jsonInfo);
@@ -55,39 +55,50 @@ public class ConnectionController {
 			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
-			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(), firstNameReceiver
-					.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-					isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
-					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
-					aditionalInfoReceiver.get("aditionInfo").asText()));
-				System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
-				for(int i = 0; i < employeeService.findAll().size(); i++) {
-					employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(), firstNameReceiver
-							.get("name").asText(), lastNameReceiver.get("second_name").asText(), professionReceiver.get("profession").asText(),
-							isExceptedReceiver.get("isExcept").asText(), addressReceiver.get("address").asText(), 
-							(employeeService.findAll().get(i).getSalary() - employeeService.calculateTaxes().get(i)),
-							cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(), fulltTimeReceiver.get("fulltime").asText(), 
-							aditionalInfoReceiver.get("aditionInfo").asText()));
-				}
-				employeeService.printTaxes();
-			return mpr.writeValueAsString(service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
-		}catch (JsonProcessingException e) {
+			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
+					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
+					professionReceiver.get("profession").asText(), setExceptValue(isExceptedReceiver.get("isExcept").asBoolean()),
+					addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
+					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
+					setFullTimeValue(fulltTimeReceiver.get("fulltime").asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+			System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
+			employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(),
+					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
+					professionReceiver.get("profession").asText(), setExceptValue(isExceptedReceiver.get("isExcept").asBoolean()),
+					addressReceiver.get("address").asText(), getFinalRevenue(employeeService.findAll().size()),
+					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
+					setFullTimeValue(fulltTimeReceiver.get("fulltime").asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+			employeeService.printTaxes();
+			return mpr.writeValueAsString(
+					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
+		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("JSON PARSING ERROR WITH ROOT CAUSE: ", e.getCause().toString());
 			return "FAIL";
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("MAJOR SYSTEM FAILURE WITH ROOT CAUSE: ", e.getLocalizedMessage());
 			return "FAIL";
 		}
 	}
-	
+
 	@GetMapping("/save")
 	@ResponseBody
 	public void save() {
-		employeeService.saveInitiaInfos(new EmployeeInitialSavedData(19101,"name", "second_name", 
-				"profession","false", "address", 100.21,"1781222460322", "gender", "fulltime", 
-				"aditionInfo"));
+		employeeService.saveInitiaInfos(new EmployeeInitialSavedData(19101, "name", "second_name", "profession",
+				"false", "address", 100.21, "1781222460322", "gender", "fulltime", "aditionInfo"));
+	}
+
+	private double getFinalRevenue(int index) {
+		return employeeService.findAll().get(index).getSalary() - employeeService.calculateTaxes().get(index);
+	}
+
+	private String setExceptValue(boolean except) {
+		return except ? "true" : "false";
+	}
+
+	private String setFullTimeValue(boolean fulltime) {
+		return fulltime ? "true" : "false";
 	}
 
 }
