@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -95,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   @Bean
   public ViewResolver viewResolver() {
   	InternalResourceViewResolver irvr = new InternalResourceViewResolver();
-  	irvr.setPrefix("/templates/");
+  	irvr.setPrefix("/static/");
   	irvr.setSuffix(".html");
   	return irvr;
   	

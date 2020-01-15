@@ -18,7 +18,7 @@ public class TriggerService {
 	@Autowired
 	private UserRoleRepository urRepo;
 	
-	public void deleteUser(int id) {
+	public void deleteUser(long id) {
 		long l = 0 + id;
 		userRepo.deleteById(id);
 		levelRepo.deleteById(l);

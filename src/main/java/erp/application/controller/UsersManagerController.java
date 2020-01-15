@@ -62,7 +62,7 @@ public class UsersManagerController {
 	@PostMapping(value="/updateUser{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id")Long id, @RequestBody String email, @RequestBody String status, @RequestBody String fName, @RequestBody String sName, @RequestBody String password) {
 		
-		LOG.appLogger().info("Input Data: " + id , email, status, fName, sName, password);
+		/*LOG.appLogger().info("Input Data: " + id , email, status, fName, sName, password);
 		
 		try {
 		
@@ -102,19 +102,21 @@ public class UsersManagerController {
 		    if(StringUtils.isNotEmpty(mailValues[0]) && StringUtils.isNotEmpty(actVal[0]) && 
 				StringUtils.isNotEmpty(nameVal[0]) && StringUtils.isNotEmpty(lastNameVal[0]) && StringUtils.isNotEmpty(passVal[0])) {
 			        if(StringUtils.isNotEmpty(arr[0])) {
-			         	uRepository.updateUsersWithId(Long.parseLong(arr[0]), mailValues[0], actVal[0], nameVal[0], lastNameVal[0], passVal[0]);
+			        	System.out.println("Before " + actVal[0] + " " + arr[0] + " " + mailValues[0]);
+			         	uRepository.updateUsersWithId(Long.parseLong(arr[0]), "1", mailValues[0], nameVal[0], lastNameVal[0], passVal[0]);
+			         	System.out.println("After");
 			     }
 		    }
 		
 		    HttpHeaders headers = new HttpHeaders();
 		    headers.setLocation(URI.create("http://localhost:8088/PannelUser"));
-			int i = (int) (0 + id);    
+			long i = (long) (0 + id);    
 	        return new ResponseEntity<>(uRepository.findById(i).get(),headers, HttpStatus.MOVED_PERMANENTLY);
 	    
 		 }catch (Exception e) {
 			 LOG.appLogger().error(" ======== Update Process Failed with root cause ======== " + e.getMessage());
 			 e.printStackTrace();
-		}
+		}*/
 		return null;
 	}
 	
@@ -122,7 +124,7 @@ public class UsersManagerController {
 	public String deleteUser(@RequestParam(value = "id") Long id) {
 		System.out.println("Method acceses " + id);
 		long l = 0 + (long)id;
-		uRepository.deleteById((int) l);
+		uRepository.deleteById(l);
 		return "redirect:/PannelUser";
 	}
 	
