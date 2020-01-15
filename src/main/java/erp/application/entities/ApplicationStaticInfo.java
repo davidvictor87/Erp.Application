@@ -12,4 +12,12 @@ public class ApplicationStaticInfo {
 	
 	public static final String IMPORT_JSON_DATA = "http://localhost:5500/generating/json/list/endpoint";
 	
+	public static final String setExceptValue(boolean except) {
+		return except ? "true" : "false";
+	}
+
+	public static final String setFullTimeValue(boolean fulltime) {
+		return fulltime ? "true" : "false";
+	}
+	
 }

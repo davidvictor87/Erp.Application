@@ -15,6 +15,7 @@ import erp.application.entities.LOG;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
+import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
 import erp.application.service.EmployeeService;
@@ -52,22 +53,22 @@ public class ConnectionController {
 			JsonNode salaryReceiver = mpr.readTree(jsonInfo);
 			JsonNode cnpReceiver = mpr.readTree(jsonInfo);
 			JsonNode genderReceiver = mpr.readTree(jsonInfo);
-			JsonNode fulltTimeReceiver = mpr.readTree(jsonInfo);
+			JsonNode fullTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
-					professionReceiver.get("profession").asText(), setExceptValue(isExceptedReceiver.get("isExcept").asBoolean()),
+					professionReceiver.get("profession").asText(), ApplicationStaticInfo.setExceptValue(isExceptedReceiver.asBoolean()),
 					addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
-					setFullTimeValue(fulltTimeReceiver.get("fulltime").asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
 			System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
 			employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
-					professionReceiver.get("profession").asText(), setExceptValue(isExceptedReceiver.get("isExcept").asBoolean()),
+					professionReceiver.get("profession").asText(), ApplicationStaticInfo.setFullTimeValue(isExceptedReceiver.asBoolean()),
 					addressReceiver.get("address").asText(), getFinalRevenue(employeeService.findAll().size()),
 					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
-					setFullTimeValue(fulltTimeReceiver.get("fulltime").asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
 			employeeService.printTaxes();
 			return mpr.writeValueAsString(
 					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
@@ -93,12 +94,5 @@ public class ConnectionController {
 		return employeeService.findAll().get(index).getSalary() - employeeService.calculateTaxes().get(index);
 	}
 
-	private String setExceptValue(boolean except) {
-		return except ? "true" : "false";
-	}
-
-	private String setFullTimeValue(boolean fulltime) {
-		return fulltime ? "true" : "false";
-	}
 
 }
