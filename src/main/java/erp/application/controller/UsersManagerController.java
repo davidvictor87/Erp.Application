@@ -1,16 +1,17 @@
 package erp.application.controller;
 
 import org.springframework.web.servlet.ModelAndView;
-import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import erp.application.entities.LOG;
 import erp.application.entities.JDBCUpdate;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 @Controller
 public class UsersManagerController {
@@ -63,8 +62,9 @@ public class UsersManagerController {
 
 	@GetMapping(value = "/update-user{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
-		LOG.appLogger().info("Input info: " + id);;
-        HttpHeaders headers = null;
+		LOG.appLogger().info("Input info: " + id);
+		;
+		HttpHeaders headers = null;
 		try {
 			System.out.println("User: " + uRepository.findById(id).get());
 			headers = new HttpHeaders();
@@ -76,11 +76,16 @@ public class UsersManagerController {
 		}
 
 	}
-	
-	@PostMapping(value="/save-user")
-	public String saveUser(Users user) {
-		LOG.appLogger().info("User save: " + user);
-		uRepository.save(user);
+
+	@PostMapping(value = "/save-user")
+	public String saveUser(@Valid Users user) {
+		LOG.appLogger().info("Received data: " + user);
+		try {
+			LOG.appLogger().warn("Processed data: " + user);
+			uRepository.save(user);
+		} catch (Exception e) {
+			LOG.appLogger().error("Catched error: " + e.getMessage());
+		}
 		return "redirect:/PannelUser";
 	}
 
