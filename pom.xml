@@ -73,9 +73,7 @@
 			<version>5.2.3.Final</version>
 		</dependency>
 
-
-
-		<dependency>
+        <dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
