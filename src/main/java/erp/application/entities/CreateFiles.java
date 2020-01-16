@@ -1,12 +1,13 @@
 package erp.application.entities;
 
-import erp.application.enteties.models.FileModel;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.security.SecureRandom;
+
+import erp.application.entities.models.FileModel;
 
 public class CreateFiles {
 	

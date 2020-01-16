@@ -1,4 +1,4 @@
-package erp.application.enteties.models;
+package erp.application.entities.models;
 
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
