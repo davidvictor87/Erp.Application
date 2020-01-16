@@ -47,17 +47,11 @@
 					</tbody>
 				</table>
 				<hr />
-				<!-- <ul class="nav nav-pills">
-					<li class="nav-item"
-						th:each="i : ${#numbers.sequence(0,data.totalPages-1)}"><a
-						class="nav-link" th:classappend="${currentPage}==${i}?'active':''"
-						th:href="@{/(page=${i})}" th:text="${i}"></a></li>
-				</ul> -->
 			</div>
 		</div>
 
 		<div class="myForm">
-			<form action="#" method="post" th:action="@{/save}">
+			<form action="#" method="post" th:action="@{/save-user}">
 				<div aria-hidden="true" aria-labelledby="exampleModalLabel"
 					class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
 					<div class="modal-dialog" role="document">
@@ -72,19 +66,35 @@
 							</div>
 							<div class="modal-body">
 								<div class="form-group">
-									<label class="col-form-label" for="id">ID:</label> <input
-										class="form-control" id="id" name="id" type="text" value="" />
-								</div>
-								<div class="form-group">
-									<label class="col-form-label" for="name">Name:</label> <input
-										class="form-control" id="name" name="name" type="text"
-										value="" />
-								</div>
-								<div class="form-group">
-									<label class="col-form-label" for="capital">Capital:</label> <input
-										class="form-control" id="capital" name="capital" type="text"
-										value="" />
-								</div>
+								<label for="text" class="form-control-label">Id</label> <input
+									type="text" class="form-control" id="id" name="id"
+									readonly="readonly" value="" />
+							</div>
+							<div class="form-group">
+								<label for="text" class="form-control-label">Email</label> <input
+									type="text" class="form-control" id="email" name="email"
+									value="" />
+							</div>
+							<div class="form-group">
+								<label for="password" class="form-control-label">Password</label>
+								<input type="password" class="form-control" id="password"
+									name="password" value="" />
+							</div>
+							<div class="form-group">
+								<label for="fName" class="form-control-label">First Name</label>
+								<input type="text" class="form-control" id="name" name="name"
+									value="" />
+							</div>
+							<div class="form-group">
+								<label for="sName" class="form-control-label">Second
+									Name</label> <input type="text" class="form-control" id="lastName"
+									name="lastName" value="" />
+							</div>
+							<div class="form-group">
+								<label for="status" class="form-control-label">Status</label> <input
+									type="text" class="form-control" id="active" name="active"
+									value="" />
+							</div>
 							</div>
 							<div class="modal-footer">
 								<button class="btn btn-secondary" data-dismiss="modal"

@@ -63,9 +63,8 @@ public class UsersManagerController {
 
 	@GetMapping(value = "/update-user{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
-		System.out.println("Id is: " + id);
-
-		HttpHeaders headers = null;
+		LOG.appLogger().info("Input info: " + id);;
+        HttpHeaders headers = null;
 		try {
 			System.out.println("User: " + uRepository.findById(id).get());
 			headers = new HttpHeaders();
@@ -76,6 +75,13 @@ public class UsersManagerController {
 			return ResponseEntity.badRequest().body(uRepository.findById(id).get());
 		}
 
+	}
+	
+	@PostMapping(value="/save-user")
+	public String saveUser(Users user) {
+		LOG.appLogger().info("User save: " + user);
+		uRepository.save(user);
+		return "redirect:/PannelUser";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete-user{id}")
