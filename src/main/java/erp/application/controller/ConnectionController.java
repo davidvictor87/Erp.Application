@@ -83,15 +83,8 @@ public class ConnectionController {
 		}
 	}
 
-	@GetMapping("/save")
-	@ResponseBody
-	public void save() {
-		employeeService.saveInitiaInfos(new EmployeeInitialSavedData(19101, "name", "second_name", "profession",
-				"false", "address", 100.21, "1781222460322", "gender", "fulltime", "aditionInfo"));
-	}
-
 	private double getFinalRevenue(int index) {
-		return employeeService.findAll().get(index).getSalary() - employeeService.calculateTaxes().get(index);
+		return employeeService.findAll().get(index-1).getSalary() - employeeService.calculateTaxes().get(index-1);
 	}
 
 
