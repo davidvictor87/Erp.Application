@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>ErpApplication</name>
-	<description>Kill Google and Mozzila</description>
+	<description>Erp Application</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
