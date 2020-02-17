@@ -10,15 +10,27 @@ import erp.application.login.model.Users;
 public class CustomUsersDetails extends Users implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-
+    private boolean isAccountNonExpired = true;
+	private boolean isAccountNonLocked = true;
+	private boolean isCredentialsNonExpired = true;
+	private boolean isEnabled = true;
+	
 	public CustomUsersDetails(final Users users) {
 		super(users);
+	}
+
+	public CustomUsersDetails(final Users users,  boolean isAccountNonExpired, 
+			boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
+		super(users);
+		this.isAccountNonExpired = isAccountNonExpired;
+		this.isAccountNonLocked = isAccountNonLocked;
+		this.isCredentialsNonExpired = isCredentialsNonExpired;
+		this.isEnabled = isEnabled;
 	}
 	
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+         return getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
     }
 
@@ -34,22 +46,22 @@ public class CustomUsersDetails extends Users implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return isAccountNonExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return isAccountNonLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return isCredentialsNonExpired;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return isEnabled;
 	}
 
 }

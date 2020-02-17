@@ -1,5 +1,8 @@
 package erp.application.web.security;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +20,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistrat
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-//import erp.application.login.model.CustomUsersDetails;
+import erp.application.entities.LOG;
 import erp.application.login.repository.UserRepository;
 import erp.application.service.LoginService;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
  @Autowired
  private LoginService loginService;
+ @Autowired
+ private SecretKey secretKey;
+ @Autowired
+ private JwtConfig jwtConfig;
   
  @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,26 +49,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       auth.userDetailsService(loginService)
       .passwordEncoder(getPasswordEncoder());
   }
-	
-	@Override
-    public void configure(WebSecurity web) throws Exception {
+	 
+ @Override
+ public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("**/login/**");
-    }
+ }
 
 
 
  @Override
  protected void configure(HttpSecurity httpSecurity) throws Exception {
-     httpSecurity.csrf().disable();
+     httpSecurity
+     .csrf().disable();
+     httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
+     .permitAll();
      httpSecurity.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/register").permitAll()
-     .anyRequest().authenticated().and().formLogin().loginPage("/login.html")
-     .defaultSuccessUrl("/welcome.html", true).failureForwardUrl("/login.html").permitAll()
+     .anyRequest().authenticated().and().formLogin().loginPage("/login.html").permitAll(true)
+     .defaultSuccessUrl("/welcome.html", true).usernameParameter("username").passwordParameter("password").failureForwardUrl("/login.html").permitAll()
      .and().logout().logoutSuccessUrl("/logout").permitAll(true).and().authorizeRequests()
-     .antMatchers("/PannelUser").hasAnyRole("ADMIN").anyRequest().authenticated();
-     /*httpSecurity.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/register").permitAll()
-     .anyRequest().authenticated().and().formLogin().loginPage("/login.html")
-     .defaultSuccessUrl("/welcome.html").failureForwardUrl("/login.html").and().authorizeRequests()
-     .antMatchers("/PannelUser").hasAnyRole("ADMIN", "MANAGER", "USER");*/
+     .antMatchers("/PannelUser").hasAnyRole("ADMIN").anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
+     .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login");	 
  }
 
   private PasswordEncoder getPasswordEncoder() {
@@ -91,8 +98,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
        };
   }
 
-
-  
   @Bean
   public ViewResolver viewResolver() {
   	InternalResourceViewResolver irvr = new InternalResourceViewResolver();
@@ -102,15 +107,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   	
   }
   
-  
-
-	/*@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
-		authenticationMgr.inMemoryAuthentication().withUser("admin").password("admin").authorities("ROLE_USER").and()
-				.withUser("javainuse").password("javainuse").authorities("ROLE_ADMIN");
-	}*/
-
-
+  private String rememberKey() {
+	    int leftLimit = 97; 
+		int rightLimit = 122; 
+		int targetStringLength = 50;
+		Random random = new Random();
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+		.limit(targetStringLength)
+		.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+		.toString();
+	    LOG.appLogger().info("Remember key is: " + generatedString);
+	    return generatedString;
+  }
 
 }
 

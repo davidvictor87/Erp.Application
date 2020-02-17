@@ -73,7 +73,7 @@
 			<version>5.2.3.Final</version>
 		</dependency>
 
-        <dependency>
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
+		</dependency> 
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -148,13 +148,13 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
-		
-        <dependency>
+
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>6</version>
@@ -165,7 +165,33 @@
 			<artifactId>p6spy</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+
+      <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.10.7</version>
+        </dependency>
+
+       <dependency>
+             <groupId>io.jsonwebtoken</groupId>
+             <artifactId>jjwt-impl</artifactId>
+             <version>0.10.7</version>
+             <scope>runtime</scope>
+       </dependency>
+
+       <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.10.7</version>
+            <scope>runtime</scope>
+        </dependency>
         
+        <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>28.1-jre</version>
+        </dependency> 
+
 	</dependencies>
 
 	<build>
@@ -176,7 +202,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>Thirdparty repository</id>
@@ -185,8 +211,8 @@
 		<repository>
 			<id>Talan</id>
 			<url>http://nexus.talanlabs.com/content/repositories/releases/</url>
-		</repository> 
-		
+		</repository>
+
 		<repository>
 			<id>codelds</id>
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>

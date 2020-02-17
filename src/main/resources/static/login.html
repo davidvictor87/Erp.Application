@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content = "text/html" charset="UTF-8">
 <title>Login Page</title>
@@ -12,7 +12,7 @@
        <center><h1>Login Page<h1></center>
        <center><h1>Insert Username: <input id = "username" name="username"></h1></center>
        <center><h1>Insert Password: <input id="password" name="password" type="password"></h1></center>
-       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
        <center><h1><button type="submit" style="height: 100px: width:100px">Login Button</button></h1></center>
     </div>
     
