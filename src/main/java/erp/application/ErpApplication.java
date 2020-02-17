@@ -1,6 +1,9 @@
 package erp.application;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.SpringVersion;
@@ -22,8 +25,17 @@ public class ErpApplication {
 
 	private static final void startApp() {
 		try {
+			File scriptFile = new File("D:\\Workspace\\Erp.Application\\startScript.txt");
+			scriptFile.createNewFile();
+			Scanner sc = new Scanner(scriptFile.getAbsoluteFile(), "utf-8");
 			Runtime runtime = Runtime.getRuntime();
-			Process process = runtime.exec("D:/Workspace/generate.json.list/src/main/java/generate/json/list>javac Application.java");
+			StringBuilder sb = new StringBuilder();
+			while(sc.hasNext()) {
+				sb.append(sc.next());
+			}
+			System.out.println(sb.toString());
+			Process process = runtime.exec(sb.toString());
+			sc.close();
 			LOG.appLogger().info("Exit Value: " + process.exitValue());
 		} catch (IOException e) {
 			LOG.appLogger().error(e.getMessage());
