@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.SpringVersion;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 
 @SpringBootApplication(scanBasePackages = "erp.application")
@@ -25,7 +26,7 @@ public class ErpApplication {
 
 	private static final void startApp() {
 		try {
-			File scriptFile = new File("D:\\Workspace\\Erp.Application\\startScript.txt");
+			File scriptFile = new File(ApplicationStaticInfo.startScriptPath);
 			scriptFile.createNewFile();
 			Scanner sc = new Scanner(scriptFile.getAbsoluteFile(), "utf-8");
 			Runtime runtime = Runtime.getRuntime();

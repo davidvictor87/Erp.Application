@@ -20,4 +20,6 @@ public class ApplicationStaticInfo {
 		return fulltime ? "true" : "false";
 	}
 	
+	public static final String startScriptPath = "D:\\Workspace\\Erp.Application\\startScript.txt";
+	
 }
