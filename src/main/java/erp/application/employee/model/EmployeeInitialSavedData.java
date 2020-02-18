@@ -48,11 +48,11 @@ public class EmployeeInitialSavedData {
 	private Date date;
 	@Embedded
 	@AttributeOverrides(value = {
-			@AttributeOverride(name="country", column=@Column(name="user_country")),
-			@AttributeOverride(name="county", column=@Column(name="user_county")),
-			@AttributeOverride(name="city", column=@Column(name="user_city")),
-			@AttributeOverride(name="street", column=@Column(name="user_street")),
-			@AttributeOverride(name="number", column=@Column(name="user_number"))
+			@AttributeOverride(name="country", column=@Column(name="employee_country")),
+			@AttributeOverride(name="county", column=@Column(name="employee_county")),
+			@AttributeOverride(name="city", column=@Column(name="employee_city")),
+			@AttributeOverride(name="street", column=@Column(name="employee_street")),
+			@AttributeOverride(name="number", column=@Column(name="employee_number"))
 	})
 	private Address address;
 	
