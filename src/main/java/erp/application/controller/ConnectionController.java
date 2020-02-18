@@ -1,6 +1,8 @@
 package erp.application.controller;
 
 import java.io.IOException;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import erp.application.entities.LOG;
+import erp.application.employee.model.Address;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.employee.repository.EmployeeInitialSavedDataRepo;
@@ -57,11 +60,10 @@ public class ConnectionController {
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
-					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
+				    firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
 					professionReceiver.get("profession").asText(), ApplicationStaticInfo.setExceptValue(isExceptedReceiver.asBoolean()),
-					addressReceiver.get("address").asText(), salaryReceiver.get("salary").asDouble(),
-					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
-					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+		            salaryReceiver.get("salary").asDouble(), cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
+					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText(), new Date(), new Address()));
 			System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
 			employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),

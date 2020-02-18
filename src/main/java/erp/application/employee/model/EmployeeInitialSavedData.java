@@ -1,15 +1,19 @@
 package erp.application.employee.model;
 
+import java.util.Date;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "employee_initial_saved_data")
@@ -30,8 +34,6 @@ public class EmployeeInitialSavedData {
 	private String profession;
 	@Column(name="isExcepted")
 	private String isExcepted;
-	@Column(name="address")
-	private String address;
 	@Column(name="salary")
 	private double salary;
 	@Column(name="cnp")
@@ -42,28 +44,37 @@ public class EmployeeInitialSavedData {
 	private String fulltime_employee;
 	@Column(name = "aditionalinfo")
 	private String aditionalInfo;
+	@Temporal(TemporalType.DATE)
+	private Date date;
+	@Embedded
+	@AttributeOverrides(value = {
+			@AttributeOverride(name="country", column=@Column(name="user_country")),
+			@AttributeOverride(name="county", column=@Column(name="user_county")),
+			@AttributeOverride(name="city", column=@Column(name="user_city")),
+			@AttributeOverride(name="street", column=@Column(name="user_street")),
+			@AttributeOverride(name="number", column=@Column(name="user_number"))
+	})
+	private Address address;
 	
 	public EmployeeInitialSavedData() {
 	}
 
 	public EmployeeInitialSavedData(int id, String first_name, String last_name, String profession, String isExcepted,
-			String address, double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
+			double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo, Date date, Address address) {
 		super();
 		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.profession = profession;
 		this.isExcepted = isExcepted;
-		this.address = address;
 		this.salary = salary;
 		this.cnp = cnp;
 		this.gender = gender;
 		this.fulltime_employee = fulltime_employee;
 		this.aditionalInfo = aditionalInfo;
+		this.address = address;
 	}
 	
-	
-
 	public int getEmployee_init_id() {
 		return employee_init_id;
 	}
@@ -128,14 +139,6 @@ public class EmployeeInitialSavedData {
 		this.isExcepted = isExcepted;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public double getSalary() {
 		return salary;
 	}
@@ -174,6 +177,14 @@ public class EmployeeInitialSavedData {
 
 	public void setAditionalInfo(String aditionalInfo) {
 		this.aditionalInfo = aditionalInfo;
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	@Override
