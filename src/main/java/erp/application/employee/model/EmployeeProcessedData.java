@@ -1,11 +1,18 @@
 package erp.application.employee.model;
 
+import java.util.Date;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -27,8 +34,6 @@ public class EmployeeProcessedData {
 	private String profession;
 	@Column(name="isExcepted")
 	String isExcepted;
-	@Column(name="address")
-	private String address;
 	@Column(name="salary")
 	private double salary;
 	@Column(name="cnp")
@@ -39,24 +44,36 @@ public class EmployeeProcessedData {
 	String fulltime_employee;
 	@Column(name = "aditionalInfo")
 	private String aditionalInfo;
+	@Temporal(TemporalType.DATE)
+	private Date date;
+	@Embedded
+	@AttributeOverrides(value = {
+			@AttributeOverride(name="country", column=@Column(name="employee_country")),
+			@AttributeOverride(name="county", column=@Column(name="employee_county")),
+			@AttributeOverride(name="city", column=@Column(name="employee_city")),
+			@AttributeOverride(name="street", column=@Column(name="employee_street")),
+			@AttributeOverride(name="number", column=@Column(name="employee_number"))
+	})
+	private Address address;
 	
 	public EmployeeProcessedData() {};
 	
 
 	public EmployeeProcessedData(int id, String first_name, String last_name, String profession, String isExcepted,
-			String address, double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo) {
+			 double salary, String cnp, String gender, String fulltime_employee, String aditionalInfo, Date date, Address address) {
 		super();
 		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.profession = profession;
 		this.isExcepted = isExcepted;
-		this.address = address;
 		this.salary = salary;
 		this.cnp = cnp;
 		this.gender = gender;
 		this.fulltime_employee = fulltime_employee;
 		this.aditionalInfo = aditionalInfo;
+		this.date = date;
+		this.address = address;
 	}
 	
 	
@@ -126,14 +143,6 @@ public class EmployeeProcessedData {
 		this.isExcepted = isExcepted;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public double getSalary() {
 		return salary;
 	}
@@ -173,6 +182,28 @@ public class EmployeeProcessedData {
 	public void setAditionalInfo(String aditionalInfo) {
 		this.aditionalInfo = aditionalInfo;
 	}
+	
+	
+
+	public Date getDate() {
+		return date;
+	}
+
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
+	public Address getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 
 	@Override
 	public String toString() {

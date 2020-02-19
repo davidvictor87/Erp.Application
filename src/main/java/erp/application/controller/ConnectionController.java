@@ -52,25 +52,42 @@ public class ConnectionController {
 			JsonNode lastNameReceiver = mpr.readTree(jsonInfo);
 			JsonNode professionReceiver = mpr.readTree(jsonInfo);
 			JsonNode isExceptedReceiver = mpr.readTree(jsonInfo);
-			JsonNode addressReceiver = mpr.readTree(jsonInfo);
 			JsonNode salaryReceiver = mpr.readTree(jsonInfo);
 			JsonNode cnpReceiver = mpr.readTree(jsonInfo);
 			JsonNode genderReceiver = mpr.readTree(jsonInfo);
 			JsonNode fullTimeReceiver = mpr.readTree(jsonInfo);
 			JsonNode aditionalInfoReceiver = mpr.readTree(jsonInfo);
+			JsonNode addressReceiverCountry = mpr.readTree(jsonInfo);
+			JsonNode addressReceiverCounty = mpr.readTree(jsonInfo);
+			JsonNode addressReceiverCity = mpr.readTree(jsonInfo);
+			JsonNode addressReceiverStreet = mpr.readTree(jsonInfo);
+			JsonNode addressReceiverNumber = mpr.readTree(jsonInfo);
 			LOG.appLogger().warn("Writing data to file begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
-				    firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
-					professionReceiver.get("profession").asText(), ApplicationStaticInfo.setExceptValue(isExceptedReceiver.asBoolean()),
-		            salaryReceiver.get("salary").asDouble(), cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
-					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText(), new Date(), new Address()));
+					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
+					professionReceiver.get("profession").asText(),
+					ApplicationStaticInfo.setExceptValue(isExceptedReceiver.asBoolean()),
+					salaryReceiver.get("salary").asDouble(), cnpReceiver.get("cnp").asText(),
+					genderReceiver.get("gender").asText(),
+					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()),
+					aditionalInfoReceiver.get("aditionInfo").asText(), new Date(),
+					new Address(addressReceiverCountry.get("country").asText(),
+							addressReceiverCounty.get("county").asText(), addressReceiverCity.get("city").asText(),
+							addressReceiverStreet.get("street").asText(),
+							addressReceiverNumber.get("number").asText())));
 			System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
 			employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
-					professionReceiver.get("profession").asText(), ApplicationStaticInfo.setFullTimeValue(isExceptedReceiver.asBoolean()),
-					addressReceiver.get("address").asText(), getFinalRevenue(employeeService.findAll().size()),
-					cnpReceiver.get("cnp").asText(), genderReceiver.get("gender").asText(),
-					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()), aditionalInfoReceiver.get("aditionInfo").asText()));
+					professionReceiver.get("profession").asText(),
+					ApplicationStaticInfo.setFullTimeValue(isExceptedReceiver.asBoolean()),
+					getFinalRevenue(employeeService.findAll().size()), cnpReceiver.get("cnp").asText(),
+					genderReceiver.get("gender").asText(),
+					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()),
+					aditionalInfoReceiver.get("aditionInfo").asText(), new Date(),
+					new Address(addressReceiverCountry.get("country").asText(),
+							addressReceiverCounty.get("county").asText(), addressReceiverCity.get("city").asText(),
+							addressReceiverStreet.get("street").asText(),
+							addressReceiverNumber.get("number").asText())));
 			employeeService.printTaxes();
 			return mpr.writeValueAsString(
 					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
@@ -86,8 +103,7 @@ public class ConnectionController {
 	}
 
 	private double getFinalRevenue(int index) {
-		return employeeService.findAll().get(index-1).getSalary() - employeeService.calculateTaxes().get(index-1);
+		return employeeService.findAll().get(index - 1).getSalary() - employeeService.calculateTaxes().get(index - 1);
 	}
-
 
 }
