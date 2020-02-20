@@ -27,11 +27,13 @@ public class ErpApplication {
 	private static final void startApp() {
 		try {
 			File scriptFile = new File(ApplicationStaticInfo.startScriptPath);
-			scriptFile.createNewFile();
+			if (!scriptFile.exists()) {
+				scriptFile.createNewFile();
+			}
 			Scanner sc = new Scanner(scriptFile.getAbsoluteFile(), "utf-8");
 			Runtime runtime = Runtime.getRuntime();
 			StringBuilder sb = new StringBuilder();
-			while(sc.hasNext()) {
+			while (sc.hasNext()) {
 				sb.append(sc.next());
 			}
 			System.out.println(sb.toString());
