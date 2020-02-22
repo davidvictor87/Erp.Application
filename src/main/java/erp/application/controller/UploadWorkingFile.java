@@ -19,7 +19,7 @@ public class UploadWorkingFile {
 	@Autowired
 	private UploadFileService uploadService;
 	
-	@PostMapping(value="/upload/{file}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value="/upload/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile workingFile) {
 		try {
 			LOG.appLogger().info("Received File: " + workingFile);
