@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//@JsonTypeName(value="Employee")
+@JsonTypeName(value="Employee")
 public class Employee implements Serializable{
 	
 	private static final long serialVersionUID = -8381282550023414155L;
