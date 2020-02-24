@@ -1,4 +1,4 @@
-package erp.application.entities;
+package erp.application.mongo.entities;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

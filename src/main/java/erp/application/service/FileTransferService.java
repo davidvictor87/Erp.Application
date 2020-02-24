@@ -42,8 +42,7 @@ public class FileTransferService {
 				+ new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
 		if (Files.exists(Paths.get(path))) {
 			ExecutorService exec = Executors.newSingleThreadExecutor();
-
-			exec.submit(new Runnable() {
+            exec.submit(new Runnable() {
 				public void run() {
 					watchMethod();
 				}

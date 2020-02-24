@@ -1,24 +1,29 @@
 package erp.application.entities.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+
+@Document
 public class FileModel {
 	
+	@Id
 	private int id;
 	private String name;
 	private String profession;
 	private String address;
-	private boolean isSmoker;
+	private boolean isEnabled;
 	
 	public FileModel() {
 		
 	}
 
-	public FileModel(int id, String name, String profession, String address, boolean isSmoker) {
+	public FileModel(int id, String name, String profession, String address, boolean isEnabled) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.profession = profession;
 		this.address = address;
-		this.isSmoker = isSmoker;
+		this.isEnabled = isEnabled;
 	}
 
 	public int getId() {
@@ -53,18 +58,18 @@ public class FileModel {
 		this.address = address;
 	}
 
-	public boolean getIsSmoker() {
-		return isSmoker;
+	public boolean getIsEnabled() {
+		return isEnabled;
 	}
 
-	public void setIsSmoker(boolean isSmoker) {
-		this.isSmoker = isSmoker;
+	public void setIsEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	
 	@Override
 	public String toString() {
 		return "id: " + id + ", name: " + name + ", profession: " + profession + ", address: " + address
-				+ ", isSmoker: " + isSmoker + "";
+				+ ", isSmoker: " + isEnabled + "";
 	}
 
 }

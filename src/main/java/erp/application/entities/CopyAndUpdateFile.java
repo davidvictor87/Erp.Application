@@ -89,6 +89,7 @@ public class CopyAndUpdateFile {
 			raf2.close();
 		}catch (IOException e) {
 			e.printStackTrace();
+			LOG.appLogger().error("Error message: " + e.getLocalizedMessage());
 		}
 		
 		f1.deleteOnExit();
