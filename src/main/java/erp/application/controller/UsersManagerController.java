@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,8 +54,9 @@ public class UsersManagerController {
 	}
 
 	@GetMapping("/PannelUser")
-	public String showUsers(Model model) {
-		model.addAttribute("data", uRepository.findAll());
+	public String showUsers(Model model, @RequestParam(defaultValue = "0") int startPage) {
+		final int pageSize = 20;
+		model.addAttribute("data", uRepository.findAll(PageRequest.of(startPage, pageSize)));
 		return "delete.html";
 	}
 
