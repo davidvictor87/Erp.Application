@@ -63,7 +63,6 @@ public class UsersManagerController {
 	@GetMapping(value = "/update-user{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
 		LOG.appLogger().info("Input info: " + id);
-		;
 		HttpHeaders headers = null;
 		try {
 			System.out.println("User: " + uRepository.findById(id).get());
