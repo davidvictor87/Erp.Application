@@ -24,8 +24,7 @@ public class TriggerService {
 		long objectId = 0 + id;
 		CompletableFuture.supplyAsync(() -> {
 			try {
-				LOG.appLogger()
-						.info("Parameter Received: " + objectId + " Thread Name: " + Thread.currentThread().getName());
+				LOG.appLogger().info("Parameter Received: " + objectId + " Thread Name: " + Thread.currentThread().getName());
 				return objectId;
 			} catch (Exception e) {
 				LOG.appLogger().debug(e.getLocalizedMessage());
@@ -34,8 +33,7 @@ public class TriggerService {
 		}).thenApplyAsync(deleteUserId -> {
 			try {
 				userRepo.deleteById(deleteUserId);
-				LOG.appLogger().info(
-						"Parameter Received: " + deleteUserId + " Thread Name: " + Thread.currentThread().getName());
+				LOG.appLogger().info("Parameter Received: " + deleteUserId + " Thread Name: " + Thread.currentThread().getName());
 				return deleteUserId;
 			} catch (Exception e) {
 				LOG.appLogger().debug(e.getLocalizedMessage());
@@ -44,8 +42,7 @@ public class TriggerService {
 		}).thenApplyAsync(deleteLevelId -> {
 			try {
 				levelRepo.deleteById(deleteLevelId);
-				LOG.appLogger().info(
-						"Parameter Received: " + deleteLevelId + " Thread Name: " + Thread.currentThread().getName());
+				LOG.appLogger().info("Parameter Received: " + deleteLevelId + " Thread Name: " + Thread.currentThread().getName());
 				return deleteLevelId;
 			} catch (Exception e) {
 				LOG.appLogger().debug(e.getLocalizedMessage());
