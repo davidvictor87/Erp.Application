@@ -3,45 +3,32 @@ package erp.application.employee.model;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @JsonTypeName(value="Employee")
 public class Employee implements Serializable{
 	
 	private static final long serialVersionUID = -8381282550023414155L;
-	@SerializedName(value="id")
-	@Expose
+	@JsonProperty(value="id")
 	private int id;
-	@SerializedName(value="name")
-	@Expose
+	@JsonProperty(value="name")
 	private String name;
-	@SerializedName(value="second_name")
-	@Expose
+	@JsonProperty(value="second_name")
 	private String second_name;
-    @SerializedName(value="profession")
-	@Expose
+    @JsonProperty(value="profession")
 	private String profession;
-	@SerializedName(value="isExcept")
-	@Expose
+    @JsonProperty(value="isExcept")
 	private boolean isExcept;
-	@SerializedName(value="address")
-	@Expose
+    @JsonProperty(value="address")
 	private String address;	
-	@SerializedName(value="salary")
-	@Expose
+    @JsonProperty(value="salary")
 	private double salary;
-	@SerializedName(value="cnp")
-	@Expose
+    @JsonProperty(value="cnp")
 	private String cnp;
-	@SerializedName(value="gender")
-	@Expose
+    @JsonProperty(value="gender")
 	private String gender;
-	@SerializedName(value="fulltime")
-	@Expose
+    @JsonProperty(value="fulltime")
 	private boolean fulltime;
-	@SerializedName(value="aditionInfo")
-	@Expose
+    @JsonProperty(value="aditionInfo")
 	private String aditionInfo;
 	
 	public Employee() {}

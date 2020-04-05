@@ -62,6 +62,41 @@ public class Taxes implements Serializable{
 	public String toString() {
 		return "Taxes [casTax=" + casTax + ", cassTax=" + cassTax + ", incomeTax=" + incomeTax + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(casTax);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(cassTax);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(incomeTax);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + tax_id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Taxes other = (Taxes) obj;
+		if (Double.doubleToLongBits(casTax) != Double.doubleToLongBits(other.casTax))
+			return false;
+		if (Double.doubleToLongBits(cassTax) != Double.doubleToLongBits(other.cassTax))
+			return false;
+		if (Double.doubleToLongBits(incomeTax) != Double.doubleToLongBits(other.incomeTax))
+			return false;
+		if (tax_id != other.tax_id)
+			return false;
+		return true;
+	}
 	
 	
 
