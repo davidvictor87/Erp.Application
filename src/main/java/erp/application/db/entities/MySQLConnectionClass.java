@@ -49,7 +49,7 @@ public class MySQLConnectionClass {
 	@Bean
 	public DataSource dataSource() {
 		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setDriverClassName(ApplicationStaticInfo.MY_SQL_DRIVER_CLASS);
 		dataSource.setUrl(ApplicationStaticInfo.MY_SQL_URL);
 		dataSource.setUsername("root");
 		dataSource.setPassword("Password123");

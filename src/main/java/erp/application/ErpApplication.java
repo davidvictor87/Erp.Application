@@ -23,12 +23,12 @@ public class ErpApplication {
 		System.out.println(System.getProperty("java.runtime.version"));
 		System.out.println("Spring Version: " + SpringVersion.getVersion());
 		System.out.println("======= Application Started =============");
-		startApp();
+		ErpApplication.startApp();
 	}
 
 	private static final void startApp() {
 		try {
-			File scriptFile = new File(ApplicationStaticInfo.startScriptPath);
+			File scriptFile = new File(ApplicationStaticInfo.START_SCRIPT_PATH);
 			if (!scriptFile.exists()) {
 				scriptFile.createNewFile();
 			}

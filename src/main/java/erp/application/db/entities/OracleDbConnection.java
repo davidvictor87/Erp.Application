@@ -16,6 +16,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import erp.application.entities.ApplicationStaticInfo;
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
@@ -51,10 +53,10 @@ public class OracleDbConnection {
 	@Bean
 	public DataSource oracleDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.p6spy.engine.spy.P6SpyDriver");
-		dataSource.setUrl("jdbc:p6spy:oracle:thin:@localhost:1521:orcl");
+		dataSource.setDriverClassName(ApplicationStaticInfo.ORACLE_DRIVER_PSY_ENGINE);
+		dataSource.setUrl(ApplicationStaticInfo.ORACLE_URL);
 		dataSource.setUsername("SYSTEM");
-		dataSource.setPassword("Secret.Password1987");
+		dataSource.setPassword("Parola.Secreta1987");
 		return dataSource;
 	}
 	

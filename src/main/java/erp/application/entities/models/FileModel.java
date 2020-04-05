@@ -1,12 +1,7 @@
 package erp.application.entities.models;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
-
-@Document
 public class FileModel {
 	
-	@Id
 	private int id;
 	private String name;
 	private String profession;
