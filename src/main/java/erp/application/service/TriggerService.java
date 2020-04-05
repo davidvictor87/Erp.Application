@@ -20,8 +20,7 @@ public class TriggerService {
 	@Autowired
 	private UserRoleRepository userRoleRepo;
 
-	public final void deleteUser(long id) {
-		long objectId = 0 + id;
+	public final void deleteUser(long objectId) {
 		CompletableFuture.supplyAsync(() -> {
 			try {
 				LOG.appLogger().info("Parameter Received: " + objectId + " Thread Name: " + Thread.currentThread().getName());
