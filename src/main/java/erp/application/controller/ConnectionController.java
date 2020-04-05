@@ -43,7 +43,7 @@ public class ConnectionController {
 		ObjectMapper mpr = new ObjectMapper();
 		try {
 			String jsonInfo = mpr.writeValueAsString(
-					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
+					service.getModel().parallelStream().filter(id -> id.getId() == idValue).findFirst().orElse(null));
 			LOG.appLogger().info("JSON structure: " + jsonInfo);
 			JsonNode idReceiver = mpr.readTree(jsonInfo);
 			JsonNode firstNameReceiver = mpr.readTree(jsonInfo);
