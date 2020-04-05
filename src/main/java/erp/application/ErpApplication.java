@@ -15,7 +15,6 @@ import erp.application.entities.LOG;
 
 @SpringBootApplication(scanBasePackages = "erp.application")
 @EnableScheduling
-@EnableAutoConfiguration(exclude= {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 public class ErpApplication {
 
 	public static void main(String[] args) {
