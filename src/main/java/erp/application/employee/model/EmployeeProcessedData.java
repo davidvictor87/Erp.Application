@@ -45,6 +45,7 @@ public class EmployeeProcessedData {
 	@Column(name = "aditionalInfo")
 	private String aditionalInfo;
 	@Temporal(TemporalType.DATE)
+	@Column(name = "registration_date")
 	private Date date;
 	@Embedded
 	@AttributeOverrides(value = {

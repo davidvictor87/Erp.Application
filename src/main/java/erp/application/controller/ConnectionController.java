@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ import erp.application.service.ConnectionService;
 import erp.application.service.EmployeeService;
 
 @Controller
+@RequestMapping(value="/employee/access")
 public class ConnectionController {
 
 	private ConnectionService service;
@@ -34,7 +36,7 @@ public class ConnectionController {
 		this.employeeService = eService;
 	}
 
-	@GetMapping(value = "/return/{id}")
+	@GetMapping(value = "/get/{id}")
 	@ResponseBody
 	public String connectionMethod(@PathVariable(value = "id") final int idValue) {
 		System.out.println("Service info: " + service.getModel() + " : " + idValue);
@@ -60,7 +62,7 @@ public class ConnectionController {
 			JsonNode addressReceiverCity = mpr.readTree(jsonInfo);
 			JsonNode addressReceiverStreet = mpr.readTree(jsonInfo);
 			JsonNode addressReceiverNumber = mpr.readTree(jsonInfo);
-			LOG.appLogger().warn("Writing data to file begun: ");
+			LOG.appLogger().warn("Saving data to database begun: ");
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
 					professionReceiver.get("profession").asText(),
@@ -69,10 +71,10 @@ public class ConnectionController {
 					genderReceiver.get("gender").asText(),
 					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()),
 					aditionalInfoReceiver.get("aditionInfo").asText(), new Date(),
-					new Address(addressReceiverCountry.get("country").asText(),
-							addressReceiverCounty.get("county").asText(), addressReceiverCity.get("city").asText(),
-							addressReceiverStreet.get("street").asText(),
-							addressReceiverNumber.get("number").asText())));
+					new Address(addressReceiverCountry.get("addressCountry").asText(),
+							addressReceiverCounty.get("addressCounty").asText(), addressReceiverCity.get("addressCity").asText(),
+							addressReceiverStreet.get("addressStreet").asText(),
+							addressReceiverNumber.get("addressNumber").asText())));
 			System.out.println("Calculate taxes: " + employeeService.calculateTaxes());
 			employeeService.saveProcessedInfos(new EmployeeProcessedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
@@ -82,13 +84,13 @@ public class ConnectionController {
 					genderReceiver.get("gender").asText(),
 					ApplicationStaticInfo.setFullTimeValue(fullTimeReceiver.asBoolean()),
 					aditionalInfoReceiver.get("aditionInfo").asText(), new Date(),
-					new Address(addressReceiverCountry.get("country").asText(),
-							addressReceiverCounty.get("county").asText(), addressReceiverCity.get("city").asText(),
-							addressReceiverStreet.get("street").asText(),
-							addressReceiverNumber.get("number").asText())));
+					new Address(addressReceiverCountry.get("addressCountry").asText(),
+							addressReceiverCounty.get("addressCounty").asText(), addressReceiverCity.get("addressCity").asText(),
+							addressReceiverStreet.get("addressStreet").asText(),
+							addressReceiverNumber.get("addressNumber").asText())));
 			employeeService.printTaxes();
 			return mpr.writeValueAsString(
-					service.getModel().stream().filter(id -> id.getId() == idValue).findAny().orElse(null));
+					service.getModel().stream().parallel().filter(id -> id.getId() == idValue).findAny().orElse(null));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("JSON PARSING ERROR WITH ROOT CAUSE: ", e.getCause().toString());
