@@ -20,7 +20,7 @@ public class CopyAndUpdateFile {
 		
 		LOG.appLogger().warn("- Copy file started -");
 		
-		final String fileDest = "D:/SmartId/METI/export/vtesf/" + simpleDateFormat.format(date) + "txt";
+		final String fileDest = ApplicationStaticInfo.EMPLOYEE_PROCCESSED_DOCUMENTS + simpleDateFormat.format(date) + "txt";
 		
 		 try (Stream<String> lines = Files.lines(fileSource.toPath())) {
 		        long numberOfLines = lines.count();

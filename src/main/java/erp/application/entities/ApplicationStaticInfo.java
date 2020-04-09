@@ -28,4 +28,8 @@ public class ApplicationStaticInfo {
 	
 	public static final String START_SCRIPT_PATH = "D:\\Workspace\\Erp.Application\\startScript.txt";
 	
+	public static final String EMPLOYEE_DOCUMENTS_DIRECTORY = "D:/Employee/documents/import/empFile.txt";
+	
+	public static final String EMPLOYEE_PROCCESSED_DOCUMENTS = "D:/Employee/documents/proccessed/";
+	
 }

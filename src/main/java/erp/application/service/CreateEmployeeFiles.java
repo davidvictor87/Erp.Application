@@ -2,6 +2,7 @@ package erp.application.service;
 
 import org.springframework.stereotype.Service;
 import erp.application.products.Products;
+import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -21,7 +22,7 @@ public class CreateEmployeeFiles {
 	@SuppressWarnings("unused")
 	public void writeEmployeeFile(Map<String, Products> mapWithEmployees) {
 
-		File eFile = new File("D:/SmartId/METI/import/empFile.txt");
+		File eFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
 
 		try {
