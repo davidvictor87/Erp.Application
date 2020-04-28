@@ -23,7 +23,7 @@ public class UploadWorkingFile {
 	public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile workingFile) {
 		try {
 			LOG.appLogger().info("Received File: " + workingFile);
-			uploadService.uploadFile(workingFile.getOriginalFilename());
+			uploadService.uploadFile(workingFile.getOriginalFilename().toString());
 			return new ResponseEntity<>("File Uploaded Successfully", HttpStatus.OK);
 		}catch (Exception e) {
 			LOG.appLogger().error(e.getMessage());
