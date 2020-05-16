@@ -30,8 +30,8 @@ public class ProductController {
 	public Products addEmployee(@PathVariable("id") final Integer id, @PathVariable("cnp")final String cnp, @PathVariable("work_contract")final String work_contract, @PathVariable("employee_name")final String employee_name, 
 			@PathVariable("employee_salary")final int employee_salary, @PathVariable("bank_account")final String bank_account) {
 		productsRepository.save(new Products(id, cnp, work_contract, employee_name, employee_salary, bank_account));
-		System.out.println(allEmployees());
-		createProductFiles.writeEmployeeFile(allEmployees());
+		System.out.println(allProducts());
+		createProductFiles.writeEmployeeFile(allProducts());
 		return productsRepository.findById(id);
 	}
 	
