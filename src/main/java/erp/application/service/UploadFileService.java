@@ -17,7 +17,6 @@ import java.nio.file.StandardOpenOption;
 @Service
 public class UploadFileService {
 
-	
 	public void uploadFile(String filePath) throws IOException {
 
 		StringBuffer fileContentBuilder = new StringBuffer();
@@ -28,7 +27,7 @@ public class UploadFileService {
 			@Override
 			public void completed(Integer result, ByteBuffer attachment) {
 				for (int i = 0; i < attachment.limit(); i++) {
-				
+
 				}
 			}
 
