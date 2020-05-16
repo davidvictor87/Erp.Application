@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.ResponseEntity;
 import erp.application.products.Products;
-import erp.application.service.CreateEmployeeFiles;
+import erp.application.service.CreateProductFiles;
 import erp.application.service.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class DailyTasks {
 	
 	@RequestMapping(value="/getEmployees", method = RequestMethod.GET)
 	public ResponseEntity<Products> employeeJsonResponse(){
-		Products employee = CreateEmployeeFiles.getEmployee();
+		Products employee = CreateProductFiles.getEmployee();
 		try {
 			return new ResponseEntity<Products>(employee, HttpStatus.OK);
 		}catch (Exception e) {

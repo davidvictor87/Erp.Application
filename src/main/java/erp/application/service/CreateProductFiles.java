@@ -15,21 +15,21 @@ import java.io.IOException;
 import java.util.Scanner;
 
 @Service
-public class CreateEmployeeFiles {
+public class CreateProductFiles {
 
 	private static Products emp = new Products();
 
 	@SuppressWarnings("unused")
 	public void writeEmployeeFile(Map<String, Products> mapWithEmployees) {
 
-		File eFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
+		File productFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
 
 		try {
-			fos = new FileOutputStream(eFile);
+			fos = new FileOutputStream(productFile);
 			fos.flush();
 		} catch (FileNotFoundException e) {
-			LOG.appLogger().error("File: " + eFile.getName() + " was not found");
+			LOG.appLogger().error("File: " + productFile.getName() + " was not found");
 			e.printStackTrace();
 		} catch (IOException e) {
 			LOG.appLogger().error(e.getMessage());
@@ -43,9 +43,9 @@ public class CreateEmployeeFiles {
 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
-		if (!eFile.exists()) {
+		if (!productFile.exists()) {
 			try {
-				eFile.createNewFile();
+				productFile.createNewFile();
 			} catch (IOException e) {
 				System.err.println(e.getMessage().toString());
 			}
@@ -54,12 +54,12 @@ public class CreateEmployeeFiles {
 		mapWithEmployees.entrySet().forEach(entryData -> {
 			try {
 				System.out.println("Recorded Data: " + mapWithEmployees.toString());
-				bw.write("Employee ID: " + entryData.getValue().getId() + ", Employee CNP: "
-						+ entryData.getValue().getCnp() + ", Employee work contract: "
-						+ entryData.getValue().getWork_contract() + ", Employee Name: "
-						+ entryData.getValue().getEmployee_name() + "Employee Salary: "
-						+ entryData.getValue().getEmployee_salary() + ", Employee Bank Account: "
-						+ entryData.getValue().getBank_account());
+				bw.write("Product ID: " + entryData.getValue().getId() + ", Product Category: "
+						+ entryData.getValue().getProduct_category() + ", Employee work contract: "
+						+ entryData.getValue().getProduct_manufacturer() + ", Employee Name: "
+						+ entryData.getValue().getProduct_name() + "Employee Salary: "
+						+ entryData.getValue().getVat_level() + ", Employee Bank Account: "
+						+ entryData.getValue().getProduct_code());
 				bw.newLine();
 				bw.flush();
 			} catch (IOException e) {
@@ -74,23 +74,23 @@ public class CreateEmployeeFiles {
 		}
 
 		Scanner sc = null;
-		File file = new File(eFile.getAbsolutePath().toString());
+		File file = new File(productFile.getAbsolutePath().toString());
 
 		try {
 			sc = new Scanner(file, "UTF-8");
 			String dataCaptor = null;
-			String[] employees = new String[(int) file.length()];
+			String[] products = new String[(int) file.length()];
 			while (sc.hasNext()) {
 				dataCaptor = sc.nextLine();
-				employees = dataCaptor.split(" ");
+				products = dataCaptor.split(" ");
 				int index = -1;
-				LOG.appLogger().info("List of Employees: " + Arrays.toString(employees));
-				for (String empIter : employees) {
+				LOG.appLogger().info("List of Employees: " + Arrays.toString(products));
+				for (String prodIter : products) {
 					index++;
-					Products employee = new Products(Integer.parseInt(employees[index]), employees[index + 1],
-							employees[index + 2], employees[index + 3], employees[index + 4], employees[index + 5]);
-					emp = employee;
-					System.out.println(employee);
+					Products prod = new Products(Integer.parseInt(products[index]), products[index + 1],
+							products[index + 2], products[index + 3], Integer.parseInt(products[index + 4]), products[index + 5]);
+					emp = prod;
+					System.out.println(prod);
 				}
 			}
 		} catch (FileNotFoundException e) {

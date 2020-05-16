@@ -9,25 +9,25 @@ public class Products implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
-	private String cnp;
-	private String work_contract;
-	private String employee_name;
-	private String employee_salary;
-	private String bank_account;
+	private String product_category;
+	private String product_manufacturer;
+	private String product_name;
+	private int vat_level;
+	private String product_code;
 	
 	public Products() {
 		
 	}
 
-	public Products(int id, String cnp, String work_contract, String employee_name, String employee_salary,
-			String bank_account) {
+	public Products(int id, String product_category, String product_manufacturer, String product_name, int vat_level,
+			String product_code) {
 		super();
 		this.id = id;
-		this.cnp = cnp;
-		this.work_contract = work_contract;
-		this.employee_name = employee_name;
-		this.employee_salary = employee_salary;
-		this.bank_account = bank_account;
+		this.product_category = product_category;
+		this.product_manufacturer = product_manufacturer;
+		this.product_name = product_name;
+		this.vat_level = vat_level;
+		this.product_code = product_code;
 	}
 
 	public int getId() {
@@ -38,62 +38,63 @@ public class Products implements Serializable{
 		this.id = id;
 	}
 
-	public String getCnp() {
-		return cnp;
+	public String getProduct_category() {
+		return product_category;
 	}
 
-	public void setCnp(String cnp) {
-		this.cnp = cnp;
+	public void setProduct_category(String product_category) {
+		this.product_category = product_category;
 	}
 
-	public String getWork_contract() {
-		return work_contract;
+	public String getProduct_manufacturer() {
+		return product_manufacturer;
 	}
 
-	public void setWork_contract(String work_contract) {
-		this.work_contract = work_contract;
+	public void setProduct_manufacturer(String product_manufacturer) {
+		this.product_manufacturer = product_manufacturer;
 	}
 
-	public String getEmployee_name() {
-		return employee_name;
+	public String getProduct_name() {
+		return product_name;
 	}
 
-	public void setEmployee_name(String employee_name) {
-		this.employee_name = employee_name;
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
 
-	public String getEmployee_salary() {
-		return employee_salary;
+	public int getVat_level() {
+		return vat_level;
 	}
 
-	public void setEmployee_salary(String employee_salary) {
-		this.employee_salary = employee_salary;
+	public void setVat_level(int vat_level) {
+		this.vat_level = vat_level;
 	}
 
-	public String getBank_account() {
-		return bank_account;
+	public String getProduct_code() {
+		return product_code;
 	}
 
-	public void setBank_account(String bank_account) {
-		this.bank_account = bank_account;
+	public void setProduct_code(String product_code) {
+		this.product_code = product_code;
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", cnp=" + cnp + ", work_contract=" + work_contract + ", employee_name="
-				+ employee_name + ", employee_salary=" + employee_salary + ", bank_account=" + bank_account + "]";
+		return "Products [id=" + id + ", product_category=" + product_category + ", product_manufacturer="
+				+ product_manufacturer + ", product_name=" + product_name + ", vat_level=" + vat_level
+				+ ", product_code=" + product_code + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bank_account == null) ? 0 : bank_account.hashCode());
-		result = prime * result + ((cnp == null) ? 0 : cnp.hashCode());
-		result = prime * result + ((employee_name == null) ? 0 : employee_name.hashCode());
-		result = prime * result + ((employee_salary == null) ? 0 : employee_salary.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((work_contract == null) ? 0 : work_contract.hashCode());
+		result = prime * result + ((product_category == null) ? 0 : product_category.hashCode());
+		result = prime * result + ((product_code == null) ? 0 : product_code.hashCode());
+		result = prime * result + ((product_manufacturer == null) ? 0 : product_manufacturer.hashCode());
+		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
+		result = prime * result + vat_level;
 		return result;
 	}
 
@@ -106,34 +107,34 @@ public class Products implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Products other = (Products) obj;
-		if (bank_account == null) {
-			if (other.bank_account != null)
-				return false;
-		} else if (!bank_account.equals(other.bank_account))
-			return false;
-		if (cnp == null) {
-			if (other.cnp != null)
-				return false;
-		} else if (!cnp.equals(other.cnp))
-			return false;
-		if (employee_name == null) {
-			if (other.employee_name != null)
-				return false;
-		} else if (!employee_name.equals(other.employee_name))
-			return false;
-		if (employee_salary == null) {
-			if (other.employee_salary != null)
-				return false;
-		} else if (!employee_salary.equals(other.employee_salary))
-			return false;
 		if (id != other.id)
 			return false;
-		if (work_contract == null) {
-			if (other.work_contract != null)
+		if (product_category == null) {
+			if (other.product_category != null)
 				return false;
-		} else if (!work_contract.equals(other.work_contract))
+		} else if (!product_category.equals(other.product_category))
+			return false;
+		if (product_code == null) {
+			if (other.product_code != null)
+				return false;
+		} else if (!product_code.equals(other.product_code))
+			return false;
+		if (product_manufacturer == null) {
+			if (other.product_manufacturer != null)
+				return false;
+		} else if (!product_manufacturer.equals(other.product_manufacturer))
+			return false;
+		if (product_name == null) {
+			if (other.product_name != null)
+				return false;
+		} else if (!product_name.equals(other.product_name))
+			return false;
+		if (vat_level != other.vat_level)
 			return false;
 		return true;
 	}
+
+	
+	
 	
 }
