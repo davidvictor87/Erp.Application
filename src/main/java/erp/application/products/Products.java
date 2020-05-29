@@ -3,6 +3,8 @@ package erp.application.products;
 import java.io.Serializable;
 import org.springframework.data.redis.core.RedisHash;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @RedisHash(value = "PRODUCTS")
 public class Products implements Serializable{
 	

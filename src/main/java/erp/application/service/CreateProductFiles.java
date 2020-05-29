@@ -20,7 +20,7 @@ public class CreateProductFiles {
 	private static Products emp = new Products();
 
 	@SuppressWarnings("unused")
-	public void writeEmployeeFile(Map<String, Products> mapWithEmployees) {
+	public void writeProductFile(Map<String, Products> mapWithEmployees) {
 
 		File productFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
