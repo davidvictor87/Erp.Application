@@ -27,11 +27,11 @@ public class ProductController {
 		this.productsRepository = prodRepo;
 	}
 
-	@GetMapping(value = "/addEmployee/{id}/{cnp}/{work_contract}/{employee_name}/{employee_salary}/{bank_account}")
+	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{product_code}")
 	@ResponseBody
-	public Products addEmployee(@PathVariable("id") final Integer id, @PathVariable("cnp") final String cnp, @PathVariable("work_contract") final String work_contract,
-			@PathVariable("employee_name") final String employee_name, @PathVariable("employee_salary") final int employee_salary,
-			@PathVariable("bank_account") final String bank_account) {
+	public Products addEmployee(@PathVariable("id") final Integer id, @PathVariable("product_category") final String cnp, @PathVariable("product_manufacturer") final String work_contract,
+			@PathVariable("product_name") final String employee_name, @PathVariable("vat_level") final int employee_salary,
+			@PathVariable("product_code") final String bank_account) {
 		productsRepository.save(new Products(id, cnp, work_contract, employee_name, employee_salary, bank_account));
 		System.out.println(allProducts());
 		createProductFiles.writeProductFile(productsRepository.findAll());
