@@ -26,10 +26,12 @@ public class ApplicationStaticInfo {
 		return fullTime ? "true" : "false";
 	}
 	
-	public static final String START_SCRIPT_PATH = "D:\\Workspace\\Erp.Application\\startScript.txt";
+	public static final String START_SCRIPT_PATH = "D:/Workspace/Erp.Application/startScript.txt";
 	
 	public static final String EMPLOYEE_DOCUMENTS_DIRECTORY = "D:/Employee/documents/import/empFile.txt";
 	
 	public static final String EMPLOYEE_PROCCESSED_DOCUMENTS = "D:/Employee/documents/proccessed/";
+	
+	public static final String FILE_WITH_KEYS = "keys.txt";
 	
 }

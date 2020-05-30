@@ -10,7 +10,7 @@ public class WriteReadJDBCFile {
 	
 	public static void writePrimaryKeys(String key1, String key2) {
 		
-		File file = new File("keys.txt");
+		File file = new File(ApplicationStaticInfo.FILE_WITH_KEYS);
 		if(!file.exists()) {
 			try {
 				file.createNewFile();

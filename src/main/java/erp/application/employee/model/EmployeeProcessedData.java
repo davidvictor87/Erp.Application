@@ -1,7 +1,6 @@
 package erp.application.employee.model;
 
 import java.util.Date;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
