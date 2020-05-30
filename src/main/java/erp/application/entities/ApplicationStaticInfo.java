@@ -1,6 +1,8 @@
 package erp.application.entities;
 
 public class ApplicationStaticInfo {
+	
+	// stored data
 		
 	public static final String MY_SQL_FILE_PATH = "classpath:login-mysql.properties";
 	
