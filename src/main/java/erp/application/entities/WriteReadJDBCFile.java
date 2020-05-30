@@ -10,6 +10,8 @@ public class WriteReadJDBCFile {
 	
 	public static void writePrimaryKeys(String key1, String key2) {
 		
+		LOG.appLogger().warn(" ======= start using primary key file ======= ");
+		
 		File file = new File(ApplicationStaticInfo.FILE_WITH_KEYS);
 		if(!file.exists()) {
 			try {
