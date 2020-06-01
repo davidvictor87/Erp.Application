@@ -55,10 +55,10 @@ public class CreateProductFiles {
 			try {
 				System.out.println("Recorded Data: " + mapWithProducts.toString());
 				bw.write("Product ID: " + entryData.getValue().getId() + ", Product Category: "
-						+ entryData.getValue().getProduct_category() + ", Employee work contract: "
-						+ entryData.getValue().getProduct_manufacturer() + ", Employee Name: "
-						+ entryData.getValue().getProduct_name() + "Employee Salary: "
-						+ entryData.getValue().getVat_level() + ", Employee Bank Account: "
+						+ entryData.getValue().getProduct_category() + ", Product manufacturer: "
+						+ entryData.getValue().getProduct_manufacturer() + ", Product Name: "
+						+ entryData.getValue().getProduct_name() + "Product VAT Level: "
+						+ entryData.getValue().getVat_level() + ", Product Code: "
 						+ entryData.getValue().getProduct_code());
 				bw.newLine();
 				bw.flush();
