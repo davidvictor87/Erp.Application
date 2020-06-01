@@ -25,7 +25,7 @@ public class DailyTasks {
 		this.fileTransfer = fts;
 	}
 	
-	@GetMapping(value="/d-Task")
+	@GetMapping(value="/daily/task")
 	public String showName(Model model, HttpServletRequest request) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
 		model.addAttribute("name", n);
@@ -37,7 +37,7 @@ public class DailyTasks {
 		return "logged.html";
 	}
 	
-	@RequestMapping(value="/getProducts", method = RequestMethod.GET)
+	@RequestMapping(value="/get/products", method = RequestMethod.GET)
 	public ResponseEntity<Products> employeeJsonResponse(){
 		Products product = CreateProductFiles.getProducts();
 		try {
