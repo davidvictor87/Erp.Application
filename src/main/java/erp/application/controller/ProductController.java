@@ -19,12 +19,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductController {
 
 	private ProductsRepository productsRepository;
-
-	@Autowired
 	private CreateProductFiles createProductFiles;
 
-	public ProductController(ProductsRepository prodRepo) {
+	@Autowired
+	public ProductController(ProductsRepository prodRepo, CreateProductFiles productFiles) {
 		this.productsRepository = prodRepo;
+		this.createProductFiles = productFiles;
 	}
 
 	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{product_code}")
