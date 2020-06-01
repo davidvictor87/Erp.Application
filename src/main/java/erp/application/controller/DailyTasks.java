@@ -37,9 +37,9 @@ public class DailyTasks {
 		return "logged.html";
 	}
 	
-	@RequestMapping(value="/getEmployees", method = RequestMethod.GET)
+	@RequestMapping(value="/getProducts", method = RequestMethod.GET)
 	public ResponseEntity<Products> employeeJsonResponse(){
-		Products employee = CreateProductFiles.getEmployee();
+		Products employee = CreateProductFiles.getProducts();
 		try {
 			return new ResponseEntity<Products>(employee, HttpStatus.OK);
 		}catch (Exception e) {

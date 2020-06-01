@@ -17,10 +17,10 @@ import java.util.Scanner;
 @Service
 public class CreateProductFiles {
 
-	private static Products emp = new Products();
+	private static Products products = new Products();
 
 	@SuppressWarnings("unused")
-	public void writeProductFile(Map<String, Products> mapWithEmployees) {
+	public void writeProductFile(Map<String, Products> mapWithProducts) {
 
 		File productFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
@@ -51,9 +51,9 @@ public class CreateProductFiles {
 			}
 		}
 
-		mapWithEmployees.entrySet().forEach(entryData -> {
+		mapWithProducts.entrySet().forEach(entryData -> {
 			try {
-				System.out.println("Recorded Data: " + mapWithEmployees.toString());
+				System.out.println("Recorded Data: " + mapWithProducts.toString());
 				bw.write("Product ID: " + entryData.getValue().getId() + ", Product Category: "
 						+ entryData.getValue().getProduct_category() + ", Employee work contract: "
 						+ entryData.getValue().getProduct_manufacturer() + ", Employee Name: "
@@ -79,17 +79,17 @@ public class CreateProductFiles {
 		try {
 			sc = new Scanner(file, "UTF-8");
 			String dataCaptor = null;
-			String[] products = new String[(int) file.length()];
+			String[] productsList = new String[(int) file.length()];
 			while (sc.hasNext()) {
 				dataCaptor = sc.nextLine();
-				products = dataCaptor.split(" ");
+				productsList = dataCaptor.split(" ");
 				int index = -1;
-				LOG.appLogger().info("List of Employees: " + Arrays.toString(products));
-				for (String prodIter : products) {
+				LOG.appLogger().info("List of Employees: " + Arrays.toString(productsList));
+				for (String prodIter : productsList) {
 					index++;
-					Products prod = new Products(Integer.parseInt(products[index]), products[index + 1],
-							products[index + 2], products[index + 3], Integer.parseInt(products[index + 4]), products[index + 5]);
-					emp = prod;
+					Products prod = new Products(Integer.parseInt(productsList[index]), productsList[index + 1],
+							productsList[index + 2], productsList[index + 3], Integer.parseInt(productsList[index + 4]), productsList[index + 5]);
+					products = prod;
 					System.out.println(prod);
 				}
 			}
@@ -101,11 +101,11 @@ public class CreateProductFiles {
 		}
 	}
 
-	public static Products getEmployee() {
-		if (emp == null) {
+	public static Products getProducts() {
+		if (products == null) {
 			System.err.println("Major Error, Employee not found");
 			return null;
 		} else
-			return emp;
+			return products;
 	}
 }
