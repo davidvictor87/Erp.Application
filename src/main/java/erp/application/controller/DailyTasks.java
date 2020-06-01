@@ -39,9 +39,9 @@ public class DailyTasks {
 	
 	@RequestMapping(value="/getProducts", method = RequestMethod.GET)
 	public ResponseEntity<Products> employeeJsonResponse(){
-		Products employee = CreateProductFiles.getProducts();
+		Products product = CreateProductFiles.getProducts();
 		try {
-			return new ResponseEntity<Products>(employee, HttpStatus.OK);
+			return new ResponseEntity<Products>(product, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
