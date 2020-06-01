@@ -22,7 +22,7 @@ public class CreateProductFiles {
 	@SuppressWarnings("unused")
 	public void writeProductFile(Map<String, Products> mapWithProducts) {
 
-		File productFile = new File(ApplicationStaticInfo.EMPLOYEE_DOCUMENTS_DIRECTORY);
+		File productFile = new File(ApplicationStaticInfo.PRODUCTS_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
 
 		try {
