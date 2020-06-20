@@ -34,7 +34,7 @@ public class ProductController {
 			@PathVariable("product_code") final String product_code) {
 		productsRepository.save(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
 		System.out.println(allProducts());
-		System.out.println(productsRepository.findAll());
+		System.out.println("This is the map " + productsRepository.findAll());
 		createProductFiles.writeProductFile(productsRepository.findAll());
 	    LOG.appLogger().info("PRODUCT ADDED");
 		return productsRepository.findById(id);
