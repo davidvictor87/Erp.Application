@@ -60,7 +60,7 @@ public class UsersManagerController {
 		return "delete.html";
 	}
 
-	@GetMapping(value = "/update-user{id}")
+	@GetMapping(value = "/update/user/{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
 		LOG.appLogger().info("Input info: " + id);
 		HttpHeaders headers = null;
@@ -76,7 +76,7 @@ public class UsersManagerController {
 
 	}
 
-	@PostMapping(value = "/save-user")
+	@PostMapping(value = "/save/user")
 	public String saveUser(@Valid Users user) {
 		LOG.appLogger().info("Received data: " + user);
 		try {
@@ -88,7 +88,7 @@ public class UsersManagerController {
 		return "redirect:/PannelUser";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/delete-user{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/user/{id}")
 	public String deleteUser(@RequestParam(value = "id") Long id) {
 		System.out.println("Method acceses " + id);
 		uRepository.deleteById(id);

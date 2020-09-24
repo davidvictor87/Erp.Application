@@ -20,7 +20,7 @@ import erp.application.entities.LOG;
 public class StartPage {
 	
 	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER')")
-	@GetMapping("/Daily-Tasks")
+	@GetMapping("/Daily/Tasks")
 	public void infoUser(HttpServletResponse res, HttpServletRequest req) {
 		try {
 			final String getInput = req.getParameter("Daily-Tasks");
@@ -49,7 +49,7 @@ public class StartPage {
     }
     
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @RequestMapping(value = "/DeleteUser" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/Delete/User" ,method = RequestMethod.GET)
     public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
     	final String input = request.getParameter("Delete");
     	try {
