@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -56,6 +57,7 @@ public class FileTransferService {
 		try (WatchService service = FileSystems.getDefault().newWatchService()) {
 			Map<WatchKey, Path> keyMap = new HashMap<>();
 			Path path = Paths.get(watchedDirectory).toAbsolutePath();
+			LOG.appLogger().debug("The path is: " + path.toString());
 			keyMap.put(path.register(service, StandardWatchEventKinds.ENTRY_CREATE), path);
 			WatchKey watchKey;
 			do {
@@ -63,8 +65,7 @@ public class FileTransferService {
 				for (WatchEvent<?> event : watchKey.pollEvents()) {
 					WatchEvent.Kind<?> kind = event.kind();
 					Path eventPath = (Path) event.context();
-					if (kind == StandardWatchEventKinds.ENTRY_CREATE
-							|| (new File("D:/SourceDirectory/").list().length > 0)) {
+					if (kind == StandardWatchEventKinds.ENTRY_CREATE || isDirectoryEmpty(path)) {
 						value = path.toAbsolutePath().toString() + "/" + eventPath.toString();
 						System.out.println(value);
 						Thread.sleep(1000);
@@ -123,5 +124,14 @@ public class FileTransferService {
 
 			}
 		}
+	}
+	
+	private final boolean isDirectoryEmpty(final Path path) throws IOException{
+		if(Files.isDirectory(path)) {
+			try (DirectoryStream<Path> directoryToCheck = Files.newDirectoryStream(path)){
+				return !directoryToCheck.iterator().hasNext();
+			}
+		}
+		return false;
 	}
 }

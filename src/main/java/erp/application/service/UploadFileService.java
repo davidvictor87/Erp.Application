@@ -27,7 +27,7 @@ public class UploadFileService {
 			@Override
 			public void completed(Integer result, ByteBuffer attachment) {
 				for (int i = 0; i < attachment.limit(); i++) {
-
+                     System.out.println(result + " : " + attachment);
 				}
 			}
 

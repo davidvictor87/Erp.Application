@@ -40,9 +40,9 @@
 							<td th:text="${users.lastName}"></td>
 							<td th:text="${users.password}"></td>
 							<td><a class="btn btn-danger delBtn"
-								th:href="@{delete-user/(id=${users.id})}">Delete</a> <a
+								th:href="@{delete/user/(id=${users.id})}">Delete</a> <a
 								class="btn btn-primary eBtn"
-								th:href="@{update-user/(id=${users.id})}">Edit</a></td>
+								th:href="@{update/user/(id=${users.id})}">Edit</a></td>
 						</tr>
 					</tbody>
 				</table>

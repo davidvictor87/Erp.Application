@@ -25,14 +25,14 @@ import org.springframework.http.ResponseEntity;
 @Controller
 public class UsersManagerController {
 
-	UserRepository uRepository;
+	private UserRepository uRepository;
 
 	@Autowired
-	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository u) {
-		uRepository = u;
+	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository) {
+		uRepository = userRepository;
 	}
 
-	@PostMapping(value = "/addUser")
+	@PostMapping(value = "/add/user")
 	@ResponseBody
 	public ModelAndView userFactory(@RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password, @RequestParam(value = "fName") String fName,
@@ -60,7 +60,7 @@ public class UsersManagerController {
 		return "delete.html";
 	}
 
-	@GetMapping(value = "/update/user/{id}")
+	@GetMapping(value = "/update/user{id}")
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
 		LOG.appLogger().info("Input info: " + id);
 		HttpHeaders headers = null;
@@ -88,7 +88,7 @@ public class UsersManagerController {
 		return "redirect:/PannelUser";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/delete/user/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/user{id}")
 	public String deleteUser(@RequestParam(value = "id") Long id) {
 		System.out.println("Method acceses " + id);
 		uRepository.deleteById(id);

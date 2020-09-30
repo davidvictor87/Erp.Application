@@ -25,7 +25,7 @@ public class DailyTasks {
 		this.fileTransfer = fts;
 	}
 	
-	@GetMapping(value="/daily/task")
+	@GetMapping(value="/daily/tasks")
 	public String showName(Model model, HttpServletRequest request) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
 		model.addAttribute("name", n);

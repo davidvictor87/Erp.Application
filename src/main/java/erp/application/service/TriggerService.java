@@ -1,6 +1,8 @@
 package erp.application.service;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ public class TriggerService {
 	@Autowired
 	private UserRoleRepository userRoleRepo;
 
-	public final void deleteUser(long objectId) {
+	public final void deleteUser(long objectId) throws InterruptedException, ExecutionException {
 		CompletableFuture.supplyAsync(() -> {
 			try {
 				LOG.appLogger().info("Parameter Received: " + objectId + " Thread Name: " + Thread.currentThread().getName());
@@ -57,7 +59,7 @@ public class TriggerService {
 				LOG.appLogger().debug(e.getLocalizedMessage());
 				throw new IllegalStateException(e.getMessage());
 			}
-		});
+		}).get();
 	}
 
 }
