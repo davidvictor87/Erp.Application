@@ -10,9 +10,9 @@ import erp.application.entities.models.FileModel;
 
 public class CreateFiles {
 	
-	public static void createFiles(int id, String name, String profession, String address, boolean isSmoker) {
+	public static void createFiles(int id, String name, String profession, String salary, boolean isExcepted) {
 		LOG.appLogger().info("Starting to write a file");
-		FileModel fileModel = new FileModel(id, name, profession, address, isSmoker);
+		FileModel fileModel = new FileModel(id, name, profession, salary, isExcepted);
 		SecureRandom secureRandom = new SecureRandom();
 		File file = new File("D:/SecuredFile/UniqueFile" + secureRandom.nextInt() +".txt");
 		FileOutputStream fos = null;

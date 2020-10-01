@@ -5,19 +5,19 @@ public class FileModel {
 	private int id;
 	private String name;
 	private String profession;
-	private String address;
+	private String salary;
 	private boolean isEnabled;
 	
 	public FileModel() {
 		
 	}
 
-	public FileModel(int id, String name, String profession, String address, boolean isEnabled) {
+	public FileModel(int id, String name, String profession, String salary, boolean isEnabled) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.profession = profession;
-		this.address = address;
+		this.salary = salary;
 		this.isEnabled = isEnabled;
 	}
 
@@ -45,12 +45,12 @@ public class FileModel {
 		this.profession = profession;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getSalary() {
+		return salary;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setSalary(String salary) {
+		this.salary = salary;
 	}
 
 	public boolean getIsEnabled() {
@@ -63,7 +63,7 @@ public class FileModel {
 	
 	@Override
 	public String toString() {
-		return "id: " + id + ", name: " + name + ", profession: " + profession + ", address: " + address
+		return "id: " + id + ", name: " + name + ", profession: " + profession + ", salary: " + salary
 				+ ", isSmoker: " + isEnabled + "";
 	}
 

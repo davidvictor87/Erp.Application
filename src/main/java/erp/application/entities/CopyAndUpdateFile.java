@@ -14,7 +14,7 @@ public class CopyAndUpdateFile {
 	
 	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 	private final Date date = new Date();
-	private static final String prefixString = "CO";
+	private static final String prefixString = "PROCESSED";
 	
 	public void copyDirectory(File fileSource) {
 		

@@ -1,7 +1,5 @@
 package erp.application.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import org.springframework.stereotype.Service;
 
 import erp.application.entities.LOG;

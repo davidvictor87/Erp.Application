@@ -103,7 +103,7 @@ public class CreateProductFiles {
 
 	public static Products getProducts() {
 		if (products == null) {
-			System.err.println("Major Error, Employee not found");
+			System.err.println("EMPLOYEE NOT FOUND");
 			return null;
 		} else
 			return products;

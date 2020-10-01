@@ -18,6 +18,7 @@ import erp.application.employee.model.Address;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
 import erp.application.entities.ApplicationStaticInfo;
+import erp.application.entities.CreateFiles;
 import erp.application.service.ConnectionService;
 
 import erp.application.service.EmployeeService;
@@ -27,7 +28,6 @@ import erp.application.service.EmployeeService;
 public class ConnectionController {
 
 	private ConnectionService service;
-
 	private EmployeeService employeeService;
 
 	@Autowired
@@ -88,6 +88,9 @@ public class ConnectionController {
 							addressReceiverCounty.get("addressCounty").asText(), addressReceiverCity.get("addressCity").asText(),
 							addressReceiverStreet.get("addressStreet").asText(),
 							addressReceiverNumber.get("addressNumber").asText())));
+			System.out.println("Saving data for ticket salaryem files");
+			CreateFiles.createFiles(idReceiver.get("id").asInt(), firstNameReceiver.get("name").asText(), professionReceiver.get("profession").asText(), 
+					salaryReceiver.get("salary").asText(), isExceptedReceiver.asBoolean());
 			employeeService.printTaxes();
 			return mpr.writeValueAsString(
 					service.getModel().stream().parallel().filter(id -> id.getId() == idValue).findAny().orElse(null));
