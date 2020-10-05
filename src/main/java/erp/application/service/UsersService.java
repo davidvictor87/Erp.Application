@@ -54,7 +54,7 @@ public class UsersService extends UsersAbstractEntity{
 					.filter(findRoleByUserId -> findRoleByUserId.getUserId().equals(role_ID)).findFirst().get().getRoleId();
 			levelRepository.updateUserWithId(Long.parseLong(role_id), roleChanger(level));
 		} catch (Exception e) {
-			LOG.appLogger().error("buna e: " + e.getMessage());
+			LOG.appLogger().error("ERROR: " + e.getMessage());
 		}
 	}
 
