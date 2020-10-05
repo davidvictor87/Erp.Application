@@ -29,6 +29,7 @@ public class UsersManagerController {
 
 	private UserRepository uRepository;
 	private UsersService userService;
+	private static final Object accessLock = new Object();
 
 	@Autowired
 	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, UsersService uService) {
@@ -88,7 +89,9 @@ public class UsersManagerController {
 			LOG.appLogger().warn("Processed data: " + user);
 			System.out.println("Active: " + user.getActive());
 			uRepository.save(user);
-			userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
+			synchronized (accessLock) {
+				userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
+			}
 		} catch (Exception e) {
 			LOG.appLogger().error("Catched error: " + e.getMessage());
 		}
