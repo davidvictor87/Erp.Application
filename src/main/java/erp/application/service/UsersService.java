@@ -8,7 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import erp.application.controller.UsersManagerController;
 import erp.application.entities.LOG;
+import erp.application.entities.ParametersInterface;
 import erp.application.entities.UsersAbstractEntity;
 import erp.application.login.model.LevelType;
 import erp.application.login.repository.LevelRepository;

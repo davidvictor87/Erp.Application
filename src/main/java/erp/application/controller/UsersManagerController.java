@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import erp.application.entities.LOG;
+import erp.application.entities.ParametersInterface;
 import erp.application.entities.JDBCUpdate;
 import erp.application.login.model.Users;
 import erp.application.login.repository.UserRepository;
@@ -25,11 +26,11 @@ import org.springframework.ui.Model;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-public class UsersManagerController {
+public class UsersManagerController{
 
 	private UserRepository uRepository;
 	private UsersService userService;
-	private static final Object accessLock = new Object();
+	private static final Object ACCESS_LOCK = new Object();
 
 	@Autowired
 	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, UsersService uService) {
@@ -89,8 +90,8 @@ public class UsersManagerController {
 			LOG.appLogger().warn("Processed data: " + user);
 			System.out.println("Active: " + user.getActive());
 			uRepository.save(user);
-			synchronized (accessLock) {
-				userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
+			synchronized (ACCESS_LOCK) {
+			    userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
 			}
 		} catch (Exception e) {
 			LOG.appLogger().error("Catched error: " + e.getMessage());
@@ -110,5 +111,5 @@ public class UsersManagerController {
 		final String numeric = ".*[0-9].*";
 		return input.matches(charachter) && input.matches(numeric);
 	}
-
+	
 }
