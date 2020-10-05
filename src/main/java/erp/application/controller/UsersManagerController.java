@@ -16,6 +16,8 @@ import erp.application.entities.LOG;
 import erp.application.entities.JDBCUpdate;
 import erp.application.login.model.Users;
 import erp.application.login.repository.UserRepository;
+import erp.application.service.UsersService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,10 +28,12 @@ import org.springframework.http.ResponseEntity;
 public class UsersManagerController {
 
 	private UserRepository uRepository;
+	private UsersService userService;
 
 	@Autowired
-	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository) {
-		uRepository = userRepository;
+	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, UsersService uService) {
+		this.uRepository = userRepository;
+		this.userService = uService;
 	}
 
 	@PostMapping(value = "/add/user")
@@ -64,6 +68,7 @@ public class UsersManagerController {
 	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
 		LOG.appLogger().info("Input info: " + id);
 		HttpHeaders headers = null;
+		System.out.println("Id is " + id);
 		try {
 			System.out.println("User: " + uRepository.findById(id).get());
 			headers = new HttpHeaders();
@@ -81,7 +86,9 @@ public class UsersManagerController {
 		LOG.appLogger().info("Received data: " + user);
 		try {
 			LOG.appLogger().warn("Processed data: " + user);
+			System.out.println("Active: " + user.getActive());
 			uRepository.save(user);
+			userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
 		} catch (Exception e) {
 			LOG.appLogger().error("Catched error: " + e.getMessage());
 		}
