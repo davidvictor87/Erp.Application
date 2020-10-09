@@ -30,7 +30,6 @@ public class UsersManagerController{
 
 	private UserRepository uRepository;
 	private UsersService userService;
-	private static final Object ACCESS_LOCK = new Object();
 
 	@Autowired
 	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, UsersService uService) {

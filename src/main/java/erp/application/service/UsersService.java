@@ -26,6 +26,7 @@ public class UsersService extends UsersAbstractEntity {
 
 	private static final Object ACCESS_LOCK1 = new Object();
 	private static final Object ACCESS_LOCK2 = new Object();
+	private static final int NUMBER_OF_THREADS = 2;
 
 	@Autowired
 	public UsersService(UserRoleRepository uRoleRepositor, LevelRepository lRepository, UserRepository uRepository) {
@@ -58,7 +59,7 @@ public class UsersService extends UsersAbstractEntity {
 		ExecutorService exec = null;
 		try {
 			LOG.appLogger().debug("START THREAD POOL");
-			exec = Executors.newFixedThreadPool(2);
+			exec = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 			exec.execute(new Runnable() {
 				@Override
 				public void run() {
