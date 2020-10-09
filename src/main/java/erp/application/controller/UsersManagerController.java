@@ -89,11 +89,8 @@ public class UsersManagerController{
 		try {
 			LOG.appLogger().warn("Processed data: " + user);
 			System.out.println("Active: " + user.getActive());
-			uRepository.save(user);
-			synchronized (ACCESS_LOCK) {
-			    userService.updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
-			}
-		} catch (Exception e) {
+			     userService.saveUser(user);
+			} catch (Exception e) {
 			LOG.appLogger().error("Catched error: " + e.getMessage());
 		}
 		return "redirect:/PannelUser";

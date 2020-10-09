@@ -1,7 +1,10 @@
 package erp.application.login.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
@@ -14,14 +17,18 @@ public class UserRole {
 	private String userId;
 	@Column(name="role_id")
 	private String roleId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", insertable=false, updatable=false)
+	private Users users;
 	
 	public UserRole() {
 		
 	}
 	
-	public UserRole(String uId, String rId) {
+	public UserRole(String uId, String rId, Users user) {
 		userId = uId;
 		roleId = rId;
+		users = user;
 	}
 	
 	public String getUserId() {
@@ -39,13 +46,21 @@ public class UserRole {
 	public void setRoleId(String rId) {
 		roleId = rId;
 	}
+	
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
 
 	@Override
 	public String toString() {
-		return "UserRole [userId=" + userId + ", roleId=" + roleId + ", getUserId()=" + getUserId() + ", getRoleId()="
-				+ getRoleId() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return "UserRole [userId=" + userId + ", roleId=" + roleId + ", users=" + users + "]";
 	}
+
+	
 	
 	
 

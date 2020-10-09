@@ -1,32 +1,38 @@
 package erp.application.service;
 
 import javax.persistence.Query;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import erp.application.controller.UsersManagerController;
 import erp.application.entities.LOG;
-import erp.application.entities.ParametersInterface;
 import erp.application.entities.UsersAbstractEntity;
 import erp.application.login.model.LevelType;
+import erp.application.login.model.Users;
 import erp.application.login.repository.LevelRepository;
+import erp.application.login.repository.UserRepository;
 import erp.application.login.repository.UserRoleRepository;
 
 @Service
-public class UsersService extends UsersAbstractEntity{
+public class UsersService extends UsersAbstractEntity {
 
 	private UserRoleRepository userRoleRepository;
 	private LevelRepository levelRepository;
+	private UserRepository userRepository;
+
+	private static final Object ACCESS_LOCK1 = new Object();
+	private static final Object ACCESS_LOCK2 = new Object();
 
 	@Autowired
-	public UsersService(UserRoleRepository uRoleRepositor, LevelRepository lRepository) {
+	public UsersService(UserRoleRepository uRoleRepositor, LevelRepository lRepository, UserRepository uRepository) {
 		super();
 		this.userRoleRepository = uRoleRepositor;
 		this.levelRepository = lRepository;
+		this.userRepository = uRepository;
 	}
 
 	@Override
@@ -48,13 +54,47 @@ public class UsersService extends UsersAbstractEntity{
 	}
 
 	@Override
+	public void prioritizeTasks(Users user) {
+		ExecutorService exec = null;
+		try {
+			LOG.appLogger().debug("START THREAD POOL");
+			exec = Executors.newFixedThreadPool(2);
+			exec.execute(new Runnable() {
+				@Override
+				public void run() {
+					saveUser(user);
+					updateUsers(String.valueOf(user.getId()), String.valueOf(user.getActive()));
+				}
+			});
+        } finally {
+			exec.shutdown();
+			LOG.appLogger().warn("THREAD POOL SHUTDOWN");
+		}
+	}
+
+	@Override
+	@Transactional
+	public void saveUser(Users user) {
+		try {
+			synchronized (ACCESS_LOCK1) {
+				userRepository.save(user);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	@Transactional
 	public void updateUsers(String role_ID, String level) {
 		try {
-			LOG.appLogger().info("Role id value is: " + role_ID);
-			String role_id = userRoleRepository.findByUserId(role_ID).parallelStream()
-					.filter(findRoleByUserId -> findRoleByUserId.getUserId().equals(role_ID)).findFirst().get().getRoleId();
-			levelRepository.updateUserWithId(Long.parseLong(role_id), roleChanger(level));
+			synchronized (ACCESS_LOCK2) {
+				LOG.appLogger().info("Role id value is: " + role_ID);
+				String role_id = userRoleRepository.findByUserId(role_ID).parallelStream()
+						.filter(findRoleByUserId -> findRoleByUserId.getUserId().equals(role_ID)).findFirst().get()
+						.getRoleId();
+				levelRepository.updateUserWithId(Long.parseLong(role_id), roleChanger(level));
+			}
 		} catch (Exception e) {
 			LOG.appLogger().error("ERROR: " + e.getMessage());
 		}
