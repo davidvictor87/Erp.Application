@@ -21,8 +21,8 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 	}
 
 	@Override
-	public void save(Products employee) {
-		hashOperations.put("PRODUCTS", employee.getId(), employee);
+	public void save(Products product) {
+		hashOperations.put("PRODUCTS", product.getId(), product);
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 	}
 
 	@Override
-	public void update(Products employee) {
-		save(employee);		
+	public void update(Products product) {
+		save(product);		
 	}
 
 	@Override

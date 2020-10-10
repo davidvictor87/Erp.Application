@@ -11,6 +11,8 @@ import erp.application.entities.LOG;
 import erp.application.products.Products;
 import erp.application.products.ProductsRepository;
 import erp.application.service.CreateProductFiles;
+import erp.application.service.ProductManagementService;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,11 +22,13 @@ public class ProductController {
 
 	private ProductsRepository productsRepository;
 	private CreateProductFiles createProductFiles;
+	private ProductManagementService productManagementService;
 
 	@Autowired
-	public ProductController(ProductsRepository prodRepo, CreateProductFiles productFiles) {
+	public ProductController(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet) {
 		this.productsRepository = prodRepo;
 		this.createProductFiles = productFiles;
+		this.productManagementService = productManagemet;
 	}
 
 	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{product_code}")
