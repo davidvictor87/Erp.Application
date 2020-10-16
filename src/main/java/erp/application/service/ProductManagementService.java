@@ -35,6 +35,7 @@ public class ProductManagementService {
 		return null;
 	}
 
+	@Async
 	public void saveProduct(Products product) {
 		LOG.appLogger().info("SAVE PRODUCT");
 		try {
@@ -45,6 +46,7 @@ public class ProductManagementService {
 		}
 	}
 
+	@Async
 	public void updateProduct(Products product) {
 		LOG.appLogger().info("UPDATE PRODUCT");
 		try {
@@ -66,7 +68,11 @@ public class ProductManagementService {
 	@Async
 	public void deleteProduct(int id) {
 		LOG.appLogger().info("DELETE PRODUCT");
-		productRepositoryImp.delete(id);
+		try {
+			CompletableFuture.runAsync(() -> productRepositoryImp.delete(id)).get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -34,4 +34,6 @@ public class ApplicationStaticInfo {
 	
 	public static final String FILE_WITH_KEYS = "keys.txt";
 	
+	public static final String START_REDIS_SERVER_SCRIPT = "D:\\redis\\Redis-x64-3.2.100\\redis-server.exe";
+	
 }

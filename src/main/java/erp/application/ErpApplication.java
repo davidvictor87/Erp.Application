@@ -20,6 +20,7 @@ public class ErpApplication {
 		System.out.println("Spring Version: " + SpringVersion.getVersion());
 		System.out.println("======= Application Started =============");
 		ErpApplication.startApp();
+		ErpApplication.startRedisServer();
 	}
 
 	private static final void startApp() {
@@ -40,6 +41,18 @@ public class ErpApplication {
 			LOG.appLogger().info("Exit Value: " + process.exitValue());
 		} catch (IOException e) {
 			LOG.appLogger().error(e.getMessage());
+		}
+	}
+	
+	private static final void startRedisServer() {
+		try {
+			Runtime runtime = Runtime.getRuntime();
+			Process process = runtime.exec(ApplicationStaticInfo.START_REDIS_SERVER_SCRIPT);
+			if(!process.isAlive()) {
+				process.exitValue();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -125,11 +125,12 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>6</version>
-		</dependency>
+		</dependency> 
 
 		<dependency>
 			<groupId>p6spy</groupId>
@@ -204,7 +205,7 @@
 			<id>codelds</id>
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
-	</repositories>
+	</repositories> 
 
 
 </project>
