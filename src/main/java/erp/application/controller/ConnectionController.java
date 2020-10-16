@@ -27,7 +27,7 @@ import erp.application.service.EmployeeService;
 @RequestMapping(value="/employee/access")
 public class ConnectionController {
 
-	/*private ConnectionService service;
+    private ConnectionService service;
 	private EmployeeService employeeService;
 
 	@Autowired
@@ -107,6 +107,6 @@ public class ConnectionController {
 
 	private double getFinalRevenue(int index) {
 		return employeeService.findAll().get(index - 1).getSalary() - employeeService.calculateTaxes().get(index - 1);
-	}*/
+	}
 
 }
