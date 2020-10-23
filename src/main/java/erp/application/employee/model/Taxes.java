@@ -15,7 +15,7 @@ public class Taxes implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "PI_ADDRESS_SEQ")
 	@NotNull
 	@Column(name="tax_id")
 	private int tax_id;

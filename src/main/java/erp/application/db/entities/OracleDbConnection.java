@@ -55,7 +55,7 @@ public class OracleDbConnection {
 		dataSource.setDriverClassName(ApplicationStaticInfo.ORACLE_DRIVER_PSY_ENGINE);
 		dataSource.setUrl(ApplicationStaticInfo.ORACLE_URL);
 		dataSource.setUsername("SYSTEM");
-		dataSource.setPassword("Parola.Secreta1987");
+		dataSource.setPassword("Secret.Password1987");
 		return dataSource;
 	}
 	
