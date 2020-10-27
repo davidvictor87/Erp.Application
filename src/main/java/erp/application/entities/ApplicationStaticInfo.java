@@ -8,7 +8,7 @@ public class ApplicationStaticInfo {
 	
 	public static final String MY_SQL_LOGIN_ENTITY = "erp.application.login.model";
 	
-	public static final String MY_SQL_DRIVER_CLASS = "com.mysql.jdbc.Driver";
+	public static final String MY_SQL_DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
 	
 	public static final String MY_SQL_URL = "jdbc:mysql://localhost:3306/login?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	

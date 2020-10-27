@@ -3,6 +3,7 @@ package erp.application.db.entities;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -28,6 +29,10 @@ public class MySQLConnectionClass {
 	
 	@Autowired
 	private Environment env;
+	@Value("${mysql.db.username}")
+	private String MYSQL_USERNAME;
+	@Value("${mysql.db.password}")
+	private String MYSQL_PASSWORD;
 	
 	@Primary
 	@Bean(name="entityManagerFactory")
@@ -38,8 +43,8 @@ public class MySQLConnectionClass {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(adapter);
 		Map<String, Object> properties = new HashMap<>();
-		properties.put("spring.jpa.hibernate.ddl-auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
-		properties.put("spring.jpa.properties.hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
+		properties.put("spring.jpa.hibernate.ddl-auto", env.getProperty("spring.jpa.hibernate.ddl-auto=create"));
+		properties.put("spring.jpa.properties.hibernate.dialect", env.getProperty("org.hibernate.dialect.MySQL8Dialect"));
 		em.setJpaPropertyMap(properties);
 		return em;
 		
@@ -51,8 +56,8 @@ public class MySQLConnectionClass {
 		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(ApplicationStaticInfo.MY_SQL_DRIVER_CLASS);
 		dataSource.setUrl(ApplicationStaticInfo.MY_SQL_URL);
-		dataSource.setUsername("root");
-		dataSource.setPassword("Password123");
+		dataSource.setUsername(MYSQL_USERNAME);
+		dataSource.setPassword(MYSQL_PASSWORD);
 		return dataSource;
 	}
 	

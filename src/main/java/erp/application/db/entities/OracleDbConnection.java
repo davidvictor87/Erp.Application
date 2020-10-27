@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -28,6 +29,10 @@ import erp.application.entities.ApplicationStaticInfo;
 public class OracleDbConnection {
 	
 	private Environment environment;
+	@Value("${oracle.db.username}")
+	private String ORCL_USERNAME;
+	@Value("${oracle.db.password}")
+	private String ORCL_PASSWORD;
 	
 	@Autowired
 	public OracleDbConnection(Environment env) {
@@ -54,8 +59,8 @@ public class OracleDbConnection {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(ApplicationStaticInfo.ORACLE_DRIVER_PSY_ENGINE);
 		dataSource.setUrl(ApplicationStaticInfo.ORACLE_URL);
-		dataSource.setUsername("SYSTEM");
-		dataSource.setPassword("Secret.Password1987");
+		dataSource.setUsername(ORCL_USERNAME);
+		dataSource.setPassword(ORCL_PASSWORD);
 		return dataSource;
 	}
 	

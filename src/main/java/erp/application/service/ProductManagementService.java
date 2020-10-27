@@ -39,8 +39,8 @@ public class ProductManagementService {
 	public void saveProduct(Products product) {
 		LOG.appLogger().info("SAVE PRODUCT");
 		try {
-			CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> productRepositoryImp.save(product));
-			cf.get();
+			CompletableFuture<Void> saveProduct = CompletableFuture.runAsync(() -> productRepositoryImp.save(product));
+			saveProduct.get();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
