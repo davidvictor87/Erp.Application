@@ -59,6 +59,7 @@ public class CreateProductFiles {
 						+ entryData.getValue().getProduct_manufacturer() + ", Product Name: "
 						+ entryData.getValue().getProduct_name() + "Product VAT Level: "
 						+ entryData.getValue().getVat_level() + ", Product Code: "
+						+ entryData.getValue().getProduct_price() + ", Product Price"
 						+ entryData.getValue().getProduct_code());
 				bw.newLine();
 				bw.flush();
@@ -88,7 +89,7 @@ public class CreateProductFiles {
 				for (String prodIter : productsList) {
 					index++;
 					Products prod = new Products(Integer.parseInt(productsList[index]), productsList[index + 1],
-							productsList[index + 2], productsList[index + 3], Integer.parseInt(productsList[index + 4]), productsList[index + 5]);
+							productsList[index + 2], productsList[index + 3], Integer.parseInt(productsList[index + 4]), Integer.parseInt(productsList[index + 5]), productsList[index + 6]);
 					products = prod;
 					System.out.println(prod);
 				}

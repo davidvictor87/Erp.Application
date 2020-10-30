@@ -13,6 +13,7 @@ public class Products implements Serializable{
 	private String product_manufacturer;
 	private String product_name;
 	private int vat_level;
+	private int product_price;
 	private String product_code;
 	
 	public Products() {
@@ -20,13 +21,14 @@ public class Products implements Serializable{
 	}
 
 	public Products(int id, String product_category, String product_manufacturer, String product_name, int vat_level,
-			String product_code) {
+			int prodct_price,String product_code) {
 		super();
 		this.id = id;
 		this.product_category = product_category;
 		this.product_manufacturer = product_manufacturer;
 		this.product_name = product_name;
 		this.vat_level = vat_level;
+		this.product_price = prodct_price;
 		this.product_code = product_code;
 	}
 
@@ -69,6 +71,16 @@ public class Products implements Serializable{
 	public void setVat_level(int vat_level) {
 		this.vat_level = vat_level;
 	}
+	
+	
+
+	public int getProduct_price() {
+		return product_price;
+	}
+
+	public void setProduct_price(int product_price) {
+		this.product_price = product_price;
+	}
 
 	public String getProduct_code() {
 		return product_code;
@@ -82,7 +94,7 @@ public class Products implements Serializable{
 	public String toString() {
 		return "Products [id=" + id + ", product_category=" + product_category + ", product_manufacturer="
 				+ product_manufacturer + ", product_name=" + product_name + ", vat_level=" + vat_level
-				+ ", product_code=" + product_code + "]";
+				+ ", product_price=" + product_price + ", product_code=" + product_code + "]";
 	}
 
 	@Override
@@ -94,6 +106,7 @@ public class Products implements Serializable{
 		result = prime * result + ((product_code == null) ? 0 : product_code.hashCode());
 		result = prime * result + ((product_manufacturer == null) ? 0 : product_manufacturer.hashCode());
 		result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
+		result = prime * result + product_price;
 		result = prime * result + vat_level;
 		return result;
 	}
@@ -129,11 +142,14 @@ public class Products implements Serializable{
 				return false;
 		} else if (!product_name.equals(other.product_name))
 			return false;
+		if (product_price != other.product_price)
+			return false;
 		if (vat_level != other.vat_level)
 			return false;
 		return true;
 	}
 
+	
 	
 	
 	

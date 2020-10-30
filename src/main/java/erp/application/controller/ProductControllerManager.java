@@ -32,12 +32,12 @@ public class ProductControllerManager {
 		this.productManagementService = productManagemet;
 	}
 
-	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{product_code}")
+	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{prodct_price}/{product_code}")
 	@ResponseBody
 	public Products addEmployee(@PathVariable("id") final Integer id, @PathVariable("product_category") final String product_category, @PathVariable("product_manufacturer") final String product_manufacturer,
-			@PathVariable("product_name") final String product_name, @PathVariable("vat_level") final int vat_level,
+			@PathVariable("product_name") final String product_name, @PathVariable("vat_level") final int vat_level, @PathVariable("product_price") final int product_price,
 			@PathVariable("product_code") final String product_code) {
-		productManagementService.saveProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
+		productManagementService.saveProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_price, product_code));
 		System.out.println(allProducts());
 		System.out.println("This is the map " + productsRepository.findAll());
 		createProductFiles.writeProductFile(productsRepository.findAll());
@@ -49,8 +49,8 @@ public class ProductControllerManager {
 	@ResponseBody
 	public Products updateEmployee(@PathVariable("id") final Integer id, @PathVariable("product_category") final String product_category,
 	    @PathVariable("product_manufacturer") final String product_manufacturer, @PathVariable("product_name") final String product_name, @PathVariable("vat_level") final int vat_level,
-		@PathVariable("product_code") final String product_code) {
-		productManagementService.updateProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
+		@PathVariable("product_price") final int product_price, @PathVariable("product_code") final String product_code) {
+		productManagementService.updateProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_price, product_code));
 		return productsRepository.findById(id);
 	}
 
