@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import erp.application.entities.LOG;
 import erp.application.products.Products;
@@ -18,14 +19,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class ProductController {
+public class ProductControllerManager {
 
 	private ProductsRepository productsRepository;
 	private CreateProductFiles createProductFiles;
 	private ProductManagementService productManagementService;
 
 	@Autowired
-	public ProductController(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet) {
+	public ProductControllerManager(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet) {
 		this.productsRepository = prodRepo;
 		this.createProductFiles = productFiles;
 		this.productManagementService = productManagemet;
@@ -36,7 +37,6 @@ public class ProductController {
 	public Products addEmployee(@PathVariable("id") final Integer id, @PathVariable("product_category") final String product_category, @PathVariable("product_manufacturer") final String product_manufacturer,
 			@PathVariable("product_name") final String product_name, @PathVariable("vat_level") final int vat_level,
 			@PathVariable("product_code") final String product_code) {
-		//productsRepository.save(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
 		productManagementService.saveProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
 		System.out.println(allProducts());
 		System.out.println("This is the map " + productsRepository.findAll());
@@ -83,7 +83,6 @@ public class ProductController {
 			e.printStackTrace();
 		}
 		return jsonCollection;
-
-	}
+     }
 
 }
