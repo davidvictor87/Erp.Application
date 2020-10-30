@@ -50,8 +50,6 @@ public class ProductController {
 	public Products updateEmployee(@PathVariable("id") final Integer id, @PathVariable("product_category") final String product_category,
 	    @PathVariable("product_manufacturer") final String product_manufacturer, @PathVariable("product_name") final String product_name, @PathVariable("vat_level") final int vat_level,
 		@PathVariable("product_code") final String product_code) {
-		//productsRepository.update(
-				//new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
 		productManagementService.updateProduct(new Products(id, product_category, product_manufacturer, product_name, vat_level, product_code));
 		return productsRepository.findById(id);
 	}
@@ -66,7 +64,6 @@ public class ProductController {
 		  }catch (NumberFormatException e) {
 	          System.err.println(e.getCause().toString()); 
 	      } 
-		  //productsRepository.delete(id);
 		  productManagementService.deleteProduct(id);
 	      return productsRepository.findAll(); 
 	  }
