@@ -44,6 +44,7 @@ public class ProductSellController {
 					productService.returnAllProducts().get(String.valueOf(id)).getProduct_code());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
+			LOG.appLogger().error("ERROR FOR SELECTING PRODUCT WITH ID: " + id);
 		}
 		
 	}

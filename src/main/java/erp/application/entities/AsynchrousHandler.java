@@ -1,5 +1,8 @@
 package erp.application.entities;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class AsynchrousHandler {
 	
 	private EventStarter eventStarter;
