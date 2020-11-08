@@ -10,6 +10,24 @@ import java.sql.ResultSet;
 public class JDBCUpdate {
 	
 	private static final String [] staticSettings = {"com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/login", "root", "Password123"};
+	private static volatile JDBCUpdate jdbcUpdate;
+	
+	private JDBCUpdate() {
+		if(jdbcUpdate != null) {
+			throw new RuntimeException("Runtime exception thrown, for preventing reflection");
+		}
+	}
+	
+	public static synchronized JDBCUpdate singletonJDBC() {
+		if(jdbcUpdate == null) {
+			jdbcUpdate = new JDBCUpdate();
+		}
+		return jdbcUpdate;
+	}
+	
+	protected JDBCUpdate protectFromSerialization() {
+		return singletonJDBC();
+	}
 	
 	public static void updateRole(int index) {
 		final int rVal = index-1;
