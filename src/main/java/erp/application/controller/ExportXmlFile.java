@@ -26,10 +26,10 @@ public class ExportXmlFile {
 	
 	@GetMapping(value = "/xml/format", produces = MediaType.APPLICATION_XML_VALUE, consumes = MediaType.ALL_VALUE)
 	@ResponseBody
-	public ProductsXmlFormat exportXmlFile() {
+	public ProductsXmlFormat exportXmlFile(final int id) {
 		LOG.appLogger().info("START EXPORTING XML FORMAT");
 		try{
-			return redisToXmlConverter.xmlConverter();
+			return redisToXmlConverter.xmlConverter(id);
 		}catch (Exception e) {
 			e.printStackTrace();
 			LOG.appLogger().error("FAILED TO EXPORT XML FORMAT");
