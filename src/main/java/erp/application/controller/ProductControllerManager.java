@@ -27,6 +27,7 @@ public class ProductControllerManager {
 
 	@Autowired
 	public ProductControllerManager(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet) {
+		super();
 		this.productsRepository = prodRepo;
 		this.createProductFiles = productFiles;
 		this.productManagementService = productManagemet;
