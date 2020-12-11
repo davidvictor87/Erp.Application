@@ -9,7 +9,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
@@ -19,6 +22,8 @@ import erp.application.employee.repository.TaxesRepository;
 import erp.application.entities.LOG;
 
 @Service
+@CacheConfig(cacheNames="employeeService")
+@Transactional
 public class EmployeeService {
 
 	private Lock lock1 = new ReentrantLock();
@@ -40,6 +45,7 @@ public class EmployeeService {
 		processedRepo.save(employee);
 	}
 
+	@Cacheable(value ="calculateTaxes", sync=true)
 	public List<Double> calculateTaxes() {
 		final int numberOfThreads = 3;
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
@@ -86,6 +92,7 @@ public class EmployeeService {
 		}
 	}
 
+	@Cacheable(value = "calculateCasTax", sync=true)
 	public List<Double> calculateCasTax() {
 		List<Double> casTaxList = null;
 		lock1.lock();
@@ -101,6 +108,7 @@ public class EmployeeService {
 		return casTaxList;
 	}
 
+	@Cacheable(value = "calculateCassTax", sync=true)
 	public List<Double> calculateCassTax() {
 		List<Double> cassTaxList = null;
 		lock2.lock();
@@ -116,6 +124,7 @@ public class EmployeeService {
 		return cassTaxList;
 	}
 
+	@Cacheable(value = "calculateIncomeTax", sync=true)
 	public List<Double> calculeteIncomeTax() {
 		List<Double> incomeTaxList = null;
 		lock3.lock();
@@ -131,6 +140,7 @@ public class EmployeeService {
 		return incomeTaxList;
 	}
 
+	@Cacheable(value = "findAll", sync=true)
 	public List<EmployeeInitialSavedData> findAll() {
 		return initRepo.findAll();
 	}
