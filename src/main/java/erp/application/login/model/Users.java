@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.springframework.data.annotation.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(catalog = "login", name="user")
@@ -23,14 +25,20 @@ public class Users implements Serializable{
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    @Column(name = "user_id")
+	    @NotNull
 	    private Long id;
 	    @Column(name = "email")
+	    @NotNull
 	    private String email;
+	    @Transient
 	    @Column(name = "password")
+	    @NotNull
 	    private String password;
 	    @Column(name = "name")
+	    @NotNull
 	    private String name;
 	    @Column(name = "last_name")
+	    @NotNull
 	    private String lastName;
 	    @Column(name = "active")
 	    private int active;
@@ -42,6 +50,7 @@ public class Users implements Serializable{
 	    }
 
 	    public Users(Users users) {
+	    	super();
 	        this.active = users.getActive();
 	        this.email = users.getEmail();
 	        this.roles = users.getRoles();
