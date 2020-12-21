@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ProductManagementService {
 	}
 
 	@Async
+	@Cacheable
 	public CompletableFuture<Products> findProduct(int id) {
 		Products product = null;
 		LOG.appLogger().info("FINDING USER WITH ID: " + id);
@@ -36,6 +38,7 @@ public class ProductManagementService {
 	}
 
 	@Async
+	@Cacheable
 	public void saveProduct(Products product) {
 		LOG.appLogger().info("SAVE PRODUCT");
 		try {
@@ -47,6 +50,7 @@ public class ProductManagementService {
 	}
 
 	@Async
+	@Cacheable
 	public void updateProduct(Products product) {
 		LOG.appLogger().info("UPDATE PRODUCT");
 		try {
@@ -57,6 +61,7 @@ public class ProductManagementService {
 	}
 	
 	@Async
+	@Cacheable
 	public Map<String, Products> returnAllProducts() throws InterruptedException, ExecutionException{
 		LOG.appLogger().info("RETURN ALL PRODUCTS");
 		CompletableFuture<Map<String, Products>> allProducts = CompletableFuture.supplyAsync(() -> {
@@ -66,6 +71,7 @@ public class ProductManagementService {
 	}
 	
 	@Async
+	@Cacheable
 	public void deleteProduct(int id) {
 		LOG.appLogger().info("DELETE PRODUCT");
 		try {
