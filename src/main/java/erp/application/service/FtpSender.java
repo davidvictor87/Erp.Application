@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 
 @Service
 public class FtpSender {
-	
+
 	@Value("${host.server.url}")
 	private String serverURL;
 	@Value("${connection.server.port}")
@@ -23,37 +23,41 @@ public class FtpSender {
 	private String user;
 	@Value("${connection.server.pass}")
 	private String password;
-	
+
 	public FtpSender() {
 		super();
 	}
-	
+
 	public void establishFtpConnection() {
 		FTPClient ftpClient = null;
 		try {
 			ftpClient = new FTPClient();
 			ftpClient.connect(java.net.InetAddress.getByName(serverURL), port);
 			boolean isConnected = FTPReply.isPositiveCompletion(ftpClient.getReplyCode());
-			if(isConnected) {
+			if (isConnected) {
 				ftpClient.login(user, password);
 				ftpClient.enterLocalPassiveMode();
 				ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 				File fileLocation = new File(ApplicationStaticInfo.EMPLOYEE_PROCCESSED_DOCUMENTS);
-				InputStream inputStream = new FileInputStream(fileLocation);
-				boolean isDone = ftpClient.storeFile("", inputStream);
-				if(isDone) {
-					LOG.appLogger().info("UPLOADED");
+				for (File files : fileLocation.listFiles()) {
+					if (files.isDirectory()) {
+						InputStream inputStream = new FileInputStream(files);
+						boolean isDone = ftpClient.storeFile("", inputStream);
+						if (isDone) {
+							LOG.appLogger().info("UPLOADED");
+						}
+					}
 				}
 			}
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
-				if(ftpClient.isConnected()) {
+				if (ftpClient.isConnected()) {
 					ftpClient.logout();
 					ftpClient.disconnect();
 				}
-			}catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
