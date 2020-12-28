@@ -12,7 +12,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.File;
 import java.io.FileInputStream;
 
-@Service
+@Service(value="ftpSender")
 public class FtpSender {
 
 	@Value("${host.server.url}")

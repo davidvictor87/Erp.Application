@@ -6,7 +6,7 @@ import erp.application.entities.LOG;
 import erp.application.products.Products;
 import erp.application.products.ProductsXmlFormat;
 
-@Service
+@Service(value="exportToXML")
 public class RedisToXmlConverter {
 
 	private Products products = null;

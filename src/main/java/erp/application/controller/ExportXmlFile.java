@@ -25,7 +25,7 @@ public class ExportXmlFile {
 	private final FtpSender ftpSender;
 	
 	@Autowired
-	public ExportXmlFile(@Qualifier final RedisToXmlConverter redisToXml, FtpSender sender) {
+	public ExportXmlFile(@Qualifier(value="exportToXML") final RedisToXmlConverter redisToXml, @Qualifier(value="ftpSender") FtpSender sender) {
 		super();
 		this.redisToXmlConverter = redisToXml;
 		this.ftpSender = sender;
