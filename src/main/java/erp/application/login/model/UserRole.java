@@ -6,9 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.Column;
 
 @Entity
+@Immutable
 @Table(catalog = "login", name = "user_role")
 public class UserRole {
 	

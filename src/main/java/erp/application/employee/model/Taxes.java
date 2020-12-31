@@ -1,6 +1,8 @@
 package erp.application.employee.model;
 
 import java.io.Serializable;
+
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Immutable
 @Table(name="taxes")
 public class Taxes implements Serializable{
 	

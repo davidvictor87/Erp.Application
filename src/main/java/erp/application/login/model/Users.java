@@ -2,6 +2,8 @@ package erp.application.login.model;
 
 import java.io.Serializable;
 import java.util.Set;
+
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,7 @@ import org.springframework.data.annotation.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Immutable
 @Table(catalog = "login", name="user")
 public class Users implements Serializable{
 	

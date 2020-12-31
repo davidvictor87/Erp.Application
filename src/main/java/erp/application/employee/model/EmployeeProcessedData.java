@@ -1,6 +1,8 @@
 package erp.application.employee.model;
 
 import java.util.Date;
+
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Immutable
 @Table(name= "employee_processed_data")
 public class EmployeeProcessedData {
 	
