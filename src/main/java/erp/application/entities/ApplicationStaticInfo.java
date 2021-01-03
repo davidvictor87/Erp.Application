@@ -36,4 +36,8 @@ public class ApplicationStaticInfo {
 	
 	public static final String START_REDIS_SERVER_SCRIPT = "D:\\redis\\Redis-x64-3.2.100\\redis-server.exe";
 	
+	public static final String EMPLOYEE_LOG_DIRECTORY = "D:/Workspace/Erp.Application/";
+	
+	public static final String EMPLOYEE_LOG_FILE_EXTENSION = ".log";
+	
 }

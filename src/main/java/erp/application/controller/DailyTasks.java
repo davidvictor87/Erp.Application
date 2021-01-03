@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+
 import erp.application.products.Products;
 import erp.application.service.CreateProductFiles;
+import erp.application.service.EmployeeTimeLogFilesFactory;
 import erp.application.service.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
@@ -19,15 +22,18 @@ import org.springframework.http.HttpStatus;
 public class DailyTasks {
 	
 	private FileTransferService fileTransfer;
+	private EmployeeTimeLogFilesFactory employeeLogFiles;
 		
 	@Autowired
-	public DailyTasks(FileTransferService fts) {
+	public DailyTasks(FileTransferService fts, EmployeeTimeLogFilesFactory elf) {
 		this.fileTransfer = fts;
+		this.employeeLogFiles = elf;
 	}
 	
 	@GetMapping(value="/daily/tasks")
-	public String showName(Model model, HttpServletRequest request) {
+	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
+		employeeLogFiles.employeeTimeCounter(employeeAuth);
 		model.addAttribute("name", n);
 		try {
 			fileTransfer.startWatch();
