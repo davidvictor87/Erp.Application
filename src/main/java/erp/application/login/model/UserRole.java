@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.annotation.concurrent.Immutable;
+import org.hibernate.annotations.Immutable;
 import javax.persistence.Column;
 
 @Entity

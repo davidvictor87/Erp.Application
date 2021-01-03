@@ -2,8 +2,6 @@ package erp.application.login.model;
 
 import java.io.Serializable;
 import java.util.Set;
-
-import javax.annotation.concurrent.Immutable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Immutable;
 import org.springframework.data.annotation.Transient;
 import javax.validation.constraints.NotNull;
 
