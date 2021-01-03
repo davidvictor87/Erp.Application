@@ -35,7 +35,7 @@ public class EmployeeTimeLogFilesFactory {
 			Instant startTimeCounter = Instant.now();
 			Instant endTimeCounter = Instant.now();
 			final long totalWorkTime = Duration.between(startTimeCounter, endTimeCounter).toMillis();
-			employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName + ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY);
+			employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName + ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION);
 			formatter = new SimpleFormatter();
 			employeeWorkTimeLog.setFormatter(formatter);
 			logger.info(Level.INFO.toString());
