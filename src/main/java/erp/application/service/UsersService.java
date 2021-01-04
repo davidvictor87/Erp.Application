@@ -17,7 +17,7 @@ import erp.application.login.repository.LevelRepository;
 import erp.application.login.repository.UserRepository;
 import erp.application.login.repository.UserRoleRepository;
 
-@Service
+@Service(value="usersService")
 public class UsersService extends UsersAbstractEntity {
 
 	private UserRoleRepository userRoleRepository;

@@ -32,7 +32,7 @@ public class UsersManagerController{
 	private UsersService userService;
 
 	@Autowired
-	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, UsersService uService) {
+	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, @Qualifier(value="usersService")UsersService uService) {
 		this.uRepository = userRepository;
 		this.userService = uService;
 	}
