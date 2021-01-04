@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
-
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 @Service

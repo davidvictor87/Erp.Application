@@ -1,11 +1,16 @@
 package erp.application.start;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import erp.application.entities.LOG;
+import erp.application.login.model.Users;
 
 @RestController
 @WebServlet
@@ -20,8 +26,10 @@ import erp.application.entities.LOG;
 public class StartPage {
 	
 	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER')")
+	@PostFilter(value = "hasPermission('READ')")
 	@GetMapping("/Daily-Tasks")
-	public void infoUser(HttpServletResponse res, HttpServletRequest req) {
+	public List<Users> infoUser(HttpServletResponse res, HttpServletRequest req) {
+		final List<Users> allUsers = new ArrayList<Users>();
 		try {
 			final String getInput = req.getParameter("Daily-Tasks");
 			if(getInput != null) {
@@ -30,6 +38,7 @@ public class StartPage {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		return allUsers;
 	}
 
 	
