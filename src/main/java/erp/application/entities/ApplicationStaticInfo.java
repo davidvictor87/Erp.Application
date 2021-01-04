@@ -40,4 +40,10 @@ public class ApplicationStaticInfo {
 	
 	public static final String EMPLOYEE_LOG_FILE_EXTENSION = ".log";
 	
+	public static final String THYMELEAF_SET_PREFIX = "classpath:/static/";
+	
+	public static final String THYMELEAF_SET_SUFFIX = ".html";
+	
+	public static final String APPLICATION_ERROR_PROFILE = "APP_ERROR_PROFILE";
+	
 }

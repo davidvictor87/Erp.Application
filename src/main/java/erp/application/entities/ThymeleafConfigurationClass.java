@@ -13,8 +13,8 @@ public class ThymeleafConfigurationClass {
 	public SpringResourceTemplateResolver templateResolver() {
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 		templateResolver.setCacheable(false);
-		templateResolver.setPrefix("classpath:/static/");
-		templateResolver.setSuffix(".html");
+		templateResolver.setPrefix(ApplicationStaticInfo.THYMELEAF_SET_PREFIX);
+		templateResolver.setSuffix(ApplicationStaticInfo.THYMELEAF_SET_SUFFIX);
 		templateResolver.setTemplateMode("HTML5");
 		return templateResolver;
 	}
