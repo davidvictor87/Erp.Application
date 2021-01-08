@@ -1,4 +1,4 @@
-package erp.application.entities;
+package erp.application.entities.cacheable;
 
 import java.util.Arrays;
 

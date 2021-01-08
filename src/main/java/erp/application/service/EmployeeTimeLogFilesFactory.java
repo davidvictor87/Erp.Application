@@ -28,8 +28,6 @@ public class EmployeeTimeLogFilesFactory {
 			String userName = "";
 			if(userPrincipal instanceof DefaultOidcUser && auth != null) {
 				userName = ((DefaultOidcUser) userPrincipal).getName();
-			}else {
-				throw new RuntimeException("USER IS NULL");
 			}
 			Instant startTimeCounter = Instant.now();
 			Instant endTimeCounter = Instant.now();
@@ -44,9 +42,6 @@ public class EmployeeTimeLogFilesFactory {
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("Major Security Exception and/or IOException");
-		}finally {
-			employeeWorkTimeLog.flush();
-			employeeWorkTimeLog.close();
 		}
 	}
 

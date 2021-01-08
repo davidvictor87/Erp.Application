@@ -16,6 +16,8 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import erp.application.entities.cacheable.CacheConfigurationProperties;
 import erp.application.products.Products;
 
 @Configuration

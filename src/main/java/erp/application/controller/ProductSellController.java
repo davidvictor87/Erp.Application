@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import erp.application.entities.AsyncReceiptPrint;
-import erp.application.entities.AsynchrousHandler;
-import erp.application.entities.EventStarter;
+import erp.application.entities.receipt.AsyncReceiptPrint;
 import erp.application.entities.LOG;
+import erp.application.entities.receipt.AsynchrousHandler;
+import erp.application.entities.receipt.EventStarter;
 import erp.application.service.ProductManagementService;
 
 @Controller

@@ -1,4 +1,4 @@
-package erp.application.entities;
+package erp.application.entities.receipt;
 
 import java.util.HashMap;
 import java.util.Map;

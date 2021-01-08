@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import erp.application.products.Products;
 import erp.application.service.CreateProductFiles;
@@ -33,6 +34,7 @@ public class DailyTasks {
 	@GetMapping(value="/daily/tasks")
 	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
+		employeeAuth = SecurityContextHolder.getContext().getAuthentication();
 		employeeLogFiles.employeeTimeCounter(employeeAuth);
 		model.addAttribute("name", n);
 		try {
