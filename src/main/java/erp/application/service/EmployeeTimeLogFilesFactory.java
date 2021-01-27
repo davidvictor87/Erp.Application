@@ -3,45 +3,82 @@ package erp.application.service;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import org.apache.catalina.connector.Connector;
 import org.slf4j.event.Level;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 @Service
-public class EmployeeTimeLogFilesFactory {
+public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, ApplicationListener<ContextClosedEvent>{
 	
-	public void employeeTimeCounter(Authentication auth) {
-		Logger logger = Logger.getLogger("Employee");
+	private volatile Connector connector;
+	private static final int TIMEOUT = 30;
+	
+	public synchronized void employeeTimeCounter(Authentication auth) {
+		Logger logger = Logger.getLogger("erp.application.service");
 		FileHandler employeeWorkTimeLog = null;
-		SimpleFormatter formatter = null;
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		LOG.appLogger().debug("Start recording data");
 		try {
-			Object userPrincipal = auth.getPrincipal();
-			String userName = "";
-			if(userPrincipal instanceof DefaultOidcUser && auth != null) {
-				userName = ((DefaultOidcUser) userPrincipal).getName();
-			}
+			String userName = auth.getName();
 			Instant startTimeCounter = Instant.now();
 			Instant endTimeCounter = Instant.now();
 			final long totalWorkTime = Duration.between(startTimeCounter, endTimeCounter).toMillis();
-			employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName + ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION);
-			formatter = new SimpleFormatter();
-			employeeWorkTimeLog.setFormatter(formatter);
+			employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName + ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION, true);
+			employeeWorkTimeLog.setFormatter(new SimpleFormatter());
 			logger.info(Level.INFO.toString());
-			logger.fine(userName);
+			logger.info("User Name " + userName);
+			logger.fine(userName + "user details");
 			logger.fine(String.valueOf(totalWorkTime));
 			logger.addHandler(employeeWorkTimeLog);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("Major Security Exception and/or IOException");
+		}finally {
+			employeeWorkTimeLog.flush();
+			employeeWorkTimeLog.close();
+		}
+	}
+
+	@Override
+	public void customize(Connector connector) {
+		this.connector = connector;
+	}
+
+	@Override
+	public void onApplicationEvent(ContextClosedEvent event) {
+		this.connector.pause();
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Executor threadExecutor = this.connector.getProtocolHandler().getExecutor();
+		if(threadExecutor instanceof ThreadPoolExecutor) {
+			try {
+				ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) threadExecutor;
+				threadPoolExecutor.shutdown();
+				if(!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
+					LOG.appLogger().info("Proceeding with forceful shutdown");
+					threadPoolExecutor.shutdownNow();
+					employeeTimeCounter(auth);
+					if(!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
+						LOG.appLogger().error("FAILED TO SHUTDOWN");
+					}
+				}
+			}catch (InterruptedException e) {
+				e.printStackTrace();
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 
