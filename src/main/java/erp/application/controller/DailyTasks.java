@@ -14,6 +14,8 @@ import erp.application.service.CreateProductFiles;
 import erp.application.service.EmployeeTimeLogFilesFactory;
 import erp.application.service.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextClosedEvent;
+
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,7 @@ public class DailyTasks {
 	}
 	
 	@GetMapping(value="/daily/tasks")
-	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth) {
+	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth, ContextClosedEvent event) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
 		employeeAuth = SecurityContextHolder.getContext().getAuthentication();
 		employeeLogFiles.employeeTimeCounter(employeeAuth);
