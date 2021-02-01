@@ -29,7 +29,15 @@ public class EmployeeService {
 	private Lock lock1 = new ReentrantLock();
 	private Lock lock2 = new ReentrantLock();
 	private Lock lock3 = new ReentrantLock();
-	public static double totaxTax = 0.0;
+	
+	public static double totalTax;
+	private static int numberOfThreads;
+	
+	static {
+		totalTax = 0.0;
+		numberOfThreads = 3;
+	}
+	
 	@Autowired
 	private EmployeeInitialSavedDataRepo initRepo;
 	@Autowired
@@ -47,7 +55,6 @@ public class EmployeeService {
 
 	@Cacheable(value ="calculateTaxes", sync=true)
 	public List<Double> calculateTaxes() {
-		final int numberOfThreads = 3;
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 		List<Double> totalTaxes = new ArrayList<>();
