@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -58,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 
  @Override
+ @Order(SecurityProperties.BASIC_AUTH_ORDER)
  protected void configure(HttpSecurity httpSecurity) throws Exception {
      httpSecurity
      .csrf().disable();

@@ -17,6 +17,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,18 +36,22 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		LOG.appLogger().debug("Start recording data");
 		try {
-			String userName = auth.getName();
-			Instant startTimeCounter = Instant.now();
-			Instant endTimeCounter = Instant.now();
-			final long totalWorkTime = Duration.between(startTimeCounter, endTimeCounter).toMillis();
-			employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName
-					+ ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION, true);
-			employeeWorkTimeLog.setFormatter(new SimpleFormatter());
-			logger.info(Level.INFO.toString());
-			logger.info("User Name " + userName);
-			logger.fine(userName + "user details");
-			logger.fine(String.valueOf(totalWorkTime));
-			logger.addHandler(employeeWorkTimeLog);
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				String userName = auth.getName();
+				Instant startTimeCounter = Instant.now();
+				Instant endTimeCounter = Instant.now();
+				final long totalWorkTime = Duration.between(startTimeCounter, endTimeCounter).toMillis();
+				employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName
+						+ ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION, true);
+				employeeWorkTimeLog.setFormatter(new SimpleFormatter());
+				logger.info(Level.INFO.toString());
+				logger.info("User Name " + userName);
+				logger.fine(userName + "user details");
+				logger.fine(String.valueOf(totalWorkTime));
+				logger.addHandler(employeeWorkTimeLog);
+			} else {
+				LOG.appLogger().error("FAILED TO RETRIEVE LOGGED USER");
+			}
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("Major Security Exception and/or IOException");

@@ -25,7 +25,7 @@ import erp.application.login.model.Users;
 @ServletSecurity
 public class StartPage {
 	
-	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'USER')")
+	@PreAuthorize(value="hasAnyRole('ADMIN', 'MANAGER', 'USER')")
 	@PostFilter(value = "hasPermission('READ')")
 	@GetMapping("/Daily-Tasks")
 	public List<Users> infoUser(HttpServletResponse res, HttpServletRequest req) {
@@ -43,6 +43,7 @@ public class StartPage {
 
 	
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostFilter(value="hasPermission('WRITE'")
     @GetMapping(value = "/UserManager")
     public void RegisterUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
     	try {
@@ -58,6 +59,7 @@ public class StartPage {
     }
     
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostFilter(value="hasPermission('DELETE')")
     @RequestMapping(value = "/DeleteUser" ,method = RequestMethod.GET)
     public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
     	final String input = request.getParameter("Delete");
