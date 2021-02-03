@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      .anyRequest().authenticated().and().formLogin().loginPage("/login.html").permitAll(true)
      .defaultSuccessUrl("/welcome.html", true).usernameParameter("username").passwordParameter("password").failureForwardUrl("/login.html").permitAll()
      .and().logout().logoutSuccessUrl("/logout").permitAll(true).and().authorizeRequests()
-     .antMatchers("/PannelUser").hasAnyRole("ADMIN").anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
+     .antMatchers("/PannelUser").hasAnyRole(RolesAndRights.ADMIN.name()).anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
      .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
 	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login");	 
  }
