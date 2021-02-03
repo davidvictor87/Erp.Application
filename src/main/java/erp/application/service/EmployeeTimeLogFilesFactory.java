@@ -29,14 +29,17 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 
 	private volatile Connector connector;
 	private static final int TIMEOUT = 30;
+	private boolean isAuthenticated;
 
 	public synchronized void employeeTimeCounter(Authentication auth) {
 		Logger logger = Logger.getLogger("erp.application.service");
 		FileHandler employeeWorkTimeLog = null;
 		auth = SecurityContextHolder.getContext().getAuthentication();
 		LOG.appLogger().debug("Start recording data");
+		boolean b = true;
+		isAuthenticated = b ? !(auth instanceof AnonymousAuthenticationToken) : (auth instanceof AnonymousAuthenticationToken);
 		try {
-			if (!(auth instanceof AnonymousAuthenticationToken)) {
+			if (isAuthenticated) {
 				String userName = auth.getName();
 				Instant startTimeCounter = Instant.now();
 				Instant endTimeCounter = Instant.now();
