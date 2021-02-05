@@ -34,7 +34,7 @@ public class DailyTasks {
 	}
 	
 	@GetMapping(value="/daily/tasks")
-	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth, ContextClosedEvent event) {
+	public String showName(Model model, HttpServletRequest request, Authentication employeeAuth) {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
 		employeeAuth = SecurityContextHolder.getContext().getAuthentication();
 		employeeLogFiles.employeeTimeCounter(employeeAuth);

@@ -1,7 +1,6 @@
 package erp.application.start;
 
 import java.io.IOException;
-import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import erp.application.entities.LOG;
 import erp.application.login.model.Users;
-import erp.application.web.security.RolesAndRights;
 
 @RestController
 @WebServlet
@@ -28,6 +26,7 @@ import erp.application.web.security.RolesAndRights;
 public class StartPage {
 	
 	@PreAuthorize(value="hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
+	@PostFilter(value="hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
 	@GetMapping("/Daily-Tasks")
 	public List<Users> infoUser(HttpServletResponse res, HttpServletRequest req) {
 		final List<Users> allUsers = new ArrayList<Users>();
@@ -59,8 +58,8 @@ public class StartPage {
     	}
     }
     
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostFilter(value="hasPermission('DELETE')")
+    @PreAuthorize(value="hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name())")
+    @PostFilter(value="hasPermission(T(erp.application.web.security.RolesAndRights).DELETE.name())")
     @RequestMapping(value = "/DeleteUser" ,method = RequestMethod.GET)
     public void deleteUser(HttpServletRequest request, HttpServletResponse response) {
     	final String input = request.getParameter("Delete");
@@ -72,8 +71,8 @@ public class StartPage {
     	}
     }
     
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/text")
+    @PreAuthorize(value="hasAnyRole('ADMIN')")
+    @GetMapping(value="/text")
     @ResponseBody
     public String testSecurity() {
     	return "test";
