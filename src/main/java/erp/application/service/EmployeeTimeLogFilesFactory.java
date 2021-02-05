@@ -101,8 +101,9 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 					threadPoolExecutor.shutdown();
 					if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
 						LOG.appLogger().info("Proceeding with forceful shutdown");
-						threadPoolExecutor.shutdownNow();
-						employeeTimeCounter(auth);
+						if(threadPoolExecutor.shutdownNow() != null) {
+						    employeeTimeCounter(auth);
+						}
 						if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
 							LOG.appLogger().error("FAILED TO SHUTDOWN");
 						}
