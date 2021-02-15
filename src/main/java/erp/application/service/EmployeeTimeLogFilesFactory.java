@@ -7,10 +7,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
@@ -34,28 +36,24 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 
 	public void employeeTimeCounter(Authentication auth) {
 		synchronized (LOCK) {
-			LogManager logManager = LogManager.getLogManager();
-			final String logName = Logger.GLOBAL_LOGGER_NAME;
-			Logger logger = logManager.getLogger(logName);
-			logger.setLevel(java.util.logging.Level.ALL);
-			FileHandler employeeWorkTimeLog = null;
 			auth = SecurityContextHolder.getContext().getAuthentication();
 			LOG.appLogger().debug("Start recording data");
 			Instant startTimeCounter = Instant.now();
 			Instant endTimeCounter = Instant.now();
 			final long totalWorkTime = Duration.between(startTimeCounter, endTimeCounter).toMillis();
+			Logger logger = Logger.getLogger("AppLog");
+			Appender appender = null;
 			boolean b = true;
 			isAuthenticated = b ? !(auth instanceof AnonymousAuthenticationToken)
 					: (auth instanceof AnonymousAuthenticationToken);
 			try {
 				if (isAuthenticated) {
-					String userName = auth.getName();
-					employeeWorkTimeLog = new FileHandler(ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName
-							+ ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION, true);
-					SimpleFormatter formatter = new SimpleFormatter();
-					employeeWorkTimeLog.setFormatter(formatter);
-					employeeWorkTimeLog.setLevel(java.util.logging.Level.FINE);
-					logger.addHandler(employeeWorkTimeLog);
+					final String userName = auth.getName();
+					appender = new FileAppender(new SimpleLayout(), ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName
+							+ ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION);
+					logger.addAppender(appender);
+					appender.setLayout(new SimpleLayout());
+					logger.info("Time Recorded: " + totalWorkTime);
 				} else {
 					LOG.appLogger().error("FAILED TO RETRIEVE LOGGED USER");
 				}
@@ -63,10 +61,9 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 				e.printStackTrace();
 				LOG.appLogger().error("Major Security Exception and/or IOException");
 			} finally {
-				employeeWorkTimeLog.flush();
-				employeeWorkTimeLog.close();
+				LogManager.shutdown();
+				appender.close();
 			}
-			logger.log(java.util.logging.Level.INFO, "Working Time: " + totalWorkTime);
 		}
 	}
 
