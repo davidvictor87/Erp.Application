@@ -13,18 +13,23 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
+
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
+import erp.application.entities.StaticShutdownCallbackRegistry;
 
 @Service
 public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, ApplicationListener<ContextClosedEvent> {
@@ -33,6 +38,19 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 	private static final int TIMEOUT = 30;
 	private boolean isAuthenticated;
 	private static final Object LOCK = new Object();
+
+	static {
+		System.setProperty("log4j.shutdownCallbackRegistry", "com.djdch.log4j.StaticShutdownCallbackRegistry");
+	}
+
+	public void shutDownHook() {
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			public void run() {
+				System.out.println("Invoked");
+				StaticShutdownCallbackRegistry.invoke();
+			}
+		}));
+	}
 
 	public void employeeTimeCounter(Authentication auth) {
 		synchronized (LOCK) {
@@ -49,8 +67,8 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 			try {
 				if (isAuthenticated) {
 					final String userName = auth.getName();
-					appender = new FileAppender(new SimpleLayout(), ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY + userName
-							+ ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION);
+					appender = new FileAppender(new SimpleLayout(), ApplicationStaticInfo.EMPLOYEE_LOG_DIRECTORY
+							+ userName + ApplicationStaticInfo.EMPLOYEE_LOG_FILE_EXTENSION);
 					logger.addAppender(appender);
 					appender.setLayout(new SimpleLayout());
 					logger.info("Time Recorded: " + totalWorkTime);
@@ -61,7 +79,8 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 				e.printStackTrace();
 				LOG.appLogger().error("Major Security Exception and/or IOException");
 			} finally {
-				LogManager.shutdown();
+				LOG.appLogger().info("Shut Down Hook Invoked");
+				shutDownHook();
 				appender.close();
 			}
 		}
@@ -98,8 +117,8 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 					threadPoolExecutor.shutdown();
 					if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
 						LOG.appLogger().info("Proceeding with forceful shutdown");
-						if(threadPoolExecutor.shutdownNow() != null) {
-						    employeeTimeCounter(auth);
+						if (threadPoolExecutor.shutdownNow() != null) {
+							employeeTimeCounter(auth);
 						}
 						if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.MILLISECONDS)) {
 							LOG.appLogger().error("FAILED TO SHUTDOWN");
