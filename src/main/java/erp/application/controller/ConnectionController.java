@@ -1,12 +1,18 @@
 package erp.application.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +42,14 @@ public class ConnectionController {
 	public ConnectionController(ConnectionService serv, EmployeeService eService) {
 		this.service = serv;
 		this.employeeService = eService;
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder dataBider) {
+		final boolean customValidator = true;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		CustomDateEditor editor = new CustomDateEditor(dateFormat, customValidator);
+		dataBider.registerCustomEditor(Date.class, editor);
 	}
 
 	@GetMapping(value = "/get/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

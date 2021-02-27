@@ -1,5 +1,6 @@
 package erp.application.employee.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -18,8 +19,9 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Immutable
 @Table(name= "employee_processed_data")
-public class EmployeeProcessedData {
+public class EmployeeProcessedData implements Serializable{
 	
+	private static final long serialVersionUID = 4026795358374408208L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="employee_processed_id")

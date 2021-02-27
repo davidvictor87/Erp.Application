@@ -6,9 +6,12 @@ import java.util.concurrent.Executors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.transaction.Transactional;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import erp.application.entities.LOG;
 import erp.application.entities.UsersAbstractEntity;
 import erp.application.login.model.LevelType;
@@ -20,6 +23,8 @@ import erp.application.login.repository.UserRoleRepository;
 @Service(value="usersService")
 public class UsersService extends UsersAbstractEntity {
 
+	@PersistenceContext
+	private EntityManager em = null;
 	private UserRoleRepository userRoleRepository;
 	private LevelRepository levelRepository;
 	private UserRepository userRepository;
@@ -42,7 +47,7 @@ public class UsersService extends UsersAbstractEntity {
 		try {
 			LOG.appLogger().warn("Update USER_ROLE table begun, parameters received: ", user_id, role_id);
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("PERSISTENCE");
-			EntityManager em = emf.createEntityManager();
+			em = emf.createEntityManager();
 			em.getTransaction().begin();
 			Query updateQuery = em
 					.createQuery("UPDATE user_role us SET us.roleId = :role_id WHERE us.userId = " + user_id);
@@ -74,7 +79,7 @@ public class UsersService extends UsersAbstractEntity {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void saveUser(Users user) {
 		try {
 			synchronized (ACCESS_LOCK1) {

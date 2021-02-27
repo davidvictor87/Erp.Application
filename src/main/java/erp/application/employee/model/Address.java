@@ -1,11 +1,15 @@
 package erp.application.employee.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Embeddable
-public class Address {
+public class Address implements Serializable{
+	
+	private static final long serialVersionUID = -3199857691047670359L;
 	
 	@NotNull
 	@Size(max=100)

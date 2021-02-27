@@ -21,15 +21,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Immutable
 @Table(catalog = "login", name="user")
-public class Users implements Serializable{
+public class Users extends BaseUserModel implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	    private static final long serialVersionUID = 1L;
 	
-	    @Id
-	    @GeneratedValue(strategy = GenerationType.AUTO)
-	    @Column(name = "user_id")
-	    @NotNull
-	    private Long id;
 	    @Column(name = "email")
 	    @NotNull
 	    private String email;
@@ -50,6 +45,7 @@ public class Users implements Serializable{
 	    private Set<Role> roles;
 
 	    public Users() {
+	    	super();
 	    }
 
 	    public Users(Users users) {
@@ -59,17 +55,7 @@ public class Users implements Serializable{
 	        this.roles = users.getRoles();
 	        this.name = users.getName();
 	        this.lastName =users.getLastName();
-	        this.id = users.getId();
 	        this.password = users.getPassword();
-	    }
-
-	    public Long getId() {
-	        return id;
-	    }
-
-	    public Users setId(Long id) {
-	    	this.id = id;
-	        return this;
 	    }
 
 	    public String getEmail() {
@@ -128,9 +114,10 @@ public class Users implements Serializable{
 
 		@Override
 		public String toString() {
-			return "Users [id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", lastName="
-					+ lastName + ", active=" + active + ", roles=" + roles + "]";
-		}   
-	    
+			return "Users [email=" + email + ", password=" + password + ", name=" + name + ", lastName=" + lastName
+					+ ", active=" + active + ", roles=" + roles + "]";
+		}
+
+		
 	    
 }

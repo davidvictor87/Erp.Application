@@ -7,12 +7,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Immutable;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 
 @Entity
 @Immutable
 @Table(catalog = "login", name = "user_role")
-public class UserRole {
+public class UserRole implements Serializable{
+	
+	private static final long serialVersionUID = -6013024283046924747L;
 	
 	@Id
 	@Column(name="user_id")

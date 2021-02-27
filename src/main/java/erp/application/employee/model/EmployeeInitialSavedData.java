@@ -1,5 +1,6 @@
 package erp.application.employee.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -17,8 +18,9 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "employee_initial_saved_data")
-public class EmployeeInitialSavedData {
+public class EmployeeInitialSavedData implements Serializable{
 	
+	private static final long serialVersionUID = 8762257615467660395L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
