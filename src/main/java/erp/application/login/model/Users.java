@@ -16,6 +16,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Immutable;
 import org.springframework.data.annotation.Transient;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -31,6 +34,8 @@ public class Users extends BaseUserModel implements Serializable{
 	    @Transient
 	    @Column(name = "password")
 	    @NotNull
+	    @Min(value=8, message="Password must have at least 8 chacters")
+	    @Max(value=20, message="Password must not have more than 20 charcters")
 	    private String password;
 	    @Column(name = "name")
 	    @NotNull
