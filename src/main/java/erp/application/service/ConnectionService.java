@@ -53,7 +53,7 @@ public class ConnectionService {
 		}
 	}
 
-	private RestTemplate getRestTemplate() {
+	private final RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 
