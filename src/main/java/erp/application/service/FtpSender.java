@@ -6,6 +6,11 @@ import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+import javax.management.RuntimeErrorException;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -23,6 +28,8 @@ public class FtpSender {
 	private String user;
 	@Value("${connection.server.pass}")
 	private String password;
+	private static final int TIMEOUT = 1;
+	private CheckConnection checkConnection = new CheckConnection();
 
 	public FtpSender() {
 		super();
@@ -34,7 +41,7 @@ public class FtpSender {
 			ftpClient = new FTPClient();
 			ftpClient.connect(java.net.InetAddress.getByName(serverURL), port);
 			boolean isConnected = FTPReply.isPositiveCompletion(ftpClient.getReplyCode());
-			if (isConnected) {
+			if (isConnected && checkConnection.checkIfAddressIsReachable(serverURL, port, TIMEOUT)) {
 				ftpClient.login(user, password);
 				ftpClient.enterLocalPassiveMode();
 				ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
@@ -63,4 +70,23 @@ public class FtpSender {
 		}
 	}
 
+}
+
+class CheckConnection{
+	
+	protected boolean checkIfAddressIsReachable(String address, int port, int timeout) {
+		Socket socket = new Socket();
+		try {
+			socket.connect(new InetSocketAddress(address, port), timeout);
+			return true;
+		}catch (IOException e) {
+			throw new RuntimeErrorException((Error) e.fillInStackTrace(), e.getLocalizedMessage());
+		}finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
