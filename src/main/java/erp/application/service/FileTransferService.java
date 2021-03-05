@@ -17,8 +17,10 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.stereotype.Service;
 import erp.application.entities.LOG;
 import erp.application.entities.CopyAndUpdateFile;
@@ -28,6 +30,7 @@ public class FileTransferService {
 
 	private CopyAndUpdateFile cauf = new CopyAndUpdateFile();
 	private final Object lock = new Object();
+	private static final int NUMBERS_OF_SCHEDULED_THREADS = 2;
 	
 	public void startWatch() throws IOException {
 		final String path = "D:/SourceDirectory/";
@@ -42,16 +45,16 @@ public class FileTransferService {
 		LOG.appLogger().info("Import process started for file : "
 				+ new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
 		if (Files.exists(Paths.get(path))) {
-			ExecutorService exec = Executors.newSingleThreadExecutor();
-            exec.submit(new Runnable() {
-				public void run() {
-					watchMethod();
-				}
-			});
+			ScheduledExecutorService exec = Executors.newScheduledThreadPool(NUMBERS_OF_SCHEDULED_THREADS);
+  			Runnable startExec = () -> {
+				watchMethod();
+			};
+            exec.scheduleAtFixedRate(startExec, 1, 1, TimeUnit.SECONDS);
 		}
 	}
 
 	private void watchMethod() {
+		LOG.appLogger().info("=== Watch Method Called ===");
 		String value = "";
 		final String watchedDirectory = "D:/SourceDirectory/";
 		try (WatchService service = FileSystems.getDefault().newWatchService()) {
