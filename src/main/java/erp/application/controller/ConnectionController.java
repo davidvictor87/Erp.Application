@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,10 +52,11 @@ public class ConnectionController {
 		dataBider.registerCustomEditor(Date.class, editor);
 	}
 
-	@GetMapping(value = "/get/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/get/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "http://localhost:3000/employee/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ResponseBody
-	public String connectionMethod(@PathVariable(value = "id") final int idValue) {
+	public ModelAndView connectionMethod(@PathVariable(value = "id") final int idValue) {
 		
 		System.out.println("Service info: " + service.getModel() + " : " + idValue);
 		ModelAndView modelAndView = new ModelAndView();
@@ -64,6 +66,7 @@ public class ConnectionController {
 			String jsonInfo = mpr.writeValueAsString(
 					service.getModel().parallelStream().filter(id -> id.getId() == idValue).findFirst().orElse(null));
 			LOG.appLogger().info("JSON structure: " + jsonInfo);
+			JsonNode currentDate = mpr.readTree(jsonInfo);
 			JsonNode idReceiver = mpr.readTree(jsonInfo);
 			JsonNode firstNameReceiver = mpr.readTree(jsonInfo);
 			JsonNode lastNameReceiver = mpr.readTree(jsonInfo);
@@ -79,7 +82,7 @@ public class ConnectionController {
 			JsonNode addressReceiverCity = mpr.readTree(jsonInfo);
 			JsonNode addressReceiverStreet = mpr.readTree(jsonInfo);
 			JsonNode addressReceiverNumber = mpr.readTree(jsonInfo);
-			LOG.appLogger().warn("Saving data to database begun: ");
+			LOG.appLogger().warn("Saving data to database begun: " + currentDate.get("currentDate").asText());
 			employeeService.saveInitiaInfos(new EmployeeInitialSavedData(idReceiver.get("id").asInt(),
 					firstNameReceiver.get("name").asText(), lastNameReceiver.get("second_name").asText(),
 					professionReceiver.get("profession").asText(),
@@ -109,16 +112,28 @@ public class ConnectionController {
 			CreateFiles.createFiles(idReceiver.get("id").asInt(), firstNameReceiver.get("name").asText(), professionReceiver.get("profession").asText(), 
 					salaryReceiver.get("salary").asText(), isExceptedReceiver.asBoolean());
 			employeeService.printTaxes();
-			return mpr.writeValueAsString(
+			mpr.writeValueAsString(
 					service.getModel().stream().parallel().filter(id -> id.getId() == idValue).findAny().orElse(null));
+			modelAndView.addObject("id", idReceiver.get("id").asText());
+			modelAndView.addObject("currentDate", currentDate.get("currentDate").asText());
+			modelAndView.addObject("name", firstNameReceiver.get("name").asText());
+			modelAndView.addObject("second_name", lastNameReceiver.get("second_name").asText());
+			modelAndView.addObject("profession", professionReceiver.get("profession").asText());
+			modelAndView.addObject("isExcept", isExceptedReceiver.get("except").asText());
+			modelAndView.addObject("salary", salaryReceiver.get("salary").asText());
+			modelAndView.addObject("cnp", cnpReceiver.get("cnp").asText());
+			modelAndView.addObject("gender", genderReceiver.get("gender").asText());
+			modelAndView.addObject("fullTime", fullTimeReceiver.get("fulltime").asText());
+			modelAndView.addObject("adition_info", aditionalInfoReceiver.get("aditionInfo").asText());
+			return modelAndView;
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("JSON PARSING ERROR WITH ROOT CAUSE: ", e.getCause().toString());
-			return "FAIL";
+			return modelAndView.addObject("", "FAIL");
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.appLogger().error("MAJOR SYSTEM FAILURE WITH ROOT CAUSE: ", e.getLocalizedMessage());
-			return "FAIL";
+			return modelAndView.addObject("", "FAIL");
 		}
 	}
 

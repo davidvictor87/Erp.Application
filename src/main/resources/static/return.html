@@ -1,13 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-	<form action="return/{id}" method="post">
-	     <input type = "submit" value="2">
+	<form action="/employee/access/return/{id}" method="GET">
+		<table>
+			<tr>
+				<th>Current Date</th>
+				<th>Id</th>
+				<th>First Name</th>
+				<th>Second Name</th>
+				<th>Profession</th>
+				<th>Is Excepted</th>
+				<th>Salary</th>
+				<th>CNP</th>
+				<th>Gender</th>
+				<th>Full Time</th>
+				<th>Aditional Information</th>
+			</tr>
+			<tr>
+				<td><center>
+						<p th:text="${currentDate}" />
+					</center></td>
+				<td><center>
+						<p th:text="${id}" />
+					</center></td>
+				<td><center>
+						<p th:text="${name}"></p>
+					</center></td>
+				<td><center>
+						<p th:text="${second_name}"></p>
+					</center></td>
+				<td><center>
+						<p th:text="${profession}" />
+					</center></td>
+				<td><center>
+						<p th:text="${isExcept}" />
+					</center></td>
+				<td><center>
+						<p th:text="${salary}" />
+					</center></td>
+				<td><center>
+						<p th:text="${cnp}" />
+					</center></td>
+				<td><center>
+						<p th:text="${gender}" />
+					</center></td>
+				<td><center>
+						<p th:text="${fullTime}" />
+					</center></td>
+				<td><center>
+						<p th:text="${adition_info}" />
+					</center></td>
+				<input type="button">Submit</input>
+			</tr>
+		</table>
 	</form>
 
 </body>

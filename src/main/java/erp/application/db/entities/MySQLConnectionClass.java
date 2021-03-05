@@ -62,7 +62,7 @@ public class MySQLConnectionClass {
 	}
 	
 	@Primary
-	@Bean(name= "transactionManager")
+	@Bean(name= "mySQLTransactionManager")
 	public PlatformTransactionManager userTransactionManager() {
 		JpaTransactionManager jpaManager = new JpaTransactionManager();
 		jpaManager.setEntityManagerFactory(mySqlEntityManager().getObject());
