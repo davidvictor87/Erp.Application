@@ -125,6 +125,7 @@ public class ConnectionController {
 			modelAndView.addObject("gender", genderReceiver.get("gender").asText());
 			modelAndView.addObject("fullTime", fullTimeReceiver.get("fulltime").asText());
 			modelAndView.addObject("adition_info", aditionalInfoReceiver.get("aditionInfo").asText());
+			//
 			return modelAndView;
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
