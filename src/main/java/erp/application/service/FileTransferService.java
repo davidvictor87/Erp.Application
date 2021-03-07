@@ -17,10 +17,14 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import erp.application.entities.LOG;
 import erp.application.entities.CopyAndUpdateFile;
@@ -31,8 +35,9 @@ public class FileTransferService {
 	private CopyAndUpdateFile cauf = new CopyAndUpdateFile();
 	private final Object lock = new Object();
 	private static final int NUMBERS_OF_SCHEDULED_THREADS = 2;
-	
-	public void startWatch() throws IOException {
+
+	@Scheduled(fixedRate = 1)
+	public void startWatch() throws IOException, InterruptedException, ExecutionException {
 		final String path = "D:/SourceDirectory/";
 		String fileName = "";
 		File file = new File(path);
@@ -42,19 +47,23 @@ public class FileTransferService {
 				fileName = listOfFiles[i].getName();
 			System.out.println(listOfFiles[i].getName());
 		}
-		LOG.appLogger().info("Import process started for file : "
-				+ new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
+		LOG.appLogger().info(
+				"Import process started for file : " + new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
 		if (Files.exists(Paths.get(path))) {
-			ScheduledExecutorService exec = Executors.newScheduledThreadPool(NUMBERS_OF_SCHEDULED_THREADS);
-  			Runnable startExec = () -> {
-				watchMethod();
-			};
-            exec.scheduleAtFixedRate(startExec, 1, 1, TimeUnit.SECONDS);
+			ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(NUMBERS_OF_SCHEDULED_THREADS);
+			ScheduledFuture<?> scheduledFuture = scheduledExecutorService.schedule(new Callable<Object>() {
+				public Object call() throws Exception {
+					watchMethod();
+					return "Called";
+				}
+			}, 1, TimeUnit.SECONDS);
+            scheduledFuture.get();
+			scheduledExecutorService.shutdown();
 		}
 	}
 
 	private void watchMethod() {
-		LOG.appLogger().info("=== Watch Method Called ===");
+		LOG.appLogger().warn("=== Watch Method Called ===");
 		String value = "";
 		final String watchedDirectory = "D:/SourceDirectory/";
 		try (WatchService service = FileSystems.getDefault().newWatchService()) {
@@ -128,10 +137,10 @@ public class FileTransferService {
 			}
 		}
 	}
-	
-	private final boolean isDirectoryEmpty(final Path path) throws IOException{
-		if(Files.isDirectory(path)) {
-			try (DirectoryStream<Path> directoryToCheck = Files.newDirectoryStream(path)){
+
+	private final boolean isDirectoryEmpty(final Path path) throws IOException {
+		if (Files.isDirectory(path)) {
+			try (DirectoryStream<Path> directoryToCheck = Files.newDirectoryStream(path)) {
 				return !directoryToCheck.iterator().hasNext();
 			}
 		}

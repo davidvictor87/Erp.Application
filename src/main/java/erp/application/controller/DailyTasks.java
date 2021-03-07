@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextClosedEvent;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 
@@ -41,7 +43,7 @@ public class DailyTasks {
 		model.addAttribute("name", n);
 		try {
 			fileTransfer.startWatch();
-		} catch (IOException e) {
+		} catch (IOException | ExecutionException | InterruptedException e) {
 			e.printStackTrace();
 		}
 		return "logged.html";
