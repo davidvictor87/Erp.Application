@@ -14,7 +14,7 @@ public class CopyAndUpdateFile {
 	
 	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
 	private final Date date = new Date();
-	private static final String prefixString = "PROCESSED";
+	private static final String PREFIX_STRING = "PROCESSED";
 	
 	public void copyDirectory(File fileSource) {
 		
@@ -81,9 +81,9 @@ public class CopyAndUpdateFile {
 			RandomAccessFile raf2 = new RandomAccessFile(f2, "rw");
 			String st = null;
 			while((st = raf1.readLine()) != null) {
-				System.out.println(prefixString + st);
+				System.out.println(PREFIX_STRING + st);
 				raf2.writeBytes(System.getProperty("line.separator"));
-				raf2.writeBytes(prefixString + st);
+				raf2.writeBytes(PREFIX_STRING + st);
 			}
 			raf1.close();
 			raf2.close();

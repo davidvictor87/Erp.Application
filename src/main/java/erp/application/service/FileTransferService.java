@@ -36,7 +36,7 @@ public class FileTransferService {
 	private final Object lock = new Object();
 	private static final int NUMBERS_OF_SCHEDULED_THREADS = 2;
 
-	@Scheduled(fixedRate = 1)
+	@Scheduled(fixedRate = 1000L)
 	public void startWatch() throws IOException, InterruptedException, ExecutionException {
 		final String path = "D:/SourceDirectory/";
 		String fileName = "";
@@ -47,8 +47,7 @@ public class FileTransferService {
 				fileName = listOfFiles[i].getName();
 			System.out.println(listOfFiles[i].getName());
 		}
-		LOG.appLogger().info(
-				"Import process started for file : " + new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
+		LOG.appLogger().info("Import process started for file : " + new File("D:/SourceDirectory/" + fileName).getCanonicalPath());
 		if (Files.exists(Paths.get(path))) {
 			ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(NUMBERS_OF_SCHEDULED_THREADS);
 			ScheduledFuture<?> scheduledFuture = scheduledExecutorService.schedule(new Callable<Object>() {

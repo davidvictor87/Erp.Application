@@ -3,6 +3,8 @@ package erp.application.service;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.PreDestroy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,9 @@ public class TriggerService {
 	@Autowired
 	private UserRoleRepository userRoleRepo;
 
+	@PreDestroy
 	public final void deleteUser(long objectId) throws InterruptedException, ExecutionException {
+		LOG.appLogger().warn(" === Start deleteting all users data ===");
 		CompletableFuture.supplyAsync(() -> {
 			try {
 				LOG.appLogger().info("Parameter Received: " + objectId + " Thread Name: " + Thread.currentThread().getName());

@@ -9,20 +9,20 @@ import java.sql.ResultSet;
 
 public class JDBCUpdate {
 	
-	private static final String [] staticSettings = {"com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/login", "root", "Password123"};
-	private static volatile JDBCUpdate jdbcUpdate;
+	private static final String [] STATIC_SETTINGS = {"com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/login", "root", "Password123"};
+	private static volatile JDBCUpdate JDBC_UPDATE;
 	
 	private JDBCUpdate() {
-		if(jdbcUpdate != null) {
+		if(JDBC_UPDATE != null) {
 			throw new RuntimeException("Runtime exception thrown, for preventing reflection");
 		}
 	}
 	
 	public static synchronized JDBCUpdate singletonJDBC() {
-		if(jdbcUpdate == null) {
-			jdbcUpdate = new JDBCUpdate();
+		if(JDBC_UPDATE == null) {
+			JDBC_UPDATE = new JDBCUpdate();
 		}
-		return jdbcUpdate;
+		return JDBC_UPDATE;
 	}
 	
 	protected JDBCUpdate protectFromSerialization() {
@@ -38,8 +38,8 @@ public class JDBCUpdate {
 		Statement st = null;
 		
 		try {
-			Class.forName(staticSettings[0]);
-			conn = DriverManager.getConnection(staticSettings[1], staticSettings[2], staticSettings[3]);
+			Class.forName(STATIC_SETTINGS[0]);
+			conn = DriverManager.getConnection(STATIC_SETTINGS[1], STATIC_SETTINGS[2], STATIC_SETTINGS[3]);
 			st = conn.createStatement();
 			st.executeUpdate(sqlUpdate);
 		}catch (SQLException e) {
@@ -70,8 +70,8 @@ public class JDBCUpdate {
 		String primaryKeyUser = null;
 		String primaryKeyRole = null;
 		try {
-			Class.forName(staticSettings[0]);
-			connUser = DriverManager.getConnection(staticSettings[1], staticSettings[2], staticSettings[3]);
+			Class.forName(STATIC_SETTINGS[0]);
+			connUser = DriverManager.getConnection(STATIC_SETTINGS[1], STATIC_SETTINGS[2], STATIC_SETTINGS[3]);
 			stUser = connUser.createStatement();
 			rsUser = stUser.executeQuery(selectSqlUser);
 			while(rsUser.next()) {
@@ -100,8 +100,8 @@ public class JDBCUpdate {
 		ResultSet rsRole = null;
 		final String selectSqlRole = "SELECT role_id FROM role";
 		try {
-			Class.forName(staticSettings[0]);
-			connRole = DriverManager.getConnection(staticSettings[1], staticSettings[2], staticSettings[3]);
+			Class.forName(STATIC_SETTINGS[0]);
+			connRole = DriverManager.getConnection(STATIC_SETTINGS[1], STATIC_SETTINGS[2], STATIC_SETTINGS[3]);
 			stRole = connRole.createStatement();
 			rsRole = stRole.executeQuery(selectSqlRole);
 			while(rsRole.next()) {
@@ -138,8 +138,8 @@ public class JDBCUpdate {
 		Statement stmt = null;
 		
 		try {
-			Class.forName(staticSettings[0]);
-			conn = DriverManager.getConnection(staticSettings[1], staticSettings[2], staticSettings[3]);
+			Class.forName(STATIC_SETTINGS[0]);
+			conn = DriverManager.getConnection(STATIC_SETTINGS[1], STATIC_SETTINGS[2], STATIC_SETTINGS[3]);
 			stmt = conn.createStatement();
 			stmt.executeUpdate(sqlInsert);
 		}catch (Exception e) {

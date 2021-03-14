@@ -12,14 +12,14 @@ import erp.application.entities.LOG;
 @Component
 public class AspectDTasks {
 	
-	//@Before(value="")
-	public void beforeAdvice(JoinPoint joinPoit) {
-		LOG.appLogger().info("LOG: " + joinPoit.getSignature());
+	@Before(value="execution(* erp.application.service.EmployeeService.*(..)) and args(id))")
+	public void beforeAdvice(JoinPoint joinPoit, String id) {
+		LOG.appLogger().info("LOG from Aspect: " + joinPoit.getSignature() + ", ID: " + id);
 	}
 	
-	//@After(value="")
-	public void afterAdvice(JoinPoint joinPoint) {
-		LOG.appLogger().info("LOG: " + joinPoint.getSignature());
+	@After(value="execution(* erp.application.service.EmployeeService.*(..)) and args(id))")
+	public void afterAdvice(JoinPoint joinPoint, String id) {
+		LOG.appLogger().info("LOG: " + joinPoint.getSignature() + ", ID: " + id);
 	}
 
 }

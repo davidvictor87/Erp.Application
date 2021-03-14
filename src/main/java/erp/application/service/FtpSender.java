@@ -17,7 +17,9 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.File;
 import java.io.FileInputStream;
 
-@Service(value="ftpSender")
+import org.apache.commons.validator.routines.UrlValidator;
+
+@Service(value = "ftpSender")
 public class FtpSender {
 
 	@Value("${host.server.url}")
@@ -41,7 +43,8 @@ public class FtpSender {
 			ftpClient = new FTPClient();
 			ftpClient.connect(java.net.InetAddress.getByName(serverURL), port);
 			boolean isConnected = FTPReply.isPositiveCompletion(ftpClient.getReplyCode());
-			if (isConnected && checkConnection.checkIfAddressIsReachable(serverURL, port, TIMEOUT)) {
+			if (isConnected && checkConnection.checkIfAddressIsReachable(serverURL, port, TIMEOUT)
+					&& checkConnection.checkURLValidty(serverURL)) {
 				ftpClient.login(user, password);
 				ftpClient.enterLocalPassiveMode();
 				ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
@@ -49,7 +52,7 @@ public class FtpSender {
 				for (File files : fileLocation.listFiles()) {
 					if (files.isDirectory()) {
 						InputStream inputStream = new FileInputStream(files);
-						boolean isDone = ftpClient.storeFile("", inputStream);
+						boolean isDone = ftpClient.storeFile(files.getName(), inputStream);
 						if (isDone) {
 							LOG.appLogger().info("UPLOADED");
 						}
@@ -72,21 +75,36 @@ public class FtpSender {
 
 }
 
-class CheckConnection{
-	
+class CheckConnection {
+
 	protected boolean checkIfAddressIsReachable(String address, int port, int timeout) {
 		Socket socket = new Socket();
 		try {
 			socket.connect(new InetSocketAddress(address, port), timeout);
 			return true;
-		}catch (IOException e) {
+		} catch (IOException e) {
 			throw new RuntimeErrorException((Error) e.fillInStackTrace(), e.getLocalizedMessage());
-		}finally {
+		} finally {
 			try {
 				socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	protected boolean checkURLValidty(final String serverURL) {
+		UrlValidator validator = null;
+		try {
+			LOG.appLogger().debug("Calling checkURLValidity method for URL: " + serverURL);
+			validator = new UrlValidator();
+			return validator.isValid(serverURL) ? true : false;
+		} catch (Exception e) {
+			LOG.appLogger().error("Error occured: " + e.getMessage());
+			e.printStackTrace();
+		}finally {
+			LOG.appLogger().info("Validty is: " + validator.isValid(serverURL));
+		}
+		return false;
 	}
 }

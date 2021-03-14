@@ -1,6 +1,7 @@
 package erp.application.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import erp.application.entities.LOG;
 
@@ -17,35 +18,37 @@ public class UploadFileService {
 
 	public void uploadFile(String filePath) throws IOException {
 
-		StringBuffer fileContentBuilder = new StringBuffer();
-		filePath = "D:/NIO1/" + filePath;
-		AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(Paths.get(filePath),
-				StandardOpenOption.READ);
-		CompletionHandler<Integer, ByteBuffer> handler = new CompletionHandler<Integer, ByteBuffer>() {
-			@Override
-			public void completed(Integer result, ByteBuffer attachment) {
-				for (int i = 0; i < attachment.limit(); i++) {
-                     System.out.println(result + " : " + attachment);
+		if (!StringUtils.isEmpty(filePath)) {
+			StringBuffer fileContentBuilder = new StringBuffer();
+			filePath = "D:/NIO1/" + filePath;
+			AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(Paths.get(filePath),
+					StandardOpenOption.READ);
+			CompletionHandler<Integer, ByteBuffer> handler = new CompletionHandler<Integer, ByteBuffer>() {
+				@Override
+				public void completed(Integer result, ByteBuffer attachment) {
+					for (int i = 0; i < attachment.limit(); i++) {
+						System.out.println(result + " : " + attachment);
+					}
+				}
+
+				@Override
+				public void failed(Throwable e, ByteBuffer attachment) {
+					throw new IllegalStateException(e.getMessage());
+				}
+			};
+			final int bufferCount = 5;
+			ByteBuffer buffers[] = new ByteBuffer[bufferCount];
+			for (int i = 0; i < bufferCount; i++) {
+				buffers[i] = ByteBuffer.allocate(10);
+				fileChannel.read(buffers[i], i * 10, buffers[i], handler);
+			}
+			for (ByteBuffer byteBuffer : buffers) {
+				for (int i = 0; i < byteBuffer.limit(); i++) {
+					fileContentBuilder.append((char) +byteBuffer.get(i));
 				}
 			}
-
-			@Override
-			public void failed(Throwable e, ByteBuffer attachment) {
-				throw new IllegalStateException(e.getMessage());
-			}
-		};
-		final int bufferCount = 5;
-		ByteBuffer buffers[] = new ByteBuffer[bufferCount];
-		for (int i = 0; i < bufferCount; i++) {
-			buffers[i] = ByteBuffer.allocate(10);
-			fileChannel.read(buffers[i], i * 10, buffers[i], handler);
+			writeAsyncFile(fileContentBuilder.toString());
 		}
-		for (ByteBuffer byteBuffer : buffers) {
-			for (int i = 0; i < byteBuffer.limit(); i++) {
-				fileContentBuilder.append((char) +byteBuffer.get(i));
-			}
-		}
-		writeAsyncFile(fileContentBuilder.toString());
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -10,6 +10,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,22 +27,22 @@ import erp.application.employee.repository.TaxesRepository;
 import erp.application.entities.LOG;
 
 @Service
-@CacheConfig(cacheNames="employeeService")
+@CacheConfig(cacheNames = "employeeService")
 @Transactional
 public class EmployeeService {
 
 	private Lock lock1 = new ReentrantLock();
 	private Lock lock2 = new ReentrantLock();
 	private Lock lock3 = new ReentrantLock();
-	
+
 	public static double totalTax;
 	private static int numberOfThreads;
-	
+
 	static {
 		totalTax = 0.0;
 		numberOfThreads = 3;
 	}
-	
+
 	@Autowired
 	private EmployeeInitialSavedDataRepo initRepo;
 	@Autowired
@@ -50,13 +53,14 @@ public class EmployeeService {
 	public void saveInitiaInfos(EmployeeInitialSavedData employee) {
 		initRepo.saveAndFlush(employee);
 	}
-	
+
 	public void saveProcessedInfos(EmployeeProcessedData employee) {
 		processedRepo.save(employee);
 	}
 
-	@Cacheable(value ="calculateTaxes", sync=true)
+	@Cacheable(value = "calculateTaxes", sync = true)
 	@Transactional(readOnly = false)
+	@PostConstruct
 	public List<Double> calculateTaxes() {
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
@@ -102,7 +106,7 @@ public class EmployeeService {
 		}
 	}
 
-	@Cacheable(value = "calculateCasTax", sync=true)
+	@Cacheable(value = "calculateCasTax", sync = true)
 	@Transactional(readOnly = false)
 	public List<Double> calculateCasTax() {
 		List<Double> casTaxList = null;
@@ -119,7 +123,7 @@ public class EmployeeService {
 		return casTaxList;
 	}
 
-	@Cacheable(value = "calculateCassTax", sync=true)
+	@Cacheable(value = "calculateCassTax", sync = true)
 	@Transactional(readOnly = false)
 	public List<Double> calculateCassTax() {
 		List<Double> cassTaxList = null;
@@ -136,7 +140,7 @@ public class EmployeeService {
 		return cassTaxList;
 	}
 
-	@Cacheable(value = "calculateIncomeTax", sync=true)
+	@Cacheable(value = "calculateIncomeTax", sync = true)
 	@Transactional(readOnly = false)
 	public List<Double> calculeteIncomeTax() {
 		List<Double> incomeTaxList = null;
@@ -153,15 +157,26 @@ public class EmployeeService {
 		return incomeTaxList;
 	}
 
-	@Cacheable(value = "findAll", sync=true)
+	@Cacheable(value = "findAll", sync = true)
 	@Transactional(readOnly = true)
 	public List<EmployeeInitialSavedData> findAll() {
 		return initRepo.findAll();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public void printTaxes() {
 		System.out.println(tRepository.findAll());
+	}
+
+	@PreDestroy
+	@Transactional(readOnly = false)
+	public void deleteAllRecords() {
+		LOG.appLogger().warn(" ==== Start deleting all records ==== ");
+		try {
+			initRepo.deleteAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public double totalTaxes(double... taxes) {

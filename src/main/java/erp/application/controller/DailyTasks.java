@@ -3,8 +3,10 @@ package erp.application.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ import org.springframework.http.HttpStatus;
 
 
 @Controller
+@SessionAttributes(value="products")
 public class DailyTasks {
 	
 	private FileTransferService fileTransfer;
@@ -49,15 +52,20 @@ public class DailyTasks {
 		return "logged.html";
 	}
 	
-	@RequestMapping(value="/get/products", method = RequestMethod.GET)
-	public ResponseEntity<Products> employeeJsonResponse(){
-		Products product = CreateProductFiles.getProducts();
+	@RequestMapping(value="/get/products", method = RequestMethod.POST)
+	public ResponseEntity<Products> employeeJsonResponse(@ModelAttribute(value="products") Products product){
+		product = CreateProductFiles.getProducts();
 		try {
 			return new ResponseEntity<Products>(product, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Products>(HttpStatus.NOT_FOUND);
+	}
+	
+	@ModelAttribute(value="products")
+	public Products getProduct() {
+		return new Products();
 	}
 
 }
