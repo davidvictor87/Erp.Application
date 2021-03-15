@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,6 +137,18 @@ public class ConnectionController {
 			LOG.appLogger().error("MAJOR SYSTEM FAILURE WITH ROOT CAUSE: ", e.getLocalizedMessage());
 			return modelAndView.addObject("Err", "FAIL");
 		}
+	}
+	
+	@DeleteMapping(value="/delete/employee/records")
+	public ResponseEntity<Object> deleteAllRecords(){
+		LOG.appLogger().warn("Start deleting employee database");
+		try {
+			employeeService.deleteAllRecords();
+			return new ResponseEntity<Object>("Delete all records", HttpStatus.ACCEPTED);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Object>("Cannot delete records", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	private double getFinalRevenue(int index) {
