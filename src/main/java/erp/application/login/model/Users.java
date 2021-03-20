@@ -131,6 +131,7 @@ public class Users extends BaseUserModel implements Serializable{
         			.hashCode();
         }
 		
+		//
 		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof Users)) {
