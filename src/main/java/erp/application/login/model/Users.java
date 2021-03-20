@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Immutable;
 import org.springframework.data.annotation.Transient;
 
@@ -123,6 +125,21 @@ public class Users extends BaseUserModel implements Serializable{
 					+ ", active=" + active + ", roles=" + roles + "]";
 		}
 
+		@Override
+        public int hashCode() {
+        	return new HashCodeBuilder().append(email).append(password).append(name).append(lastName).append(active).append(roles)
+        			.hashCode();
+        }
 		
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof Users)) {
+				 return false;
+			}
+			Users thatUser = (Users) obj;
+			return new EqualsBuilder().append(this.email, thatUser.email).append(this.password, thatUser.password)
+					.append(this.name, thatUser.name).append(this.lastName, thatUser.lastName).append(this.active, thatUser.active).append(this.roles, thatUser.roles)
+					.isEquals();
+		}
 	    
 }

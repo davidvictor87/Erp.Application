@@ -14,7 +14,7 @@ public abstract class BaseUserModel {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true, updatable = false)
     @NotNull
 	private Long id;
 	
@@ -51,8 +51,6 @@ public abstract class BaseUserModel {
 	public String toString() {
 		return "BaseUserModel [id=" + id + ", version=" + version + "]";
 	}
-	
-	
 	
 
 }

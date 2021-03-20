@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Immutable;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -22,7 +25,7 @@ public class Role implements Serializable{
     @Column(name = "role_id")
     private long roleId;
 
-    @Column(name = "role")
+    @Column(name = "role", updatable = true)
     private String role;
 
     public Role() {
@@ -49,6 +52,22 @@ public class Role implements Serializable{
 		return "Role [roleId=" + roleId + ", role=" + role + "]";
 	}
 	
+	@Override
+	public int hashCode() {
+		HashCodeBuilder hcb = new HashCodeBuilder();
+		hcb.append(role);
+		return hcb.toHashCode();
+	}
     
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Role)) {
+			return false;
+		}
+		Role thatRole = (Role) obj;
+		EqualsBuilder eqBuilder = new EqualsBuilder();
+		eqBuilder.append(this.role, thatRole.role);
+		return eqBuilder.isEquals();
+	}
 
 }

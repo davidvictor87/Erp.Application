@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Immutable;
 
 import java.io.Serializable;
@@ -20,9 +23,9 @@ public class UserRole implements Serializable{
 	private static final long serialVersionUID = -6013024283046924747L;
 	
 	@Id
-	@Column(name="user_id")
+	@Column(name="user_id", unique = true, updatable = false)
 	private String userId;
-	@Column(name="role_id")
+	@Column(name="role_id", unique = true, updatable = false)
 	private String roleId;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", insertable=false, updatable=false)
@@ -67,8 +70,18 @@ public class UserRole implements Serializable{
 		return "UserRole [userId=" + userId + ", roleId=" + roleId + ", users=" + users + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(users).hashCode();
+	}
 	
-	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof UserRole)) {
+			return false;
+		}
+		UserRole uRole = (UserRole)obj;
+		return new EqualsBuilder().append(this.users, uRole.users).isEquals();
+	}
 
 }
