@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LOG {
 	
-	private static final Logger appLogger = LoggerFactory.getLogger(LOG.class);
+	private static final Logger APP_LOGGER = LoggerFactory.getLogger(LOG.class);
 	
 	public static final Logger appLogger() {
-		return appLogger;
+		return APP_LOGGER;
 	}
 
 }

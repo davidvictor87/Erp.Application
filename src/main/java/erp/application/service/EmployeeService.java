@@ -10,9 +10,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -60,7 +57,6 @@ public class EmployeeService {
 
 	@Cacheable(value = "calculateTaxes", sync = true)
 	@Transactional(readOnly = false)
-	@PostConstruct
 	public List<Double> calculateTaxes() {
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
@@ -168,7 +164,6 @@ public class EmployeeService {
 		System.out.println(tRepository.findAll());
 	}
 
-	@PreDestroy
 	@Transactional(readOnly = false)
 	public void deleteAllRecords() {
 		LOG.appLogger().warn(" ==== Start deleting all records ==== ");

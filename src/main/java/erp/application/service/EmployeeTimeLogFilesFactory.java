@@ -7,6 +7,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
@@ -34,11 +37,13 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 	private static final int TIMEOUT = 30;
 	private boolean isAuthenticated;
 	private static final Object LOCK = new Object();
-
-	static {
+	
+	@PostConstruct
+	public void initialize() {
 		System.setProperty("log4j.shutdownCallbackRegistry", "com.djdch.log4j.StaticShutdownCallbackRegistry");
 	}
 
+	@PreDestroy
 	public void shutDownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {

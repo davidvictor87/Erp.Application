@@ -4,7 +4,6 @@ import javax.persistence.Query;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -61,7 +60,6 @@ public class UsersService extends UsersAbstractEntity {
 		}
 	}
 
-	@PostConstruct
 	@Override
 	public void prioritizeTasks(Users user) {
 		ExecutorService exec = null;
@@ -82,7 +80,6 @@ public class UsersService extends UsersAbstractEntity {
 	}
 
 	@Override
-	@PostConstruct
 	@Transactional(readOnly=false)
 	public void saveUser(Users user) {
 		try {
