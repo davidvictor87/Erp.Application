@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import erp.application.entities.LOG;
+import erp.application.entities.Marked;
 import erp.application.employee.model.Address;
 import erp.application.employee.model.EmployeeInitialSavedData;
 import erp.application.employee.model.EmployeeProcessedData;
@@ -139,7 +140,8 @@ public class ConnectionController {
 		}
 	}
 	
-	@DeleteMapping(value="/delete/employee/records")
+	@GetMapping(value="/delete/employee/records")
+	@Marked
 	public ResponseEntity<Object> deleteAllRecords(){
 		LOG.appLogger().warn("Start deleting employee database");
 		try {
