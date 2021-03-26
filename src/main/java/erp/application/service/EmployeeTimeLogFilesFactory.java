@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -37,20 +39,32 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 	private static final int TIMEOUT = 30;
 	private boolean isAuthenticated;
 	private static final Object LOCK = new Object();
-	
+	private boolean allowTimeRecording;
+
 	@PostConstruct
 	public void initialize() {
+		LOG.appLogger().info("Init data called");
 		System.setProperty("log4j.shutdownCallbackRegistry", "com.djdch.log4j.StaticShutdownCallbackRegistry");
+		startLoggingTime();
 	}
 
-	@PreDestroy
-	public void shutDownHook() {
+	private void shutDownHook() {
+		LOG.appLogger().info("Invoked");
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				System.out.println("Invoked");
 				StaticShutdownCallbackRegistry.invoke();
 			}
 		}));
+	}
+
+	@PreDestroy
+	public void startShutDown() {
+		shutDownHook();
+		allowTimeRecording = true;
+		if (allowTimeRecording) {
+			startCountingTime();
+		}
 	}
 
 	public void employeeTimeCounter(Authentication auth) {
@@ -131,6 +145,26 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 				}
 			}
 		}
+	}
+
+	private String startLoggingTime() {
+		Instant startTime = Instant.now();
+		LOG.appLogger().info(startTime.toString());
+		return startTime.toString();
+	}
+
+	private String startCountingTime() {
+		String timeStamp = null;
+		Instant time = Instant.now();
+		try {
+			ScheduledExecutorService start = Executors.newScheduledThreadPool(1);
+			start.awaitTermination(1, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		timeStamp = time.toString();
+		LOG.appLogger().info("End Time: " + timeStamp);
+		return timeStamp = "";
 	}
 
 }

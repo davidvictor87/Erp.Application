@@ -16,7 +16,6 @@ import erp.application.service.CreateProductFiles;
 import erp.application.service.EmployeeTimeLogFilesFactory;
 import erp.application.service.FileTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextClosedEvent;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -36,6 +35,11 @@ public class DailyTasks {
 	public DailyTasks(FileTransferService fts, EmployeeTimeLogFilesFactory elf) {
 		this.fileTransfer = fts;
 		this.employeeLogFiles = elf;
+	}
+	
+	@ModelAttribute(value="products")
+	public Products getProduct() {
+		return new Products();
 	}
 	
 	@GetMapping(value="/daily/tasks")
@@ -61,11 +65,6 @@ public class DailyTasks {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Products>(HttpStatus.NOT_FOUND);
-	}
-	
-	@ModelAttribute(value="products")
-	public Products getProduct() {
-		return new Products();
 	}
 
 }
