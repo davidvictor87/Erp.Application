@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,6 +71,15 @@ public class StartPage {
     	}catch (IOException e) {
     		e.printStackTrace();
     	}
+    }
+    
+    @PreAuthorize(value="hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
+    @PostFilter(value="hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
+    @GetMapping("/logout")
+    public void logoutUser(HttpServletRequest req, HttpServletResponse resp, Authentication auth) {
+    	SecurityContextLogoutHandler sclh = new SecurityContextLogoutHandler();
+    	sclh.logout(req, resp, auth);
+    	LOG.appLogger().info("Logout Hit");
     }
     
     @PreAuthorize(value="hasAnyRole('ADMIN')")
