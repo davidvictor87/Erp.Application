@@ -32,11 +32,6 @@ public class DailyTasks {
 		String n = "Welcome  " + request.getUserPrincipal().getName();
 		employeeAuth = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("name", n);
-		try {
-			fileTransfer.startWatch();
-		} catch (IOException | ExecutionException | InterruptedException e) {
-			e.printStackTrace();
-		}
 		return "logged.html";
 	}
 

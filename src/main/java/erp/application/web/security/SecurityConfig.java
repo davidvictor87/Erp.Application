@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  @Override
  @Order(SecurityProperties.BASIC_AUTH_ORDER)
  protected void configure(HttpSecurity httpSecurity) throws Exception {
-     httpSecurity
+	 httpSecurity
      .csrf().disable();
      httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
      .permitAll();
@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      .and().logout().logoutSuccessUrl("/logout").permitAll(true).and().authorizeRequests()
      .antMatchers("/PannelUser").hasAnyRole(RolesAndRights.ADMIN.name()).anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
      .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login");	 
+	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login"); 
  }
 
   private PasswordEncoder getPasswordEncoder() {
