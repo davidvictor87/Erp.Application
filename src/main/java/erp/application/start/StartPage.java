@@ -88,6 +88,7 @@ public class StartPage {
 			SecurityContextLogoutHandler sclh = new SecurityContextLogoutHandler();
 			sclh.logout(req, resp, auth);
 			LOG.appLogger().info("Logout Hit");
+			
 			Mono<CsrfToken> csrfToken = exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.empty());
 			return csrfToken.map(token -> {
 				model.addAttribute("parameterName", SecurityContextHolder.getContext().getAuthentication().getName());
