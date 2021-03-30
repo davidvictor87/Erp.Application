@@ -77,6 +77,7 @@ public class StartPage {
 		}
 	}
 
+	//
 	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
 	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
 	@GetMapping("/logout")
