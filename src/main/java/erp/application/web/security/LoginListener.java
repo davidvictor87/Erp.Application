@@ -9,7 +9,7 @@ import erp.application.entities.LOG;
 
 @Component
 public class LoginListener implements ApplicationListener<ApplicationEvent> {
-
+//
 	@Override
 	public void onApplicationEvent(ApplicationEvent evt) {
 		try {
