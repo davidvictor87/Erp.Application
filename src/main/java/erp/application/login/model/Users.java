@@ -39,7 +39,7 @@ public class Users extends BaseUserModel implements Serializable{
 	    @Min(value=8, message="Password must have at least 8 chacters")
 	    @Max(value=20, message="Password must not have more than 20 charcters")
 	    private String password;
-	    @Column(name = "name")
+	    @Column(name = "name", unique = true)
 	    @NotNull
 	    private String name;
 	    @Column(name = "last_name")

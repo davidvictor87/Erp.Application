@@ -42,11 +42,8 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 	private static final Object LOCK = new Object();
 	private boolean allowTimeRecording;
 
-	//@PostConstruct
-	public void initialize() {
-		LOG.appLogger().info("Init data called");
-		//System.setProperty("log4j.shutdownCallbackRegistry", "com.djdch.log4j.StaticShutdownCallbackRegistry");
-	    startLoggingTime();
+	static {
+		System.setProperty("log4j.shutdownCallbackRegistry", "com.djdch.log4j.StaticShutdownCallbackRegistry");
 	}
 
 	private void shutDownHook() {
@@ -59,7 +56,7 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 		}));
 	}
 
-	// @PreDestroy
+	//@PreDestroy
 	public void startShutDown(Authentication authentication) {
 		shutDownHook();
 		authentication = SecurityContextHolder.getContext().getAuthentication();

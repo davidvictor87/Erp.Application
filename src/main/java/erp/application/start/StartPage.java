@@ -40,7 +40,7 @@ public class StartPage {
 		try {
 			final String getInput = req.getParameter("Daily-Tasks");
 			if (getInput != null) {
-				res.sendRedirect("/daily/tasks");
+				res.sendRedirect("/user/erp/daily/tasks");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,12 +77,12 @@ public class StartPage {
 		}
 	}
 
-	//
 	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
 	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
 	@GetMapping("/logout")
 	public Mono<String> logoutUser(ServerWebExchange exchange, Model model, HttpServletRequest req,
 			HttpServletResponse resp, Authentication auth) {
+		LOG.appLogger().info("Logout Hit");
 		try {
 			auth = SecurityContextHolder.getContext().getAuthentication();
 			LOG.appLogger().info("Name: " + auth.getName());
