@@ -56,7 +56,6 @@ public class EmployeeTimeLogFilesFactory implements TomcatConnectorCustomizer, A
 		}));
 	}
 
-	//@PreDestroy
 	public void startShutDown(Authentication authentication) {
 		shutDownHook();
 		authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -12,5 +12,10 @@ public class EnableAOP {
 	public AspectDTasks configDTasks() {
 		return new AspectDTasks();
 	}
+	
+	@Bean
+	public AspectEmployeeFiles aspFiles(){
+		return new AspectEmployeeFiles();
+	}
 
 }

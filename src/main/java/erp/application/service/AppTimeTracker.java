@@ -36,7 +36,7 @@ public class AppTimeTracker {
 			Path filePath = Paths.get(appLoggingTime.getAbsolutePath());
 			AsynchronousFileChannel writeAsyncData = AsynchronousFileChannel.open(filePath, StandardOpenOption.WRITE);
 			ByteBuffer buffer = ByteBuffer.allocate(1024);
-			final String startTime = "Application started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()).getBytes();
+			final String startTime = "Application started at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			buffer.put(startTime.getBytes());
 			buffer.flip();
 			Future<FileLock> fileLock = writeAsyncData.lock();
@@ -50,7 +50,6 @@ public class AppTimeTracker {
 				asyncWriter.get();
 				writeAsyncData.close();
 				buffer.clear();
-				lock.release();
 			}
 		} catch (IOException | ExecutionException | InterruptedException e) {
 			e.printStackTrace();
@@ -64,7 +63,7 @@ public class AppTimeTracker {
 			Path filePath = Paths.get(appLoggingTime.getAbsolutePath());
 			AsynchronousFileChannel writeAsyncData = AsynchronousFileChannel.open(filePath, StandardOpenOption.WRITE);
 			ByteBuffer buffer = ByteBuffer.allocate(1024);
-			final String endTime = "Application shutdown at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()).getBytes();
+			final String endTime = "Application shutdown at " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			buffer.put(endTime.getBytes());
 			buffer.flip();
 			Future<FileLock> fileLock = writeAsyncData.lock();
@@ -78,7 +77,6 @@ public class AppTimeTracker {
 				asyncWriter.get();
 				writeAsyncData.close();
 				buffer.clear();
-				lock.release();
 			}
 		} catch (IOException | ExecutionException | InterruptedException e) {
 			e.printStackTrace();
