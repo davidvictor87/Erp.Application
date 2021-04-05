@@ -77,30 +77,20 @@ public class StartPage {
 		}
 	}
 
-	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
-	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
-	@GetMapping("/logout")
-	public Mono<String> logoutUser(ServerWebExchange exchange, Model model, HttpServletRequest req,
-			HttpServletResponse resp, Authentication auth) {
-		LOG.appLogger().info("Logout Hit");
+	@PostMapping("/logout")
+	@ResponseBody
+	public String signOut(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			auth = SecurityContextHolder.getContext().getAuthentication();
-			LOG.appLogger().info("Name: " + auth.getName());
-			SecurityContextLogoutHandler sclh = new SecurityContextLogoutHandler();
-			sclh.logout(req, resp, auth);
-			LOG.appLogger().info("Logout Hit");
-			
-			Mono<CsrfToken> csrfToken = exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.empty());
-			return csrfToken.map(token -> {
-				model.addAttribute("parameterName", SecurityContextHolder.getContext().getAuthentication().getName());
-				model.addAttribute("_csrf", csrfToken);
-				return "login";
-			});
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth != null) {
+				new SecurityContextLogoutHandler().logout(request, response, auth);
+				response.sendRedirect("login.html");
+			}
 		} catch (Exception e) {
-			LOG.appLogger().info("Error");
 			e.printStackTrace();
 		}
-		return null;
+
+		return "redirect:/login";
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ADMIN')")
