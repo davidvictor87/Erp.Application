@@ -79,8 +79,10 @@ public class StartPage {
 	}
 
 	@PostMapping("/logout")
-	@ResponseBody
+	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
+	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
 	public String signOut(HttpServletRequest request, HttpServletResponse response) {
+		LOG.appLogger().info(" === Logout ===");
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
@@ -91,7 +93,7 @@ public class StartPage {
 			e.printStackTrace();
 		}
 
-		return "redirect:/login";
+		return "login.html";
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ADMIN')")
