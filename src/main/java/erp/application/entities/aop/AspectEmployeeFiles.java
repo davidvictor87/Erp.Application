@@ -15,7 +15,9 @@ import erp.application.entities.LOG;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -75,10 +77,14 @@ public class AspectEmployeeFiles {
 		try {
 			exec.execute(() -> {
 				long timeWorked = Duration.between(recordLoggedInTime, recordLogoutTime).getSeconds();
-				try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(new File(loggedUser + ".log").getAbsolutePath()), StandardCharsets.UTF_8)) {
-                     bw.write("User logout at: " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + 
-                    		 ", for: " + recordLogoutTime.toEpochMilli() + ", total time worked: "
-                    		 + timeWorked);
+				try {
+					final String writeMessage = "User logout at: "
+							+ new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ", for: "
+							+ recordLogoutTime.toEpochMilli() + ", total time worked: " + timeWorked
+							+ System.getProperty("line.separator");
+					Path path = Paths.get(new File(loggedUser + ".log").getAbsolutePath());
+					Files.write(path, writeMessage.getBytes(), StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+					preventMultipleAccessing = 0;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -18,6 +18,7 @@ import erp.application.entities.JDBCUpdate;
 import erp.application.login.model.Users;
 import erp.application.login.repository.UserRepository;
 import erp.application.service.UsersService;
+import erp.application.web.security.PreventAddingUndesiredValues;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,11 +31,14 @@ public class UsersManagerController{
 
 	private UserRepository uRepository;
 	private UsersService userService;
+	private PreventAddingUndesiredValues undesired;
 
 	@Autowired
-	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, @Qualifier(value="usersService")UsersService uService) {
+	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, @Qualifier(value="usersService")UsersService uService, 
+			@Qualifier(value = "undisered") PreventAddingUndesiredValues reject) {
 		this.uRepository = userRepository;
 		this.userService = uService;
+		this.undesired = reject;
 	}
 
 	@PostMapping(value = "/add/user")
@@ -46,7 +50,7 @@ public class UsersManagerController{
 		Pattern pattern = Pattern.compile(nameLength);
 		Matcher matcher = pattern.matcher(sName);
 		LOG.appLogger().info("Hit the endpoint.." + sName.length() + " " + password.length() + " " + isValid(password));
-		if (matcher.matches() && isValid(password) && (password.length() >= 8)) {
+		if (matcher.matches() && isValid(password) && (password.length() >= 8) && undesired.preventAdd(fName)) {
 			Users user = new Users();
 			user.setEmail(email).setPassword(password).setName(fName).setLastName(sName)
 					.setActive(Integer.parseInt(status));

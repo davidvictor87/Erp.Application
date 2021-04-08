@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      .defaultSuccessUrl("/welcome.html", true).usernameParameter("username").passwordParameter("password").failureForwardUrl("/login.html").permitAll()
      .and().logout().logoutSuccessUrl("/login.html").permitAll(true).and().authorizeRequests()
      .antMatchers("/PannelUser").hasAnyRole(RolesAndRights.ADMIN.name()).anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
-     .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout().logoutUrl("/login.html").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+				.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout()
+				.logoutUrl("/login.html").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
 	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login.html"); 
  }
 
