@@ -9,6 +9,7 @@ import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,8 +93,18 @@ public class StartPage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return "login.html";
+        return "login.html";
+	}
+	
+	@GetMapping(value="/unwanted/users")
+	public String addUnwantedUsernames(@Valid HttpServletResponse response) {
+		LOG.appLogger().info("Start Redirecting to Unwanted Page");
+		try {
+			response.sendRedirect("unwanted.html");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "unwanted.html";
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ADMIN')")

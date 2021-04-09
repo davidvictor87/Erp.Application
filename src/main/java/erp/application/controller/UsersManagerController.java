@@ -1,6 +1,8 @@
 package erp.application.controller;
 
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.Valid;
@@ -45,7 +47,7 @@ public class UsersManagerController{
 	@ResponseBody
 	public ModelAndView userFactory(@RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password, @RequestParam(value = "fName") String fName,
-			@RequestParam(value = "sName") String sName, @RequestParam(value = "status") String status) {
+			@RequestParam(value = "sName") String sName, @RequestParam(value = "status") String status) throws IOException{
 		final String nameLength = "^[a-zA-Z]{6,12}$";
 		Pattern pattern = Pattern.compile(nameLength);
 		Matcher matcher = pattern.matcher(sName);
