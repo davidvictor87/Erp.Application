@@ -20,6 +20,7 @@ import erp.application.entities.JDBCUpdate;
 import erp.application.login.model.Users;
 import erp.application.login.repository.UserRepository;
 import erp.application.service.UsersService;
+import erp.application.service.WriteToFileBlockedUsernames;
 import erp.application.web.security.PreventAddingUndesiredValues;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,25 +30,30 @@ import org.springframework.ui.Model;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-public class UsersManagerController{
+public class UsersManagerController {
 
 	private UserRepository uRepository;
 	private UsersService userService;
 	private PreventAddingUndesiredValues undesired;
+	private WriteToFileBlockedUsernames unwantedUsernames;
 
 	@Autowired
-	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository, @Qualifier(value="usersService")UsersService uService, 
-			@Qualifier(value = "undisered") PreventAddingUndesiredValues reject) {
+	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository,
+			@Qualifier(value = "usersService") UsersService uService,
+			@Qualifier(value = "undisered") PreventAddingUndesiredValues reject, 
+			@Qualifier("blockedusernames")WriteToFileBlockedUsernames blocked) {
 		this.uRepository = userRepository;
 		this.userService = uService;
 		this.undesired = reject;
+		this.unwantedUsernames = blocked;
 	}
 
 	@PostMapping(value = "/add/user")
 	@ResponseBody
 	public ModelAndView userFactory(@RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password, @RequestParam(value = "fName") String fName,
-			@RequestParam(value = "sName") String sName, @RequestParam(value = "status") String status) throws IOException{
+			@RequestParam(value = "sName") String sName, @RequestParam(value = "status") String status)
+			throws IOException {
 		final String nameLength = "^[a-zA-Z]{6,12}$";
 		Pattern pattern = Pattern.compile(nameLength);
 		Matcher matcher = pattern.matcher(sName);
@@ -88,14 +94,26 @@ public class UsersManagerController{
 
 	}
 
+	@PostMapping("/unwanted{username}")
+	public String addUnwantedUsers(@RequestParam(value="username") final String username) {
+		LOG.appLogger().warn("User with name: " + username + " will not be able to be added");
+		try {
+			unwantedUsernames.writeUnwantedUsers(username);
+			return "unwanted.html";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "unwanted.html";
+	}
+
 	@PostMapping(value = "/save/user")
 	public String saveUser(@Valid Users user) {
 		LOG.appLogger().info("Received data: " + user);
 		try {
 			LOG.appLogger().warn("Processed data: " + user);
 			System.out.println("Active: " + user.getActive());
-			     userService.saveUser(user);
-			} catch (Exception e) {
+			userService.saveUser(user);
+		} catch (Exception e) {
 			LOG.appLogger().error("Catched error: " + e.getMessage());
 		}
 		return "redirect:/PannelUser";
@@ -113,5 +131,5 @@ public class UsersManagerController{
 		final String numeric = ".*[0-9].*";
 		return input.matches(charachter) && input.matches(numeric);
 	}
-	
+
 }

@@ -9,6 +9,7 @@ import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.security.access.prepost.PostFilter;
@@ -82,7 +83,7 @@ public class StartPage {
 	@PostMapping("/logout")
 	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
 	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
-	public String signOut(HttpServletRequest request, HttpServletResponse response) {
+	public void signOut(HttpServletRequest request, HttpServletResponse response) {
 		LOG.appLogger().info(" === Logout ===");
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -93,18 +94,26 @@ public class StartPage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        return "login.html";
 	}
-	
-	@GetMapping(value="/unwanted/users")
-	public String addUnwantedUsernames(@Valid HttpServletResponse response) {
-		LOG.appLogger().info("Start Redirecting to Unwanted Page");
+
+	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name())")
+	@PostFilter(value = "hasPermission(T(erp.application.web.security.RolesAndRights).WRITE.name())")
+	@GetMapping(value = "/unwanted/users")
+	public void addUnwantedUsernames(HttpServletRequest request, HttpServletResponse response) {
+		LOG.appLogger().info("Value Received: " + request.toString());
+		HttpSession session = request.getSession();
+		session.setAttribute(request.getCharacterEncoding(), request.getParameter("Unwanted"));
+		LOG.appLogger().info("MAX INACTIVE INTERVAL TIME: "+session.getMaxInactiveInterval());
+		String input = request.getParameter("Unwanted");
 		try {
-			response.sendRedirect("unwanted.html");
-		}catch (Exception e) {
+			if (input != null) {
+				response.sendRedirect("/unwanted");
+				LOG.appLogger().info("Start Redirecting to Unwanted Page");
+				session.invalidate();
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "unwanted.html";
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ADMIN')")
