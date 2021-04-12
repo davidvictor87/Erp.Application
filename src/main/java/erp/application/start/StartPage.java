@@ -98,18 +98,17 @@ public class StartPage {
 
 	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name())")
 	@PostFilter(value = "hasPermission(T(erp.application.web.security.RolesAndRights).WRITE.name())")
-	@GetMapping(value = "/unwanted/users")
+	@PostMapping(value = "/unwanted/users")
 	public void addUnwantedUsernames(HttpServletRequest request, HttpServletResponse response) {
 		LOG.appLogger().info("Value Received: " + request.toString());
 		HttpSession session = request.getSession();
-		session.setAttribute(request.getCharacterEncoding(), request.getParameter("Unwanted"));
+		session.setAttribute("", "");
 		LOG.appLogger().info("MAX INACTIVE INTERVAL TIME: "+session.getMaxInactiveInterval());
 		String input = request.getParameter("Unwanted");
 		try {
 			if (input != null) {
-				response.sendRedirect("/unwanted");
+				response.sendRedirect("/unwanted.html");
 				LOG.appLogger().info("Start Redirecting to Unwanted Page");
-				session.invalidate();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+<link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Add Unwanted</title>
 </head>
 <body>
-     <h1>Unwanted</h1>
+	<h1 class="text-center">Unwanted Usernames</h1>
+
+	<form action="/unwanted" method="POST">
+		<div class="container">
+		    <div class="form-group">
+		         <div class="col-xs-2">
+					<label for="exampleInputEmail1">Unwanted Username</label> <input
+						name="username" type="text" class="form-control"
+						id="exampleUsername" placeholder="Add Unwanted Username">
+				</div>
+		    </div>
+		    <button type="submit" class="btn btn-primary">Button</button>
+		</div>
+	</form>
+
+	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

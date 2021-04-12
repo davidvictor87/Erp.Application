@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -21,9 +21,8 @@ public class PreventAddingUndesiredValues {
 	public boolean preventAdd(final String undiseredValues) throws IOException {
 		LOG.appLogger().warn("Received username: " + undiseredValues);
 		Path path = Paths.get(new File("blockedUsernames.txt").getAbsolutePath());
-		List<String> unwantedUsernames = Files.readAllLines(path);
-		String[] b = unwantedUsernames.get(0).split(" ");
-		unwantedUsernames.clear();
+		String[] b = Files.readAllLines(path).get(0).split(" ");
+		ArrayBlockingQueue<String> unwantedUsernames = new ArrayBlockingQueue<String>(b.length);
 		Arrays.asList(b).stream().collect(Collectors.toCollection(() -> unwantedUsernames));
 		unwantedUsernames.stream().forEach(name -> {
 			if (name.equalsIgnoreCase(undiseredValues)) {

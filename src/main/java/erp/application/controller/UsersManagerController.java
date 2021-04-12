@@ -6,16 +6,19 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import erp.application.entities.LOG;
-import erp.application.entities.ParametersInterface;
 import erp.application.entities.JDBCUpdate;
 import erp.application.login.model.Users;
 import erp.application.login.repository.UserRepository;
@@ -40,8 +43,8 @@ public class UsersManagerController {
 	@Autowired
 	public UsersManagerController(@Qualifier(value = "UserRepository") UserRepository userRepository,
 			@Qualifier(value = "usersService") UsersService uService,
-			@Qualifier(value = "undisered") PreventAddingUndesiredValues reject, 
-			@Qualifier("blockedusernames")WriteToFileBlockedUsernames blocked) {
+			@Qualifier(value = "undisered") PreventAddingUndesiredValues reject,
+			@Qualifier("blockedusernames") WriteToFileBlockedUsernames blocked) {
 		this.uRepository = userRepository;
 		this.userService = uService;
 		this.undesired = reject;
@@ -94,16 +97,22 @@ public class UsersManagerController {
 
 	}
 
-	@PostMapping("/unwanted{username}")
-	public String addUnwantedUsers(@RequestParam(value="username") final String username) {
+	@PostMapping("/unwanted")
+	@ResponseBody
+	public ModelAndView addUnwantedUsers(@NotBlank @Valid @RequestParam(value = "username") final String username) {
 		LOG.appLogger().warn("User with name: " + username + " will not be able to be added");
-		try {
+		ModelAndView view = new ModelAndView("unwanted.html");
+        try {
 			unwantedUsernames.writeUnwantedUsers(username);
-			return "unwanted.html";
+			view.setStatus(HttpStatus.OK);
+			view.setViewName("unwanted.html");
+			return view;
 		} catch (Exception e) {
 			e.printStackTrace();
+			view.setStatus(HttpStatus.BAD_GATEWAY);
+			view.setViewName("error.html");
 		}
-		return "unwanted.html";
+        return view;
 	}
 
 	@PostMapping(value = "/save/user")

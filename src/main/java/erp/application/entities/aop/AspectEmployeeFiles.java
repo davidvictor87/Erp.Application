@@ -40,7 +40,6 @@ public class AspectEmployeeFiles {
 			if (enable) {
 				recordLoggedInTime = Instant.now();
 				exec.execute(() -> {
-					LOG.appLogger().info("Logged User: " + loggedUser);
 					logFile = new File(loggedUser + ".log");
 					try {
 						if (!logFile.exists()) {
@@ -49,6 +48,7 @@ public class AspectEmployeeFiles {
 						preventMultipleAccessing++;
 						try (BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true))) {
 							if (preventMultipleAccessing == 1) {
+								LOG.appLogger().info("Logged User: " + loggedUser);
 								bw.write("User logged in at: "
 										+ new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ", for: "
 										+ recordLoggedInTime.toEpochMilli());
