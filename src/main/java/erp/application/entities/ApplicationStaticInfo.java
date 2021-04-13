@@ -46,4 +46,6 @@ public class ApplicationStaticInfo {
 	
 	public static final String APPLICATION_ERROR_PROFILE = "APP_ERROR_PROFILE";
 	
+	public static final String TOMCAT_PATTERN = "";
+	
 }

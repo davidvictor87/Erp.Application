@@ -88,8 +88,8 @@ public class StartPage {
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
-				new SecurityContextLogoutHandler().logout(request, response, auth);
 				response.sendRedirect("login.html");
+				new SecurityContextLogoutHandler().logout(request, response, auth);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

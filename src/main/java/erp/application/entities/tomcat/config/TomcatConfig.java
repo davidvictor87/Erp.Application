@@ -1,5 +1,7 @@
 package erp.application.entities.tomcat.config;
 
+import java.nio.charset.Charset;
+
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -12,26 +14,30 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 
 @Configuration
-@EnableAutoConfiguration
-@ConditionalOnWebApplication(type = Type.SERVLET)
+//@EnableAutoConfiguration
+//@ConditionalOnWebApplication(type = Type.SERVLET)
 public class TomcatConfig {
 	
 	@Bean
 	public ServletWebServerFactory servletContainer() {
-		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory()
+		{
 			@Override
 			public void postProcessContext(Context context) {
-				SecurityConstraint constraint = new SecurityConstraint();
-				constraint.setUserConstraint("CONFIDENTIAL");
-				SecurityCollection securityCollection = new SecurityCollection();
-				securityCollection.addPattern("/*");
-				constraint.addCollection(securityCollection);
-				context.addConstraint(constraint);
+			SecurityConstraint constraint = new SecurityConstraint();
+			constraint.setUserConstraint("CONFIDENTIAL");
+			SecurityCollection securityCollection = new SecurityCollection();
+		    securityCollection.addMethod(getServerHeader());
+		    securityCollection.addPattern(ApplicationStaticInfo.TOMCAT_PATTERN);
+			constraint.addCollection(securityCollection);
+			context.addConstraint(constraint);
 			}
 		};
+		tomcat.setUriEncoding(Charset.defaultCharset());
 		tomcat.addAdditionalTomcatConnectors(new Connector[] {this.redirectConnector()});
 		LOG.appLogger().debug(" === Custom Tomcat Config Class ===");
 		return tomcat;
@@ -39,10 +45,13 @@ public class TomcatConfig {
 	
 	private Connector redirectConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+		//Connector connector = new Connector();
 		connector.setScheme("http");
 		connector.setPort(8088);
 		connector.setSecure(false);
-		connector.setRedirectPort(8443);
+		connector.setURIEncoding("UTF-8");
+		connector.setUseBodyEncodingForURI(false);
+		connector.setMaxPostSize(1000000000);
 		return connector;
 	}
 
