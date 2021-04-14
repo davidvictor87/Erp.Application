@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -103,7 +105,7 @@ public class StartPage {
 		LOG.appLogger().info("Value Received: " + request.toString());
 		HttpSession session = request.getSession();
 		session.setAttribute("", "");
-		LOG.appLogger().info("MAX INACTIVE INTERVAL TIME: "+session.getMaxInactiveInterval());
+		LOG.appLogger().info("MAX INACTIVE INTERVAL TIME: " + session.getMaxInactiveInterval());
 		String input = request.getParameter("Unwanted");
 		try {
 			if (input != null) {
@@ -112,6 +114,20 @@ public class StartPage {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name())")
+	@PostFilter(value = "hasPermission(T(erp.application.web.security.RolesAndRights).WRITE.name())")
+	@GetMapping("/exit")
+	public ResponseEntity<?> exitApp() {
+		LOG.appLogger().warn(" === App is shutting down ===");
+		try {
+			System.exit(0);
+			return new ResponseEntity<Object>("App is shuting down", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>("Failed to shut down", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
