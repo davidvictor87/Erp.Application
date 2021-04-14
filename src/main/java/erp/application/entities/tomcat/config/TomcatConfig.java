@@ -18,8 +18,8 @@ import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 
 @Configuration
-//@EnableAutoConfiguration
-//@ConditionalOnWebApplication(type = Type.SERVLET)
+@EnableAutoConfiguration
+@ConditionalOnWebApplication(type = Type.SERVLET)
 public class TomcatConfig {
 	
 	@Bean
@@ -32,6 +32,10 @@ public class TomcatConfig {
 			constraint.setUserConstraint("CONFIDENTIAL");
 			SecurityCollection securityCollection = new SecurityCollection();
 		    securityCollection.addMethod(getServerHeader());
+		    securityCollection.addMethod("GET");
+		    securityCollection.addMethod("POST");
+		    securityCollection.addMethod("PUT");
+		    securityCollection.addMethod("DELETE");
 		    securityCollection.addPattern(ApplicationStaticInfo.TOMCAT_PATTERN);
 			constraint.addCollection(securityCollection);
 			context.addConstraint(constraint);
@@ -44,14 +48,14 @@ public class TomcatConfig {
 	}
 	
 	private Connector redirectConnector() {
-		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-		//Connector connector = new Connector();
+		Connector connector = new Connector(ApplicationStaticInfo.HTTP_NIO_PROTOCOL);
 		connector.setScheme("http");
 		connector.setPort(8088);
-		connector.setSecure(false);
+		connector.setSecure(true);
 		connector.setURIEncoding("UTF-8");
-		connector.setUseBodyEncodingForURI(false);
+		connector.setUseBodyEncodingForURI(true);
 		connector.setMaxPostSize(1000000000);
+		connector.setRedirectPort(8043);
 		return connector;
 	}
 

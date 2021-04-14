@@ -46,6 +46,7 @@ public class StartScripts implements Callable<Object> {
 	private void startApp() {
 		lock1.lock();
 		try {
+			LOG.appLogger().info(" === Start JSON Generator Spring App ===");
 			File scriptFile = new File(ApplicationStaticInfo.START_SCRIPT_PATH);
 			if (!scriptFile.exists()) {
 				scriptFile.createNewFile();
@@ -59,9 +60,12 @@ public class StartScripts implements Callable<Object> {
 			}
 			System.out.println(sb.toString());
 			Process process = runtime.exec(sb.toString());
+			if(!process.isAlive()) {
+				LOG.appLogger().info("Exit Value:" + process.exitValue());
+			}
 			sc.close();
-			LOG.appLogger().info("Exit Value: " + process.exitValue());
 		} catch (IOException e) {
+			LOG.appLogger().error("Error Intercepted");
 			LOG.appLogger().error(e.getMessage());
 		} finally {
 			lock1.unlock();

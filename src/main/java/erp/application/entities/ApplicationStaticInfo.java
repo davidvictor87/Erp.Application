@@ -48,4 +48,6 @@ public class ApplicationStaticInfo {
 	
 	public static final String TOMCAT_PATTERN = "";
 	
+	public static final String HTTP_NIO_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
+	
 }
