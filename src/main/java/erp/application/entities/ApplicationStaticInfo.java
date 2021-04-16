@@ -50,4 +50,8 @@ public class ApplicationStaticInfo {
 	
 	public static final String HTTP_NIO_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 	
+	public static final String SOURCE_DIRECTORY = "D:/SourceDirectory/";
+	
+	public static final String DESTINATION_DIRECTORY = "D:/DestinationFolder/Document.txt";
+	
 }
