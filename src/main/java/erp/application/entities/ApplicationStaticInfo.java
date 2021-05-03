@@ -16,7 +16,9 @@ public class ApplicationStaticInfo {
 	
 	public static final String ORACLE_DRIVER_PSY_ENGINE = "com.p6spy.engine.spy.P6SpyDriver";
 	
-	public static final String ORACLE_URL = "jdbc:p6spy:oracle:thin:@localhost:1521:orcl";
+	//public static final String ORACLE_URL = "jdbc:p6spy:oracle:thin:@localhost:1521:orcl";
+	
+	public static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1521:xe";
 	
 	public static final String setExceptValue(final boolean except) {
 		return except ? "true" : "false";
