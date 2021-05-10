@@ -60,7 +60,7 @@ public class SSLConfig {
 			};
 			key = KeyStore.getInstance(KeyStore.getDefaultType());
 			key.load((InputStream) new FileInputStream(new File(keyStoreFile)), keyPassword.toCharArray());
-		    context = SSLContexts.custom().loadTrustMaterial(null, trustStrategy).build();
+		    context = SSLContexts.custom().loadTrustMaterial(key, trustStrategy).build();
 		    socketFactory = new SSLConnectionSocketFactory(context, NoopHostnameVerifier.INSTANCE);
 		    httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
 		    requestFactory = new HttpComponentsClientHttpRequestFactory();
