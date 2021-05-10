@@ -4,7 +4,6 @@ import javax.net.ssl.SSLContext;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.ResourceUtils;
@@ -23,7 +22,6 @@ public class SSLContextConfig {
 	@Value("${trustore.location}")
 	private String trustStore;
 	
-	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder templateBuilder) throws Exception{
 		new SSLContextBuilder();
 		SSLContext sslContext = SSLContextBuilder.create().loadKeyMaterial(ResourceUtils.getFile(keyStoreFile), 
