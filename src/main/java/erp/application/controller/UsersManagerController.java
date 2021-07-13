@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import erp.application.entities.LOG;
@@ -73,17 +75,17 @@ public class UsersManagerController {
 		return new ModelAndView("register.html");
 	}
 
-	@GetMapping("/PannelUser")
+	@GetMapping(value="/PannelUser")
 	public String showUsers(Model model, @RequestParam(defaultValue = "0") int startPage) {
 		final int pageSize = 20;
 		model.addAttribute("data", uRepository.findAll(PageRequest.of(startPage, pageSize)));
 		return "delete.html";
 	}
 
-	@GetMapping(value = "/update/user{id}")
-	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id) {
+	@PutMapping(value = "/update/user{id}")
+	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id, @RequestHeader(name= "update-user") 
+	HttpHeaders headers) {
 		LOG.appLogger().info("Input info: " + id);
-		HttpHeaders headers = null;
 		System.out.println("Id is " + id);
 		try {
 			System.out.println("User: " + uRepository.findById(id).get());

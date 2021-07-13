@@ -4,64 +4,78 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+<style>
+table, th, td {
+	border: 1px solid black;
+}
+
+th, td, h1 {
+	text-align: center;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-
-	<form action="/employee/access/return/{id}" method="GET">
-		<table>
-			<tr>
-				<th>Current Date</th>
-				<th>Id</th>
-				<th>First Name</th>
-				<th>Second Name</th>
-				<th>Profession</th>
-				<th>Is Excepted</th>
-				<th>Salary</th>
-				<th>CNP</th>
-				<th>Gender</th>
-				<th>Full Time</th>
-				<th>Aditional Information</th>
-			</tr>
-			<tr>
-				<td><center>
+	<div style="background-color: green;">
+		<h1 style="color: blue">Employee Data</h1>
+	</div>
+	<div style="background-color: gray;">
+		<form action="/employee/access/return/{id}" method="GET">
+			<table>
+				<tr>
+					<th>Current Date</th>
+					<th>Id</th>
+					<th>First Name</th>
+					<th>Second Name</th>
+					<th>Profession</th>
+					<th>Is Excepted</th>
+					<th>Salary</th>
+					<th>CNP</th>
+					<th>Gender</th>
+					<th>Full Time</th>
+					<th>Aditional Information</th>
+				</tr>
+				<tr>
+					<td>
 						<p th:text="${currentDate}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${id}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${name}"></p>
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${second_name}"></p>
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${profession}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${isExcept}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${salary}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${cnp}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${gender}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${fullTime}" />
-					</center></td>
-				<td><center>
+					</td>
+					<td>
 						<p th:text="${adition_info}" />
-					</center></td>
-				<input type="button">Submit</input>
-			</tr>
-		</table>
-	</form>
+					</td>
+					<input type="submit">Submit
+					</input>
+				</tr>
+			</table>
+		</form>
+	</div>
 
 </body>
 </html>
