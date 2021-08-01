@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  protected void configure(HttpSecurity httpSecurity) throws Exception {
 	 httpSecurity
      .csrf().disable();
-     httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
+     httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
+    		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
      .permitAll();
      httpSecurity.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/register").permitAll()
      .anyRequest().authenticated().and().formLogin().loginPage("/login.html").permitAll(true)
