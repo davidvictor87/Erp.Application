@@ -1,8 +1,6 @@
 package erp.application.start;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.annotation.ServletSecurity;
@@ -37,21 +35,6 @@ import reactor.core.publisher.Mono;
 @ServletSecurity
 public class StartPage {
 
-	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name(), T(erp.application.web.security.RolesAndRights).MANAGER.name(), T(erp.application.web.security.RolesAndRights).USER.name())")
-	@PostFilter(value = "hasPermision(T(erp.application.web.security.RolesAndRights).READ.name())")
-	@GetMapping("/Daily-Tasks")
-	public List<Users> infoUser(HttpServletResponse res, HttpServletRequest req) {
-		final List<Users> allUsers = new ArrayList<Users>();
-		try {
-			final String getInput = req.getParameter("Daily-Tasks");
-			if (getInput != null) {
-				res.sendRedirect("/user/erp/daily/tasks");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return allUsers;
-	}
 
 	@PreAuthorize(value = "hasAnyRole(T(erp.application.web.security.RolesAndRights).ADMIN.name())")
 	@PostFilter(value = "hasPermission(T(erp.application.web.security.RolesAndRights).WRITE.name())")

@@ -1,5 +1,4 @@
 package erp.application.web.security;
-
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;

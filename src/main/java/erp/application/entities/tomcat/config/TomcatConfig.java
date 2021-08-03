@@ -51,7 +51,7 @@ public class TomcatConfig {
 		Connector connector = new Connector(ApplicationStaticInfo.HTTP_NIO_PROTOCOL);
 		connector.setScheme("http");
 		connector.setPort(8088);
-		connector.setSecure(true);
+		connector.setSecure(false);
 		connector.setURIEncoding("UTF-8");
 		connector.setUseBodyEncodingForURI(true);
 		connector.setMaxPostSize(1000000000);

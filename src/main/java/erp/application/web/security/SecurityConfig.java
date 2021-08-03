@@ -62,8 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  @Override
  @Order(SecurityProperties.BASIC_AUTH_ORDER)
  protected void configure(HttpSecurity httpSecurity) throws Exception {
-	 httpSecurity
-     .csrf().disable();
+	 httpSecurity.csrf().disable();
      httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
     		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
      .permitAll();
@@ -72,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      .defaultSuccessUrl("/welcome.html", true).usernameParameter("username").passwordParameter("password").failureForwardUrl("/login.html").permitAll()
      .and().logout().logoutSuccessUrl("/login.html").permitAll(true).and().authorizeRequests()
      .antMatchers("/PannelUser").hasAnyRole(RolesAndRights.ADMIN.name()).anyRequest().authenticated().and().rememberMe().rememberMeParameter("remember-me")
-				.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21)).key(rememberKey()).and().logout()
+				.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(210)).key(rememberKey()).and().logout()
 				.logoutUrl("/login.html").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
 	 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("JESSIONID","remember-me").logoutSuccessUrl("/login.html"); 
  }
