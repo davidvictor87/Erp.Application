@@ -16,12 +16,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Immutable;
 import org.springframework.data.annotation.Transient;
 
+import erp.application.entities.LOG;
+
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Immutable
 @Table(catalog = "login", name = "user")
-public class Users extends BaseUserModel implements Serializable {
+public class Users extends BaseUserModel implements Serializable, Comparable<Users> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -133,6 +135,51 @@ public class Users extends BaseUserModel implements Serializable {
 		return new EqualsBuilder().append(this.email, thatUser.email).append(this.password, thatUser.password)
 				.append(this.name, thatUser.name).append(this.lastName, thatUser.lastName)
 				.append(this.active, thatUser.active).append(this.roles, thatUser.roles).isEquals();
+	}
+
+	@Override
+	public int compareTo(Users users) {
+		if (users == null) {
+			return 0;
+		}
+		int roleComparator = 0;
+		int compareFirstName = this.name.compareTo(getName());
+		int compareLastName = this.lastName.compareTo(getLastName());
+		int compareEmail = this.email.compareTo(getEmail());
+		switch (users.getRoles().iterator().next().getRole()) {
+		case "ADMINISTRATOR":
+			roleComparator = 2;
+			break;
+		case "MANAGER":
+			roleComparator = 3;
+			break;
+		case "USER":
+			roleComparator = 4;
+			break;
+		default:
+			LOG.appLogger().error("=== USER ROLE ERROR ===");
+			break;
+		}
+		if (roleComparator == 2) {
+			return 2;
+		} else if (roleComparator == 3) {
+			return 1;
+		} else if (roleComparator == 4) {
+			return -1;
+		} else if (compareFirstName < 0) {
+			return -1;
+		} else if (compareFirstName > 0) {
+			return 1;
+		} else if (compareLastName < 0) {
+			return -1;
+		} else if (compareLastName > 0) {
+			return 1;
+		} else if (compareEmail < 0) {
+			return -1;
+		} else if (compareEmail > 0) {
+			return 1;
+		} else
+			return 0;
 	}
 
 }
