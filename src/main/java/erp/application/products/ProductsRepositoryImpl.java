@@ -3,8 +3,13 @@ package erp.application.products;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import erp.application.entities.LOG;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 
@@ -49,8 +54,9 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 
 	@Override
 	public List<Products> allValues() {
+		LOG.appLogger().info("== converts from collection cu list ===");
 		List<Products> allProducts = new ArrayList<>();
-		allProducts.addAll(hashOperations.entries("PRODUCTS").values());
+		allProducts = (List<Products>) hashOperations.entries("PRODUCTS").values().stream().collect(Collectors.toList());
 		return allProducts;
 	}
 	
