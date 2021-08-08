@@ -1,5 +1,7 @@
 package erp.application.products;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,5 +46,14 @@ public class ProductsRepositoryImpl implements ProductsRepository{
 	public void delete(Integer id) {
 		hashOperations.delete("PRODUCTS", id);
 	}
+
+	@Override
+	public List<Products> allValues() {
+		List<Products> allProducts = new ArrayList<>();
+		allProducts.addAll(hashOperations.entries("PRODUCTS").values());
+		return allProducts;
+	}
+	
+	
 
 }

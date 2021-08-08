@@ -50,7 +50,7 @@ public class ExportXmlFile {
 			ftpSender.establishFtpConnection();
 			return ResponseEntity.ok().build();
 		}catch (Exception e){
-			
+			LOG.appLogger().error(e.getCause().getLocalizedMessage(), "== FTP FILE SENDER ERROR ==");
 		}
 		return ResponseEntity.badRequest().build();
 	}

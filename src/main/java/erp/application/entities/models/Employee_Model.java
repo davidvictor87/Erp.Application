@@ -20,9 +20,7 @@ public class Employee_Model implements Serializable{
 	@JsonProperty(value="address")
 	private String address;	
 	
-	public Employee_Model() {
-		
-	}
+	public Employee_Model() {super();}
 
 	public Employee_Model(int id, String name, String profession, boolean isEnabled, String address) {
 		super();
