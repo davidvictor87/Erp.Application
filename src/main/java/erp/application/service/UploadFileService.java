@@ -1,5 +1,6 @@
 package erp.application.service;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,9 +17,9 @@ import java.nio.file.StandardOpenOption;
 @Service
 public class UploadFileService {
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public void uploadFile(String filePath) throws IOException {
-
-		if (!StringUtils.isEmpty(filePath)) {
+        if (!StringUtils.isEmpty(filePath)) {
 			StringBuffer fileContentBuilder = new StringBuffer();
 			filePath = "D:/NIO1/" + filePath;
 			AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(Paths.get(filePath),
@@ -30,8 +31,7 @@ public class UploadFileService {
 						System.out.println(result + " : " + attachment);
 					}
 				}
-
-				@Override
+                @Override
 				public void failed(Throwable e, ByteBuffer attachment) {
 					throw new IllegalStateException(e.getMessage());
 				}
@@ -51,6 +51,7 @@ public class UploadFileService {
 		}
 	}
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	@SuppressWarnings("rawtypes")
 	public static void writeAsyncFile(String input) throws IOException {
 		byte[] byteArray = input.getBytes();

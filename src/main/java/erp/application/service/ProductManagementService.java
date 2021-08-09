@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import erp.application.entities.LOG;
 import erp.application.products.Products;
-import erp.application.products.ProductsRepositoryImpl;
+import erp.application.products.repository.ProductsRepositoryImpl;
 
 @Service
 public class ProductManagementService {
@@ -26,6 +27,7 @@ public class ProductManagementService {
 
 	@Async
 	@Cacheable
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public CompletableFuture<Products> findProduct(int id) {
 		Products product = null;
 		LOG.appLogger().info("FINDING USER WITH ID: " + id);
@@ -40,6 +42,7 @@ public class ProductManagementService {
 
 	@Async
 	@Cacheable
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public void saveProduct(Products product) {
 		LOG.appLogger().info("SAVE PRODUCT");
 		try {
@@ -52,6 +55,7 @@ public class ProductManagementService {
 
 	@Async
 	@CacheEvict(allEntries = true)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER")
 	public void updateProduct(Products product) {
 		LOG.appLogger().info("UPDATE PRODUCT");
 		try {
@@ -63,6 +67,7 @@ public class ProductManagementService {
 	
 	@Async
 	@CacheEvict(allEntries = true)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public Map<String, Products> returnAllProducts() throws InterruptedException, ExecutionException{
 		LOG.appLogger().info("RETURN ALL PRODUCTS");
 		CompletableFuture<Map<String, Products>> allProducts = CompletableFuture.supplyAsync(() -> {
@@ -73,6 +78,7 @@ public class ProductManagementService {
 	
 	@Async
 	@CacheEvict(allEntries = true)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER")
 	public void deleteProduct(int id) {
 		LOG.appLogger().info("DELETE PRODUCT");
 		try {

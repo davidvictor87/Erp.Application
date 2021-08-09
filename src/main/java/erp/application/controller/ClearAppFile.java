@@ -8,6 +8,7 @@ import java.nio.file.StandardOpenOption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import erp.application.entities.LOG;
 public class ClearAppFile {
 	
 	@GetMapping(value="/app/log")
+	@Secured(value="ROLE_ADMIN")
 	public ResponseEntity<?> clearAppLogFile(){
 		LOG.appLogger().warn(" === Start to clear data from appLog.txt File ===");
 		try {

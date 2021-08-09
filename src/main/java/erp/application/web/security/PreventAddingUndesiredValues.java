@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import erp.application.entities.LOG;
@@ -18,6 +19,7 @@ public class PreventAddingUndesiredValues {
 
 	private boolean isOk = true;
 
+	@Secured(value = "{ROLE_ADMIN}")
 	public boolean preventAdd(final String undiseredValues) throws IOException {
 		LOG.appLogger().warn("Received username: " + undiseredValues);
 		Path path = Paths.get(new File("blockedUsernames.txt").getAbsolutePath());

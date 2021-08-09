@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,7 @@ public class EmployeeService {
 
 	@Cacheable(value = "calculateTaxes", sync = true)
 	@Transactional(readOnly = false)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public List<Double> calculateTaxes() {
 		LOG.appLogger().info("Current thread: " + Thread.currentThread().getName());
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
@@ -104,6 +106,7 @@ public class EmployeeService {
 
 	@Cacheable(value = "calculateCasTax", sync = true)
 	@Transactional(readOnly = false)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public List<Double> calculateCasTax() {
 		List<Double> casTaxList = null;
 		lock1.lock();
@@ -121,6 +124,7 @@ public class EmployeeService {
 
 	@Cacheable(value = "calculateCassTax", sync = true)
 	@Transactional(readOnly = false)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public List<Double> calculateCassTax() {
 		List<Double> cassTaxList = null;
 		lock2.lock();
@@ -138,6 +142,7 @@ public class EmployeeService {
 
 	@Cacheable(value = "calculateIncomeTax", sync = true)
 	@Transactional(readOnly = false)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public List<Double> calculeteIncomeTax() {
 		List<Double> incomeTaxList = null;
 		lock3.lock();
@@ -155,15 +160,18 @@ public class EmployeeService {
 
 	@Cacheable(value = "findAll", sync = true)
 	@Transactional(readOnly = true)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public List<EmployeeInitialSavedData> findAll() {
 		return initRepo.findAll();
 	}
 
 	@Transactional(readOnly = true)
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public void printTaxes() {
 		System.out.println(tRepository.findAll());
 	}
 
+	@Secured(value="{ROLE_ADIN}")
 	@Transactional(readOnly = false)
 	public void deleteAllRecords() {
 		LOG.appLogger().warn(" ==== Start deleting all records ==== ");

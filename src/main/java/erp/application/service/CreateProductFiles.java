@@ -1,5 +1,6 @@
 package erp.application.service;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import erp.application.products.Products;
 import erp.application.entities.ApplicationStaticInfo;
@@ -19,13 +20,12 @@ public class CreateProductFiles {
 
 	private static Products products = new Products();
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	@SuppressWarnings("unused")
 	public void writeProductFile(Map<String, Products> mapWithProducts) {
-
-		File productFile = new File(ApplicationStaticInfo.PRODUCTS_DOCUMENTS_DIRECTORY);
+        File productFile = new File(ApplicationStaticInfo.PRODUCTS_DOCUMENTS_DIRECTORY);
 		FileOutputStream fos = null;
-
-		try {
+        try {
 			fos = new FileOutputStream(productFile);
 			fos.flush();
 		} catch (FileNotFoundException e) {
@@ -40,18 +40,15 @@ public class CreateProductFiles {
 				e.printStackTrace();
 			}
 		}
-
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-		if (!productFile.exists()) {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        if (!productFile.exists()) {
 			try {
 				productFile.createNewFile();
 			} catch (IOException e) {
 				System.err.println(e.getMessage().toString());
 			}
 		}
-
-		mapWithProducts.entrySet().forEach(entryData -> {
+        mapWithProducts.entrySet().forEach(entryData -> {
 			try {
 				System.out.println("Recorded Data: " + mapWithProducts.toString());
 				bw.write("Product ID: " + entryData.getValue().getId() + ", Product Category: "
@@ -67,17 +64,14 @@ public class CreateProductFiles {
 				e.printStackTrace();
 			}
 		});
-
-		try {
+        try {
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		Scanner sc = null;
+        Scanner sc = null;
 		File file = new File(productFile.getAbsolutePath().toString());
-
-		try {
+        try {
 			sc = new Scanner(file, "UTF-8");
 			String dataCaptor = null;
 			String[] productsList = new String[(int) file.length()];
@@ -102,6 +96,7 @@ public class CreateProductFiles {
 		}
 	}
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public static Products getProducts() {
 		if (products == null) {
 			System.err.println("EMPLOYEE NOT FOUND");

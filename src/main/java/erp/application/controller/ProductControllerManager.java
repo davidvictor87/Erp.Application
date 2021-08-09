@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import erp.application.entities.LOG;
 import erp.application.products.Products;
-import erp.application.products.ProductsRepository;
+import erp.application.products.repository.ProductsRepository;
 import erp.application.service.CreateProductFiles;
 import erp.application.service.ProductManagementService;
 

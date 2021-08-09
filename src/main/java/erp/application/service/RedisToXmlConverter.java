@@ -1,5 +1,6 @@
 package erp.application.service;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import erp.application.entities.LOG;
@@ -11,6 +12,7 @@ public class RedisToXmlConverter {
 
 	private Products products = null;
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public final ProductsXmlFormat xmlConverter(final int id) {
 		LOG.appLogger().debug("START TO CONVERT OBJECTS FORMAT");
 		products = new Products();

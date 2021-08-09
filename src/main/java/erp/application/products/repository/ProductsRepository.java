@@ -1,9 +1,11 @@
-package erp.application.products;
+package erp.application.products.repository;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+
+import erp.application.products.Products;
 
 @Component
 public interface ProductsRepository {

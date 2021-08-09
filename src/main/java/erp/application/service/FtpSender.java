@@ -1,6 +1,7 @@
 package erp.application.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
@@ -37,6 +38,7 @@ public class FtpSender {
 		super();
 	}
 
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public void establishFtpConnection() {
 		FTPClient ftpClient = null;
 		try {

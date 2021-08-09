@@ -42,7 +42,7 @@ public class SSLConfig {
 		return new RestTemplate();
 	}
 	
-	@Bean
+	//@Bean
 	public RestTemplate sslTemplate() throws CertificateException, FileNotFoundException, IOException {
 		TrustStrategy trustStrategy = null;
 		KeyStore key = null;

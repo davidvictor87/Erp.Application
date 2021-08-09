@@ -6,6 +6,7 @@ import java.util.Queue;
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import erp.application.entities.LOG;
@@ -23,6 +24,7 @@ public class OrderUsers{
 		this.userRepository = uRepo;
 	}
 	
+	@Secured(value="ROLE_ADMIN, ROLE_MANAGER, ROLE_USER")
 	public Queue<Users> orderUsers(){
 		Queue<Users> usersQueue = new PriorityQueue<Users>();
 		try {
@@ -32,7 +34,7 @@ public class OrderUsers{
 				usersQueue.remove();
 			}
 		}catch (Error ex) {
-			throw new RuntimeErrorException(ex, "");
+			throw new RuntimeErrorException(ex, "== Fail to order users ==");
 		}
 		return usersQueue;
 	}

@@ -1,4 +1,4 @@
-package erp.application.products;
+package erp.application.products.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import erp.application.entities.LOG;
+import erp.application.products.Products;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;

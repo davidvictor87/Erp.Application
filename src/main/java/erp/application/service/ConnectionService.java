@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,6 +58,7 @@ public class ConnectionService {
 		return new RestTemplate();
 	}
 
+	@Secured(value="{ROLE_ADMIN, ROLE_MANAGER, ROLE_USER}")
 	public List<Employee> getModel() {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Employee> model = null;
