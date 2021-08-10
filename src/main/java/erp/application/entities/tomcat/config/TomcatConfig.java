@@ -22,7 +22,7 @@ import erp.application.entities.LOG;
 @ConditionalOnWebApplication(type = Type.SERVLET)
 public class TomcatConfig {
 	
-	//@Bean
+	@Bean
 	public ServletWebServerFactory servletContainer() {
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory()
 		{
