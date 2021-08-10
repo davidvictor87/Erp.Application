@@ -4,7 +4,7 @@ import java.io.Serializable;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash(value = "PRODUCTS")
-public class Products implements Serializable{
+public class Products implements Serializable, Comparable<Products>{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -17,7 +17,7 @@ public class Products implements Serializable{
 	private String product_code;
 	
 	public Products() {
-		
+		super();
 	}
 
 	public Products(int id, String product_category, String product_manufacturer, String product_name, int vat_level,
@@ -149,7 +149,15 @@ public class Products implements Serializable{
 		return true;
 	}
 
-	
+	@Override
+	public int compareTo(Products product) {
+		return this.getProduct_category().compareTo(product.getProduct_category());
+	}
+
+	public boolean isLessThan(Products product) {
+		boolean isLess = this.getProduct_category().compareTo(product.product_category) < 0 ? true : false;
+		return isLess;
+	}
 	
 	
 	

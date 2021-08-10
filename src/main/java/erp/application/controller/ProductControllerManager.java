@@ -1,5 +1,6 @@
 package erp.application.controller;
 
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import erp.application.products.Products;
 import erp.application.products.repository.ProductsRepository;
 import erp.application.service.CreateProductFiles;
 import erp.application.service.ProductManagementService;
+import erp.application.service.SortProducts;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,13 +26,15 @@ public class ProductControllerManager {
 	private ProductsRepository productsRepository;
 	private CreateProductFiles createProductFiles;
 	private ProductManagementService productManagementService;
+	private SortProducts sortProducts;
 
 	@Autowired
-	public ProductControllerManager(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet) {
+	public ProductControllerManager(ProductsRepository prodRepo, CreateProductFiles productFiles, ProductManagementService productManagemet, SortProducts so) {
 		super();
 		this.productsRepository = prodRepo;
 		this.createProductFiles = productFiles;
 		this.productManagementService = productManagemet;
+		this.sortProducts = so;
 	}
 
 	@GetMapping(value = "/addProduct/{id}/{product_category}/{product_manufacturer}/{product_name}/{vat_level}/{prodct_price}/{product_code}")
@@ -85,5 +89,20 @@ public class ProductControllerManager {
 		}
 		return jsonCollection;
      }
+	
+	@GetMapping(value = "/ordered/list")
+	@ResponseBody
+	public List<Products> retrieveOrderedProductList(){
+		LOG.appLogger().info("== Start returning ordered list of products ==");
+		List<Products> listOfProducts = null;
+		try {
+			listOfProducts = sortProducts.sortedProducts();
+			LOG.appLogger().info("List of products: " + listOfProducts);
+		}catch (Exception e) {
+			System.err.println("== Failed to retrieve ordered list of products ==");
+			e.printStackTrace();
+		}
+		return listOfProducts;
+	}
 
 }
