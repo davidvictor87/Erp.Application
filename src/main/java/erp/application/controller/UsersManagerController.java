@@ -5,6 +5,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -75,7 +78,7 @@ public class UsersManagerController {
 		return new ModelAndView("register.html");
 	}
 
-	@GetMapping(value="/PannelUser")
+	@GetMapping(value = "/PannelUser")
 	public String showUsers(Model model, @RequestParam(defaultValue = "0") int startPage) {
 		final int pageSize = 20;
 		model.addAttribute("data", uRepository.findAll(PageRequest.of(startPage, pageSize)));
@@ -83,8 +86,8 @@ public class UsersManagerController {
 	}
 
 	@PutMapping(value = "/update/user{id}")
-	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id, @RequestHeader(name= "update-user") 
-	HttpHeaders headers) {
+	public ResponseEntity<Users> updateUser(@RequestParam(value = "id") Long id,
+			@RequestHeader(name = "update-user") HttpHeaders headers) {
 		LOG.appLogger().info("Input info: " + id);
 		System.out.println("Id is " + id);
 		try {
@@ -104,7 +107,7 @@ public class UsersManagerController {
 	public ModelAndView addUnwantedUsers(@NotBlank @Valid @RequestParam(value = "username") final String username) {
 		LOG.appLogger().warn("User with name: " + username + " will not be able to be added");
 		ModelAndView view = new ModelAndView("unwanted.html");
-        try {
+		try {
 			unwantedUsernames.writeUnwantedUsers(username);
 			view.setStatus(HttpStatus.OK);
 			view.setViewName("unwanted.html");
@@ -114,7 +117,7 @@ public class UsersManagerController {
 			view.setStatus(HttpStatus.BAD_GATEWAY);
 			view.setViewName("error.html");
 		}
-        return view;
+		return view;
 	}
 
 	@PostMapping(value = "/save/user")
@@ -131,9 +134,15 @@ public class UsersManagerController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/user{id}")
-	public String deleteUser(@RequestParam(value = "id") Long id) {
-		System.out.println("Method acceses " + id);
-		uRepository.deleteById(id);
+	public String deleteUser(@RequestParam(value = "id") Long id, HttpServletRequest req) {
+		try {
+			System.out.println("Method access: " + id);
+			uRepository.deleteById(id);
+			HttpSession session = req.getSession();
+			LOG.appLogger().info("Creation Time: " + session.getCreationTime());
+		} catch (Exception e) {
+			throw new RuntimeException("Cannot delete user with id: " + id + ", Err: " + e.getMessage());
+		}
 		return "redirect:/PannelUser";
 	}
 

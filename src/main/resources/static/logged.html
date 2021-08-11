@@ -20,9 +20,10 @@
 
     <h1 th:text="${name}"></h1> 
     <h1 th:text="${appName}"></h1> 
-    <script>
-       alert("hello")
-    </script>
+    
+    <form action="/user/erp/daily/tasks" method="GET" id="daily-tasks">
+       <input type="submit" value="OK" name="ok" class="btn btn-default" style="margin-left: 1rem; margin-bottom: 1rem;"></input>
+    </form>
     
 </body>
 </html>

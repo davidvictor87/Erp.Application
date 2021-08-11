@@ -25,10 +25,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import erp.application.entities.LOG;
 import erp.application.entities.ApplicationStaticInfo;
@@ -42,7 +40,7 @@ public class FileTransferService {
 	private static final int NUMBERS_OF_SCHEDULED_THREADS = 1;
 
 	@Scheduled(fixedRate = 1000L)
-	//@PostConstruct
+	@Secured(value="{ROLE_ADIN, ROLE_MANAGER, ROLE_USER}")
 	public void startWatch() throws IOException, InterruptedException, ExecutionException {
 		final String path = "D:/SourceDirectory/";
 		String fileName = "";
