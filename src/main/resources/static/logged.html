@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:th="http://www.thymeleaf.org" 
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:src="@{js/main.js}"></script>
 
-<link href = "webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
 
 
 
@@ -18,12 +19,22 @@
 </head>
 <body>
 
-    <h1 th:text="${name}"></h1> 
-    <h1 th:text="${appName}"></h1> 
-    
-    <form action="/user/erp/daily/tasks" method="GET" id="daily-tasks">
-       <input type="submit" value="OK" name="ok" class="btn btn-default" style="margin-left: 1rem; margin-bottom: 1rem;"></input>
-    </form>
-    
+	<h1 th:text="${name}"></h1>
+	<h1 th:text="${appName}"></h1>
+
+	<form action="/user/erp/daily/tasks" method="GET" id="daily-tasks">
+		<input type="submit" value="OK" name="ok" class="btn btn-default"
+			style="margin-left: 1rem; margin-bottom: 1rem;"></input>
+	</form>
+	<div>
+		<h4>List of Available Files</h4>
+	</div>
+	<div>
+		<ul>
+			<li th:each="file : ${files}"><a th:href="${file}"
+				th:text="${file}"></a></li>
+		</ul>
+	</div>
+
 </body>
 </html>
