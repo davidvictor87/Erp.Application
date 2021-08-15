@@ -23,7 +23,7 @@ public class ProductsController {
 	
 	@RequestMapping(value="/get/products", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Products> employeeJsonResponse(@ModelAttribute(value="products") Products product){
+	public ResponseEntity<Products> employeeJsonResponse(@Valid @RequestBody @ModelAttribute(value="products") final Products product){
 		product = CreateProductFiles.getProducts();
 		try {
 			return new ResponseEntity<Products>(product, HttpStatus.OK);
