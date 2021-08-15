@@ -14,10 +14,12 @@ import org.springframework.web.server.ServerWebExchange;
 import erp.application.entities.LOG;
 import reactor.core.publisher.Mono;
 
+@Depracted
 @Component
 public class ReactiveLogoutController {
 	
 
+    @Depracted
     public Mono<String> logoutUser(ServerWebExchange exchange, Model model, HttpServletRequest req,
 			HttpServletResponse resp, Authentication auth) {
 		LOG.appLogger().info("Logout Hit");
