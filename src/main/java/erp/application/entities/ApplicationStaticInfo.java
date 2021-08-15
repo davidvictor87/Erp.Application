@@ -56,4 +56,6 @@ public class ApplicationStaticInfo {
 	
 	public static final String DESTINATION_DIRECTORY = "D:/DestinationFolder/Document.txt";
 	
+	public static final String FOLDER__TO_ITERATE = "D:/DestinationFolder/";
+	
 }
