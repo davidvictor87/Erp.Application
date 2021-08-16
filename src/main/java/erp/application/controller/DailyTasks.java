@@ -10,19 +10,24 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
-import erp.application.entities.tasks.FileStorage;
 import erp.application.service.EmployeeTimeLogFilesFactory;
 import erp.application.service.FileStorageImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,17 +72,29 @@ public class DailyTasks {
 	}
 	
 	
-	@GetMapping("/deliver/{file}")
+	@GetMapping(value="/deliver/{file}")
 	@ResponseBody
 	public ResponseEntity<?> deliverFile(@PathVariable String file){
-		LOG.appLogger().info(" === Deliver File ===");
+		LOG.appLogger().info(" === Deliver File: " + file);
+		final String redirectURL = "http://localhost:8088/user/erp/view/" + file;
 		try {
 			file = ApplicationStaticInfo.FOLDER__TO_ITERATE;
 			Resource resource = storageService.loadResource(file);
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, file).body(resource);
+			return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, redirectURL).body(resource);
 		}catch (Exception e) {
 			LOG.appLogger().error("=== ERROR ===", e.fillInStackTrace());
 			throw new RuntimeException();
 		}
+	}
+	
+	@GetMapping(value="/view/{file}")
+	public ResponseEntity<InputStreamResource> viewFileData(@PathVariable("file") String fileName) throws FileNotFoundException{
+		final String filePath = ApplicationStaticInfo.FOLDER__TO_ITERATE + fileName;
+		File file = new File(filePath);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("content-disposition", "inline;filename="+filePath);
+		InputStreamResource input = new InputStreamResource(new FileInputStream(file));
+		return ResponseEntity.ok().headers(headers).contentLength(file.length())
+				.contentType(MediaType.parseMediaType("text/plain;charset=UTF-8")).body(input);
 	}
 }
