@@ -33,13 +33,14 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value="/user/erp")
+@RequestMapping(value="/", headers = {"content-type=application/json","content-type=application/xml"})
 @SessionAttributes(value="daily-Tasks")
 public class DailyTasks {
 	
 	private EmployeeTimeLogFilesFactory employeeLogFiles;
 	private Environment environment;
 	private FileStorageImpl storageService;
+	private String tempFilePath = null;
 		
 	@Autowired
 	public DailyTasks(EmployeeTimeLogFilesFactory elf, Environment env, FileStorageImpl ss) {
@@ -90,11 +91,36 @@ public class DailyTasks {
 	@GetMapping(value="/view/{file}")
 	public ResponseEntity<InputStreamResource> viewFileData(@PathVariable("file") String fileName) throws FileNotFoundException{
 		final String filePath = ApplicationStaticInfo.FOLDER__TO_ITERATE + fileName;
+		tempFilePath = filePath;
 		File file = new File(filePath);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("content-disposition", "inline;filename="+filePath);
 		InputStreamResource input = new InputStreamResource(new FileInputStream(file));
 		return ResponseEntity.ok().headers(headers).contentLength(file.length())
 				.contentType(MediaType.parseMediaType("text/plain;charset=UTF-8")).body(input);
+	}
+	
+	@GetMapping("/display")
+	public String editFile(Model model) {
+		LOG.appLogger().info("Path to data: " + tempFilePath);
+		try {
+			File file = new File(tempFilePath);
+			String fileContent = new String(Files.readAllBytes(file.toPath()));
+			model.addAttribute("file_content", fileContent);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "file_index.html";
+	}
+
+	@GetMapping("/edit")
+	public String editFile(@RequestParam("file") String editData, Model model) {
+		System.out.println("Edit data: " + editData);
+		try {
+                      storageService.editFile(tempFilePath, editData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "file_index.html";
 	}
 }
