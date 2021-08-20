@@ -3,6 +3,7 @@ package erp.application.web.security;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -16,12 +17,14 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 import erp.application.entities.LOG;
 import erp.application.login.repository.UserRepository;
 import erp.application.service.LoginService;
@@ -63,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  @Order(SecurityProperties.BASIC_AUTH_ORDER)
  protected void configure(HttpSecurity httpSecurity) throws Exception {
 	 httpSecurity.csrf().disable();
-     httpSecurity.addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
+     httpSecurity.addFilterBefore(new RequestRejectedExceptionFilter(), ChannelProcessingFilter.class).addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
     		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
      .permitAll();
      httpSecurity.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/register").permitAll()
