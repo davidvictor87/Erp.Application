@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>file index</title>
+</head>
+   <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/user/erp/index">Thymeleaf - Bootstrap Modal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Launch simple modal
+            </button>
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+                Dynamic modal 1
+            </button>
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
+                Dynamic modal 2
+            </button>
+
+            <th:block th:replace="modals :: modal('exampleModal')">modal</th:block>
+            <th:block th:replace="modals :: modal('exampleModal1')">modal</th:block>
+            <th:block th:replace="modals :: modal('exampleModal2')">modal</th:block>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div id="display_file_data"><p th:text="${file_content}"></p></div>
+</div>
+
+
+<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $('#exampleModal1').on('show.bs.modal', function () {
+        $.get("/modals/modal1", function (data) {
+            $('#exampleModal1').find('.modal-body').html(data);
+        })
+    });
+
+    $('#exampleModal2').on('show.bs.modal', function () {
+    	var convert = $("#display_file_data").text();
+    	var name = prompt("File Data: ", convert);
+        $.get("http://localhost:8088/edit?file=" + name, function (data) {
+            $('#exampleModal2').find('.modal-body').html(data);
+        })
+    })
+</script>
+
+</body>
+</html
