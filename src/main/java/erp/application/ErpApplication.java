@@ -6,9 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.SpringVersion;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = "erp.application")
 @EnableScheduling
+@EnableAsync(proxyTargetClass=true)
 public class ErpApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
