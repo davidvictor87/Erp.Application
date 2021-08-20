@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -121,7 +122,7 @@ public class UsersManagerController {
 	}
 
 	@PostMapping(value = "/save/user")
-	public String saveUser(@Valid Users user) {
+	public String saveUser(@Valid @RequestBody Users user) {
 		LOG.appLogger().info("Received data: " + user);
 		try {
 			LOG.appLogger().warn("Processed data: " + user);
