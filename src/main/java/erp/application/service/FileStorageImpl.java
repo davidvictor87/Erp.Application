@@ -18,6 +18,7 @@ import org.springframework.util.FileSystemUtils;
 import erp.application.entities.ApplicationStaticInfo;
 import erp.application.entities.LOG;
 import erp.application.entities.errors.StorageException;
+import erp.application.entities.events.publisher.EventPublisher;
 import erp.application.entities.tasks.FileStorage;
 
 import java.io.BufferedReader;
@@ -31,6 +32,10 @@ import java.net.MalformedURLException;
 public class FileStorageImpl implements FileStorage{
 	
 	private Path filePath;
+	private String editedFilePath;
+	private boolean isEdited;
+	@Autowired
+	private EventPublisher publisher;
 	
 	@Autowired
 	public FileStorageImpl() {
@@ -94,8 +99,12 @@ public class FileStorageImpl implements FileStorage{
 			fileWriter = new FileWriter(fileToUpdate);
 			fileWriter.write(updatedData);
 			Thread.sleep(1);
+			editedFilePath = pathToFile;
+			isEdited = true;
+			publisher.publishEvent(editedFilePath, isEdited);
 			return new AsyncResult<String>(editData);
 		} catch (InterruptedException | IOException e) {
+			isEdited = false;
 			e.printStackTrace();
 			throw new RuntimeException("Failed to edit file");
 		} finally {
