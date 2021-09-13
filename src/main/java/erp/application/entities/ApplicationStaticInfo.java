@@ -58,4 +58,6 @@ public class ApplicationStaticInfo {
 	
 	public static final String FOLDER__TO_ITERATE = "D:/DestinationFolder/";
 	
+	public static final String EXPORT_DIRECTORY = "D:/Export/Files/";
+	
 }
