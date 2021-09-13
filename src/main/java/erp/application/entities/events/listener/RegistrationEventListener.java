@@ -16,18 +16,23 @@ import erp.application.entities.events.registration.CustomRegistration;
 
 @Component
 public class RegistrationEventListener {
-	
+
 	@EventListener
 	public void handleRegistration(CustomRegistration impl) {
 		System.out.println("File Path: " + impl.getFilePath());
 		Path sourceDirectory = Paths.get(ApplicationStaticInfo.FOLDER__TO_ITERATE);
-		Path destDirectory = Paths.get("D:/Export/Files/");
-		try(DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDirectory)){
-			for(Path path:stream) {
-				Path destinationResolve = destDirectory.resolve(path.getFileName());
-				Files.move(path, destinationResolve, StandardCopyOption.ATOMIC_MOVE);
+		Path destDirectory = Paths.get(ApplicationStaticInfo.EXPORT_DIRECTORY);
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDirectory)) {
+			for (Path path : stream) {
+				System.out.println(path.getFileName() + " : " + impl.getFilePath().substring(21));
+				if(path.getFileName().toString().equals(impl.getFilePath().substring(21))) {
+					Path fileToTransfer = Paths.get(impl.getFilePath());
+					Path destinationResolve = destDirectory.resolve(fileToTransfer.getFileName());
+					Files.move(fileToTransfer, destinationResolve, StandardCopyOption.REPLACE_EXISTING,
+							StandardCopyOption.ATOMIC_MOVE);
+				}
 			}
-		}catch (IOException e) {
+		} catch (IOException e) {
 			LOG.appLogger().error(e.getLocalizedMessage());
 			e.printStackTrace();
 		}
