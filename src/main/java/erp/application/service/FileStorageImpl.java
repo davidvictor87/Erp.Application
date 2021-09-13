@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 import erp.application.entities.ApplicationStaticInfo;
+import erp.application.entities.FileWatcher;
 import erp.application.entities.LOG;
 import erp.application.entities.errors.StorageException;
 import erp.application.entities.events.publisher.EventPublisher;
@@ -36,6 +37,8 @@ public class FileStorageImpl implements FileStorage{
 	private boolean isEdited;
 	@Autowired
 	private EventPublisher publisher;
+	@Autowired
+	FileWatcher watcher;
 	
 	@Autowired
 	public FileStorageImpl() {
@@ -101,6 +104,7 @@ public class FileStorageImpl implements FileStorage{
 			Thread.sleep(1);
 			editedFilePath = pathToFile;
 			isEdited = true;
+			watcher.watchFileTask(pathToFile);
 			publisher.publishEvent(editedFilePath, isEdited);
 			return new AsyncResult<String>(editData);
 		} catch (InterruptedException | IOException e) {
