@@ -16,7 +16,7 @@ public class JPAConfigClass {
 	
 	@Autowired
 	private DataSource dataSource;
-	private static final String [] PACKAGES_TO_SCAN = {"erp.application.employee.model", "erp.application.login.model"};
+	private static final String [] PACKAGES_TO_SCAN = {"erp.application.employee.model", "erp.application.login.model", "erp.application.h2.repository"};
 	
 	@Bean(value = "entityManagerFactoryBean")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
