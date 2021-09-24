@@ -24,10 +24,10 @@ import com.jolbox.bonecp.BoneCPDataSource;
 @Order(3)
 public class H2ConnectionClass {
 	
-	@Autowired
-	private Environment environment;
+    @Autowired
+    private Environment environment;
 	
-	@Bean
+    @Bean
     public DataSource dataSource() {
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass(environment.getRequiredProperty("spring.datasource.driverClassName"));
@@ -37,8 +37,8 @@ public class H2ConnectionClass {
         return dataSource;
     }
 	
-	@Bean(name = "h2EntityManagerFactory")
-	public EntityManagerFactory entityManagerFactory() {
+    @Bean(name = "h2EntityManagerFactory")
+    public EntityManagerFactory entityManagerFactory() {
 	    LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 	    emf.setDataSource(dataSource());
 	    HibernateJpaVendorAdapter jpaAdapter = new HibernateJpaVendorAdapter();
@@ -46,6 +46,6 @@ public class H2ConnectionClass {
 	    emf.setPackagesToScan(new String[]{"erp.application.h2.model", "erp.application.h2.repository"});
 	    emf.afterPropertiesSet();
 	    return emf.getObject();
-	}
+    }
 
 }
