@@ -65,7 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
  @Override
  @Order(SecurityProperties.BASIC_AUTH_ORDER)
  protected void configure(HttpSecurity httpSecurity) throws Exception {
-	 httpSecurity.csrf().disable();
+     httpSecurity.csrf().disable();
+     httpSecurity.headers().frameOptions().disable();
      httpSecurity.addFilterBefore(new RequestRejectedExceptionFilter(), ChannelProcessingFilter.class).addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
     		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
      .permitAll();
