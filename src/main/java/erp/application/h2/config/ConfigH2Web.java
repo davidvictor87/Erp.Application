@@ -12,7 +12,7 @@ public class ConfigH2Web {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     public ServletRegistrationBean servletRegistration(){
 		ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
-        registrationBean.addUrlMappings("/console-h2/*");
+        registrationBean.addUrlMappings("/h2-console/*");
         return registrationBean;
     }
 
