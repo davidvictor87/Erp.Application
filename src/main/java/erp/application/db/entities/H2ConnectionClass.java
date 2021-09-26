@@ -1,3 +1,5 @@
+package erp.application.db.entities;
+
 import java.util.HashMap;
 import java.util.Map;
 
