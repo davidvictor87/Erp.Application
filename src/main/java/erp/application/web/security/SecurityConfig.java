@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	 
  @Override
  public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("**/login/**");
+		web.ignoring().antMatchers("**/login/**", "/h2-console/**");
  }
 
 
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
      httpSecurity.csrf().disable();
      httpSecurity.headers().frameOptions().disable();
      httpSecurity.addFilterBefore(new RequestRejectedExceptionFilter(), ChannelProcessingFilter.class).addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), 
-    		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*")
+    		 JwtUsernameAndPasswordAuthenticationFilter.class).authorizeRequests().antMatchers("/", "/index", "/css/*", "/js/*, "/h2-console/**", "/console/**"")
      .permitAll();
      httpSecurity.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/register").permitAll()
      .anyRequest().authenticated().and().formLogin().loginPage("/login.html").permitAll(true)
